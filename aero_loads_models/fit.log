@@ -1,0 +1,519 @@
+
+
+*******************************************************************************
+Mon Nov 21 12:20:35 2016
+
+
+FIT:    data read from 'root_moment_w17_ti4.dat' u 1:3
+        format = x:z
+        #datapoints = 16001
+        residuals are weighted equally (unit weight)
+
+function used for fitting: f(x)
+	f(x)=a*sin(b*x+c)
+fitted parameters initialized with current variable values
+
+iter      chisq       delta/lim  lambda   a             b             c            
+   0 4.8384859736e+11   0.00e+00  2.37e+01    1.000000e+00   1.000000e+00   1.000000e+00
+   1 4.8384673543e+11  -3.85e-01  2.37e+01    1.638845e+01   4.873824e+00  -5.904818e+01
+
+After 1 iterations the fit converged.
+final sum of squares of residuals : 4.83847e+11
+rel. change during last iteration : -3.84819e-06
+
+degrees of freedom    (FIT_NDF)                        : 15998
+rms of residuals      (FIT_STDFIT) = sqrt(WSSR/ndf)    : 5499.47
+variance of residuals (reduced chisquare) = WSSR/ndf   : 3.02442e+07
+
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+a               = 16.3884          +/- 64.75        (395.1%)
+b               = 4.87382          +/- 0.1306       (2.68%)
+c               = -59.0482         +/- 7.434        (12.59%)
+
+correlation matrix of the fit parameters:
+                a      b      c      
+a               1.000 
+b               0.312  1.000 
+c              -0.284 -0.863  1.000 
+
+
+*******************************************************************************
+Mon Nov 21 12:21:52 2016
+
+
+FIT:    data read from 'root_moment_w17_ti4.dat' u 1:3
+        format = x:z
+        #datapoints = 16001
+        residuals are weighted equally (unit weight)
+
+function used for fitting: f(x)
+	f(x)=a*sin(b*x+c)
+fitted parameters initialized with current variable values
+
+iter      chisq       delta/lim  lambda   a             b             c            
+   0 4.8384673543e+11   0.00e+00  1.91e+03    1.638845e+01   4.873824e+00  -5.904818e+01
+   1 4.8384412342e+11  -5.40e-01  1.91e+02    1.540257e+01   4.831124e+00  -5.273936e+01
+
+After 1 iterations the fit converged.
+final sum of squares of residuals : 4.83844e+11
+rel. change during last iteration : -5.39845e-06
+
+degrees of freedom    (FIT_NDF)                        : 15998
+rms of residuals      (FIT_STDFIT) = sqrt(WSSR/ndf)    : 5499.46
+variance of residuals (reduced chisquare) = WSSR/ndf   : 3.0244e+07
+
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+a               = 15.4026          +/- 64.62        (419.5%)
+b               = 4.83112          +/- 0.1389       (2.875%)
+c               = -52.7394         +/- 7.907        (14.99%)
+
+correlation matrix of the fit parameters:
+                a      b      c      
+a               1.000 
+b               0.308  1.000 
+c              -0.278 -0.863  1.000 
+
+
+*******************************************************************************
+Mon Nov 21 12:21:53 2016
+
+
+FIT:    data read from 'root_moment_w17_ti4.dat' u 1:3
+        format = x:z
+        #datapoints = 16001
+        residuals are weighted equally (unit weight)
+
+function used for fitting: f(x)
+	f(x)=a*sin(b*x+c)
+fitted parameters initialized with current variable values
+
+iter      chisq       delta/lim  lambda   a             b             c            
+   0 4.8384412342e+11   0.00e+00  1.78e+03    1.540257e+01   4.831124e+00  -5.273936e+01
+   2 4.8383751716e+11  -1.57e-01  1.78e+04    1.540605e+01   4.817739e+00  -5.179800e+01
+
+After 2 iterations the fit converged.
+final sum of squares of residuals : 4.83838e+11
+rel. change during last iteration : -1.57044e-06
+
+degrees of freedom    (FIT_NDF)                        : 15998
+rms of residuals      (FIT_STDFIT) = sqrt(WSSR/ndf)    : 5499.42
+variance of residuals (reduced chisquare) = WSSR/ndf   : 3.02436e+07
+
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+a               = 15.406           +/- 64.55        (419%)
+b               = 4.81774          +/- 0.1387       (2.88%)
+c               = -51.798          +/- 7.888        (15.23%)
+
+correlation matrix of the fit parameters:
+                a      b      c      
+a               1.000 
+b               0.305  1.000 
+c              -0.274 -0.862  1.000 
+
+
+*******************************************************************************
+Mon Nov 21 12:21:54 2016
+
+
+FIT:    data read from 'root_moment_w17_ti4.dat' u 1:3
+        format = x:z
+        #datapoints = 16001
+        residuals are weighted equally (unit weight)
+
+function used for fitting: f(x)
+	f(x)=a*sin(b*x+c)
+fitted parameters initialized with current variable values
+
+iter      chisq       delta/lim  lambda   a             b             c            
+   0 4.8383751716e+11   0.00e+00  1.77e+03    1.540605e+01   4.817739e+00  -5.179800e+01
+   1 4.8383694395e+11  -1.18e-01  1.77e+05    1.540608e+01   4.819009e+00  -5.179435e+01
+
+After 1 iterations the fit converged.
+final sum of squares of residuals : 4.83837e+11
+rel. change during last iteration : -1.18473e-06
+
+degrees of freedom    (FIT_NDF)                        : 15998
+rms of residuals      (FIT_STDFIT) = sqrt(WSSR/ndf)    : 5499.42
+variance of residuals (reduced chisquare) = WSSR/ndf   : 3.02436e+07
+
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+a               = 15.4061          +/- 64.56        (419%)
+b               = 4.81901          +/- 0.1387       (2.878%)
+c               = -51.7944         +/- 7.887        (15.23%)
+
+correlation matrix of the fit parameters:
+                a      b      c      
+a               1.000 
+b               0.305  1.000 
+c              -0.274 -0.862  1.000 
+
+
+*******************************************************************************
+Mon Nov 21 12:21:55 2016
+
+
+FIT:    data read from 'root_moment_w17_ti4.dat' u 1:3
+        format = x:z
+        #datapoints = 16001
+        residuals are weighted equally (unit weight)
+
+function used for fitting: f(x)
+	f(x)=a*sin(b*x+c)
+fitted parameters initialized with current variable values
+
+iter      chisq       delta/lim  lambda   a             b             c            
+   0 4.8383694395e+11   0.00e+00  1.77e+03    1.540608e+01   4.819009e+00  -5.179435e+01
+   1 4.8383655410e+11  -8.06e-02  1.77e+05    1.540610e+01   4.820008e+00  -5.179096e+01
+
+After 1 iterations the fit converged.
+final sum of squares of residuals : 4.83837e+11
+rel. change during last iteration : -8.05735e-07
+
+degrees of freedom    (FIT_NDF)                        : 15998
+rms of residuals      (FIT_STDFIT) = sqrt(WSSR/ndf)    : 5499.41
+variance of residuals (reduced chisquare) = WSSR/ndf   : 3.02436e+07
+
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+a               = 15.4061          +/- 64.56        (419.1%)
+b               = 4.82001          +/- 0.1386       (2.876%)
+c               = -51.791          +/- 7.886        (15.23%)
+
+correlation matrix of the fit parameters:
+                a      b      c      
+a               1.000 
+b               0.305  1.000 
+c              -0.274 -0.862  1.000 
+
+
+*******************************************************************************
+Mon Nov 21 12:21:55 2016
+
+
+FIT:    data read from 'root_moment_w17_ti4.dat' u 1:3
+        format = x:z
+        #datapoints = 16001
+        residuals are weighted equally (unit weight)
+
+function used for fitting: f(x)
+	f(x)=a*sin(b*x+c)
+fitted parameters initialized with current variable values
+
+iter      chisq       delta/lim  lambda   a             b             c            
+   0 4.8383655410e+11   0.00e+00  1.77e+03    1.540610e+01   4.820008e+00  -5.179096e+01
+   1 4.8383628855e+11  -5.49e-02  1.77e+05    1.540613e+01   4.820789e+00  -5.178779e+01
+
+After 1 iterations the fit converged.
+final sum of squares of residuals : 4.83836e+11
+rel. change during last iteration : -5.48853e-07
+
+degrees of freedom    (FIT_NDF)                        : 15998
+rms of residuals      (FIT_STDFIT) = sqrt(WSSR/ndf)    : 5499.41
+variance of residuals (reduced chisquare) = WSSR/ndf   : 3.02435e+07
+
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+a               = 15.4061          +/- 64.57        (419.1%)
+b               = 4.82079          +/- 0.1386       (2.875%)
+c               = -51.7878         +/- 7.885        (15.23%)
+
+correlation matrix of the fit parameters:
+                a      b      c      
+a               1.000 
+b               0.305  1.000 
+c              -0.274 -0.862  1.000 
+
+
+*******************************************************************************
+Mon Nov 21 12:21:56 2016
+
+
+FIT:    data read from 'root_moment_w17_ti4.dat' u 1:3
+        format = x:z
+        #datapoints = 16001
+        residuals are weighted equally (unit weight)
+
+function used for fitting: f(x)
+	f(x)=a*sin(b*x+c)
+fitted parameters initialized with current variable values
+
+iter      chisq       delta/lim  lambda   a             b             c            
+   0 4.8383628855e+11   0.00e+00  1.77e+03    1.540613e+01   4.820789e+00  -5.178779e+01
+   1 4.8383603268e+11  -5.29e-02  1.77e+04    1.540921e+01   4.829650e+00  -5.158691e+01
+
+After 1 iterations the fit converged.
+final sum of squares of residuals : 4.83836e+11
+rel. change during last iteration : -5.28837e-07
+
+degrees of freedom    (FIT_NDF)                        : 15998
+rms of residuals      (FIT_STDFIT) = sqrt(WSSR/ndf)    : 5499.41
+variance of residuals (reduced chisquare) = WSSR/ndf   : 3.02435e+07
+
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+a               = 15.4092          +/- 64.57        (419%)
+b               = 4.82965          +/- 0.1385       (2.868%)
+c               = -51.5869         +/- 7.88         (15.27%)
+
+correlation matrix of the fit parameters:
+                a      b      c      
+a               1.000 
+b               0.302  1.000 
+c              -0.273 -0.862  1.000 
+
+
+*******************************************************************************
+Mon Nov 21 12:21:56 2016
+
+
+FIT:    data read from 'root_moment_w17_ti4.dat' u 1:3
+        format = x:z
+        #datapoints = 16001
+        residuals are weighted equally (unit weight)
+
+function used for fitting: f(x)
+	f(x)=a*sin(b*x+c)
+fitted parameters initialized with current variable values
+
+iter      chisq       delta/lim  lambda   a             b             c            
+   0 4.8383603268e+11   0.00e+00  1.78e+03    1.540921e+01   4.829650e+00  -5.158691e+01
+   1 4.8383565611e+11  -7.78e-02  1.78e+05    1.540924e+01   4.828352e+00  -5.158727e+01
+
+After 1 iterations the fit converged.
+final sum of squares of residuals : 4.83836e+11
+rel. change during last iteration : -7.78284e-07
+
+degrees of freedom    (FIT_NDF)                        : 15998
+rms of residuals      (FIT_STDFIT) = sqrt(WSSR/ndf)    : 5499.41
+variance of residuals (reduced chisquare) = WSSR/ndf   : 3.02435e+07
+
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+a               = 15.4092          +/- 64.57        (419.1%)
+b               = 4.82835          +/- 0.1384       (2.867%)
+c               = -51.5873         +/- 7.879        (15.27%)
+
+correlation matrix of the fit parameters:
+                a      b      c      
+a               1.000 
+b               0.302  1.000 
+c              -0.273 -0.862  1.000 
+
+
+*******************************************************************************
+Mon Nov 21 12:21:57 2016
+
+
+FIT:    data read from 'root_moment_w17_ti4.dat' u 1:3
+        format = x:z
+        #datapoints = 16001
+        residuals are weighted equally (unit weight)
+
+function used for fitting: f(x)
+	f(x)=a*sin(b*x+c)
+fitted parameters initialized with current variable values
+
+iter      chisq       delta/lim  lambda   a             b             c            
+   0 4.8383565611e+11   0.00e+00  1.78e+03    1.540924e+01   4.828352e+00  -5.158727e+01
+   1 4.8383538866e+11  -5.53e-02  1.78e+05    1.540927e+01   4.827202e+00  -5.158738e+01
+
+After 1 iterations the fit converged.
+final sum of squares of residuals : 4.83835e+11
+rel. change during last iteration : -5.52786e-07
+
+degrees of freedom    (FIT_NDF)                        : 15998
+rms of residuals      (FIT_STDFIT) = sqrt(WSSR/ndf)    : 5499.41
+variance of residuals (reduced chisquare) = WSSR/ndf   : 3.02435e+07
+
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+a               = 15.4093          +/- 64.58        (419.1%)
+b               = 4.8272           +/- 0.1384       (2.867%)
+c               = -51.5874         +/- 7.878        (15.27%)
+
+correlation matrix of the fit parameters:
+                a      b      c      
+a               1.000 
+b               0.303  1.000 
+c              -0.273 -0.862  1.000 
+
+
+*******************************************************************************
+Mon Nov 21 12:23:17 2016
+
+
+FIT:    data read from 'root_moment_w17_ti4.dat' u 1:3
+        format = x:z
+        x range restricted to [37.9597 : 57.8520]
+        #datapoints = 3183
+        residuals are weighted equally (unit weight)
+
+function used for fitting: f(x)
+	f(x)=a*sin(b*x+c)
+fitted parameters initialized with current variable values
+
+iter      chisq       delta/lim  lambda   a             b             c            
+   0 8.9925633416e+10   0.00e+00  2.00e+05    2.000000e+03   5.000000e+00  -5.158738e+01
+  14 8.4245936572e+10  -8.58e-01  2.00e+05    3.366532e+01   4.982419e+00  -7.109211e+01
+
+After 14 iterations the fit converged.
+final sum of squares of residuals : 8.42459e+10
+rel. change during last iteration : -8.58088e-06
+
+degrees of freedom    (FIT_NDF)                        : 3180
+rms of residuals      (FIT_STDFIT) = sqrt(WSSR/ndf)    : 5147.08
+variance of residuals (reduced chisquare) = WSSR/ndf   : 2.64924e+07
+
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+a               = 33.6653          +/- 209.8        (623.2%)
+b               = 4.98242          +/- 0.6589       (13.22%)
+c               = -71.0921         +/- 31.52        (44.34%)
+
+correlation matrix of the fit parameters:
+                a      b      c      
+a               1.000 
+b               0.787  1.000 
+c              -0.783 -0.993  1.000 
+
+
+*******************************************************************************
+Mon Nov 21 12:24:51 2016
+
+
+FIT:    data read from 'root_moment_w17_ti4.dat' u 1:3
+        format = x:z
+        #datapoints = 16001
+        residuals are weighted equally (unit weight)
+
+function used for fitting: f(x)
+	f(x)=a*sin(b*x+c)+d
+fitted parameters initialized with current variable values
+
+iter      chisq       delta/lim  lambda   a             b             c             d            
+   0 4.8369958955e+11   0.00e+00  3.51e+03    3.366532e+01   4.982419e+00  -7.109211e+01   1.000000e+00
+   6 5.9322981026e+10  -9.78e-01  3.51e+04    5.883620e+01   4.954103e+00  -7.724653e+01   5.150278e+03
+
+After 6 iterations the fit converged.
+final sum of squares of residuals : 5.9323e+10
+rel. change during last iteration : -9.78438e-06
+
+degrees of freedom    (FIT_NDF)                        : 15997
+rms of residuals      (FIT_STDFIT) = sqrt(WSSR/ndf)    : 1925.72
+variance of residuals (reduced chisquare) = WSSR/ndf   : 3.70838e+06
+
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+a               = 58.8362          +/- 22.81        (38.78%)
+b               = 4.9541           +/- 0.01271      (0.2566%)
+c               = -77.2465         +/- 0.7237       (0.9369%)
+d               = 5150.28          +/- 15.22        (0.2956%)
+
+correlation matrix of the fit parameters:
+                a      b      c      d      
+a               1.000 
+b               0.329  1.000 
+c              -0.301 -0.862  1.000 
+d               0.001  0.008 -0.008  1.000 
+
+
+*******************************************************************************
+Mon Nov 21 12:25:19 2016
+
+
+FIT:    data read from 'root_moment_w17_ti4.dat' u 1:3
+        format = x:z
+        #datapoints = 16001
+        residuals are weighted equally (unit weight)
+
+function used for fitting: f(x)
+	f(x)=a*sin(b*x+c)+d
+fitted parameters initialized with current variable values
+
+iter      chisq       delta/lim  lambda   a             b             c             d            
+   0 8.9280222119e+10   0.00e+00  2.09e+05    2.000000e+03   4.954103e+00  -7.724653e+01   5.150278e+03
+   3 5.9325127728e+10  -5.88e-02  2.09e+03    5.575414e+01   4.949775e+00  -7.700385e+01   5.150493e+03
+
+After 3 iterations the fit converged.
+final sum of squares of residuals : 5.93251e+10
+rel. change during last iteration : -5.87834e-07
+
+degrees of freedom    (FIT_NDF)                        : 15997
+rms of residuals      (FIT_STDFIT) = sqrt(WSSR/ndf)    : 1925.75
+variance of residuals (reduced chisquare) = WSSR/ndf   : 3.70852e+06
+
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+a               = 55.7541          +/- 22.81        (40.92%)
+b               = 4.94978          +/- 0.01341      (0.2709%)
+c               = -77.0039         +/- 0.7631       (0.9909%)
+d               = 5150.49          +/- 15.22        (0.2956%)
+
+correlation matrix of the fit parameters:
+                a      b      c      d      
+a               1.000 
+b               0.329  1.000 
+c              -0.301 -0.862  1.000 
+d              -0.000  0.007 -0.007  1.000 
+
+
+*******************************************************************************
+Mon Nov 21 12:26:10 2016
+
+
+FIT:    data read from 'root_moment_w17_ti4.dat' u 1:3
+        format = x:z
+        #datapoints = 16001
+        residuals are weighted equally (unit weight)
+
+function used for fitting: g(x)
+	g(x)=(2000.0+a1)*sin((5.0+b1)*x+c1)+d1
+fitted parameters initialized with current variable values
+
+iter      chisq       delta/lim  lambda   a1            b1            c1            d1           
+   0 5.1634426209e+11   0.00e+00  4.09e+04    1.000000e+00   1.000000e+00   1.000000e+00   1.000000e+00
+   8 5.9344034193e+10  -9.73e-01  4.09e+02   -2.031720e+03   1.006362e+00   1.014746e+00   5.150230e+03
+
+After 8 iterations the fit converged.
+final sum of squares of residuals : 5.9344e+10
+rel. change during last iteration : -9.72906e-06
+
+degrees of freedom    (FIT_NDF)                        : 15997
+rms of residuals      (FIT_STDFIT) = sqrt(WSSR/ndf)    : 1926.06
+variance of residuals (reduced chisquare) = WSSR/ndf   : 3.7097e+06
+
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+a1              = -2031.72         +/- 21.56        (1.061%)
+b1              = 1.00636          +/- 0.02355      (2.34%)
+c1              = 1.01475          +/- 1.359        (133.9%)
+d1              = 5150.23          +/- 15.23        (0.2956%)
+
+correlation matrix of the fit parameters:
+                a1     b1     c1     d1     
+a1              1.000 
+b1             -0.055  1.000 
+c1              0.048 -0.866  1.000 
+d1             -0.001 -0.001 -0.002  1.000 
+
+
+*******************************************************************************
+Mon Nov 21 12:26:52 2016
+
+
+FIT:    data read from 'root_moment_w17_ti4.dat' u 1:3
+        format = x:z
+        #datapoints = 16001
+        residuals are weighted equally (unit weight)
+
+function used for fitting: f(x)
+	f(x)=2000*sin(b*x+c)+d
+fitted parameters initialized with current variable values
+
+iter      chisq       delta/lim  lambda   a1            b1            c1            d1           
+   0 8.9340084537e+10   0.00e+00  0.00e+00   -2.031720e+03   1.006362e+00   1.014746e+00   5.150230e+03
+BREAK: Singular matrix in Givens()
