@@ -6,7 +6,7 @@ D = 80.0
 def ainslie(Ct, u0, distance_parallel, distance_perpendicular, I0):
     # centreline = open('centreline.dat', 'w')
     # velocity = open('velocity.dat', 'w')
-    h = 0.07
+    h = 0.007
     L = distance_parallel
     n = int(L / h) + 1
     Uc1 = [0.0 for _ in range(n)]
@@ -28,7 +28,7 @@ def ainslie(Ct, u0, distance_parallel, distance_perpendicular, I0):
         d1[i] = 1.0 - Uc1[i] / U0
 
     # Code to calculate wake deficit at a specific point instead of the whole grid. Namely, the rotor's centrepoint.
-    answer = d1[-1] * exp(- 3.56 * (Y / b(d1[-1], ct)) ** 2.0) * (1.0 + 7.12 * (0.07 * distance_perpendicular / b(d1[-1], ct))) ** (- 0.5)
+    answer = d1[-1] * exp(- 3.56 * (Y / b(d1[-1], ct)) ** 2.0) #  * (1.0 + 7.12 * (0.07 * distance_perpendicular / b(d1[-1], ct))) ** (- 0.5)
 
     return answer
 
@@ -48,4 +48,9 @@ def ainslie(Ct, u0, distance_parallel, distance_perpendicular, I0):
     # return 1.0 - U / U0
 
 if __name__ == '__main__':
-    ainslie(0.79, 8.5, 7.0, 0.0, 0.08)
+    from ainslie2d import ainslie_full
+    from jensen import wake_deficit
+    from larsen import wake_deficit as larsen
+    for i in range(1, 560):
+        print ainslie(0.79, 8.5, i/80.0, 0.0, 0.08), ainslie_full(0.79, 8.5, i/80.0, 0.0, 0.08), larsen(8.5, 0.79, i, 0.0, 0.08), wake_deficit(0.79, i, 0.04, 40.0)
+

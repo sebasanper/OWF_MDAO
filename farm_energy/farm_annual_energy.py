@@ -36,10 +36,10 @@ if __name__ == '__main__':
     # print wind_directions
 
     layout = read_layout("layout/coordinates.dat")
-    directions = [0.0, 30.0, 60.0]
-    probabilities_dir = [8.33, 8.33, 8.33]
-    wind_speeds = [6.5, 19.0]
-    speed_prob = [[50.0, 50.0], [20.0, 80.0], [45.0, 55.0]]
-    turbulences = [0.08, 0.15]
+    directions = [0.0, 30.0, 60.0, 90.0]
+    probabilities_dir = [25.0, 25.0, 25.0, 25.0]
+    wind_speeds = [8.5]
+    speed_prob = [[100.0], [100.0], [100.0], [100.0]]
+    turbulences = [0.08]
 
     print energy_all_directions_parallel(layout, directions, probabilities_dir, wind_speeds, speed_prob, turbulences, Larsen, power_v80, v80, root_sum_square)

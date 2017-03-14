@@ -5,6 +5,7 @@ karman = 0.41  # von Karman constant
 def b(deficit, ct):  # Wake width measure
     if deficit <= 0.0:
         deficit = 0.0000000000001
+        print "deficit negativo"
     if 1.0 - 0.5 * deficit < 0.0:
         print deficit, "raro_viejo"
     return (3.56 * ct / (8.0 * deficit * (1.0 - 0.5 * deficit))) ** 0.5

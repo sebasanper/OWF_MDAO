@@ -29,7 +29,7 @@ def ainslie_full(ct, u0, distance_parallel, distance_perpendicular, i0):
     old_u = u
     u_initial = u
     old_v = v
-    old2_u = 0.0
+    old2_u = v
     # start = time()
     for j in range(1, nj):
         # start = time()
@@ -89,8 +89,8 @@ def ainslie_full(ct, u0, distance_parallel, distance_perpendicular, i0):
     #
     # A = pi * 0.5 ** 2.0  ## Unitary diameter in this program.
     # U = U0 - sqrt((1.0 / A) * simpson_integrate2D(G, 0.0, 0.5, 5, 0.0, 2.0 * pi, 10))
-    # print old_u[int(round(distance_perpendicular * 80.0, 0))]
-    return 1.0 - old_u[int(distance_perpendicular * ni / di)] / u0
+    return 1.0 - old_u[int(round(distance_perpendicular * 80.0, 0))]/ u0
+    # return 1.0 - old_u[int(distance_perpendicular * ni / di)] / u0
 
     # centreline.close()
     # velocity.close()
@@ -100,8 +100,9 @@ if __name__ == '__main__':
     from jensen import wake_deficit as jensen
     from larsen import wake_deficit as larsen
 
-    for x in range(20, 71):
-        print ainslie_full(0.79, 8.5, x / 10.0, 0.0, 0.08), ainslie(0.79, 8.5, x / 10.0, 0.0, 0.08), jensen(0.79, x * 8.0, 0.04, 40.0), larsen(8.5, 0.79, x * 8.0, 0.0, 0.08)
+    for x in range(1, 560):
+        # print ainslie_full(0.79, 8.5, x / 10.0, 0.0, 0.08), ainslie(0.79, 8.5, x / 10.0, 0.0, 0.08), jensen(0.79, x * 8.0, 0.04, 40.0), larsen(8.5, 0.79, x * 8.0, 0.0, 0.08)
+        print jensen(0.79, x, 0.04, 40.0), larsen(8.5, 0.79, x, 0.0, 0.08)
     # print
     #
     # for x in range(20, 70):

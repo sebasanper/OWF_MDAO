@@ -6,7 +6,7 @@ from costs.investment_costs.BOS_cost.cable_cost.Cables_cost_efficiency import ca
 
 class Workflow:
 
-    def __init__(self, inflow, wake_turbulence=7, aeroloads=7, depth=Plane, support_design=7, hydroloads=7, OandM=7, cable_costs, cable_efficiency=7, thrust_coefficient=7, wake_mean=7, wake_merging=7, power=7, aep=7, finance=7):
+    def __init__(self, inflow, wake_turbulence=7, aeroloads=7, depth=Plane, support_design=7, hydroloads=7, OandM=7, cable_costs=7, cable_efficiency=7, thrust_coefficient=7, wake_mean=7, wake_merging=7, power=7, aep=7, finance=7):
 
         self.inflow = inflow
         self.wake_turbulence = wake_turbulence
@@ -15,7 +15,7 @@ class Workflow:
         self.support_design = support_design
         self.hydroloads = hydroloads
         self.OandM = OandM
-        self.cable_topology = cable_topology
+        self.cable_topology = 0
         self.cable_efficiency = cable_efficiency
         self.thrust_coefficient = thrust_coefficient
         self.wake_mean = wake_mean
