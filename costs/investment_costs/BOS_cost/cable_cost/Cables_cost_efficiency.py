@@ -157,7 +157,7 @@ def cable_design(WT_List):
         total_power = 233.0 * 2e6
 
         eff = 1.0 -losses / total_power
-        print
+        print WT_List
 
         return total_cost, cable_length, eff * 100.0
 
