@@ -96,4 +96,4 @@ if __name__ == '__main__':
     c1 = (deff / 2.0) ** (5.0 / 2.0) * (105.0 / 2.0 / pi) ** (- 1.0 / 2.0) * (ct * A * x0) ** (- 5.0 / 6.0)  # Prandtl mixing length
 
     for x in range(1, 560):
-        print wake_deficit(8.5, 0.79, x, 0.0, 0.08)
+        print wake_deficit(8.5, 0.79, x+x0, 0.0, 0.08)
