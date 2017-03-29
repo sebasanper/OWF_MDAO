@@ -78,10 +78,12 @@ if __name__ == '__main__':
     #         with open(name, "w") as out:
     #             for i in range(len(a)):
     #                 out.write('{0}\t{1}\t{2}\t{3}\t{4}\n'.format(a[i], b[i], c[i], d[i], e[i]))
-    callturbsim(5.76, 5.97)
-    a,b,c,d,e = callfast()
-    print b
-    print d
+    callturbsim(8.5, 8.0)
+
+    a, b, c, d, e = callfast()
+    for i in range(len(a)):
+        print a[i], b[i], e[i]
+
     # from joblib import Parallel, delayed
     #
     # def analysis(ws, turb):

@@ -152,11 +152,6 @@ def cable_design(WT_List):
         A1 = 0.00015  # cross section cable current 375 A
         A2 = 0.0005  # cross section cable current 655 A. Katsouris Thesis
 
-        losses = (I ** 2.0 * rho) * (6.0 ** 2.0 * blue_length / A1 + 10.0 ** 2.0 * red_length / A2)
-
-        total_power = 233.0 * 2e6
-
-        eff = 1.0 -losses / total_power
         print WT_List
 
         return total_cost, cable_length, eff * 100.0
