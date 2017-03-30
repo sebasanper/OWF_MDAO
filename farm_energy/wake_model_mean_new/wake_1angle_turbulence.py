@@ -1,5 +1,5 @@
 from order_layout import order
-from utileries.min_distance.distance_algorithm import dist_point
+from utilities.min_distance.distance_algorithm import dist_point
 
 
 def turbulence_one_angle(original_layout, freestream_wind_speed, wind_angle, ambient_turbulence, WakeModel, ThrustModel, TurbulenceModel):

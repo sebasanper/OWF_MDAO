@@ -1,7 +1,7 @@
 from farm_energy.layout.layout import read_layout
 from site_conditions.wind_conditions.windrose import MeanWind, WeibullWind
 from site_conditions.terrain.terrain_models import Plane, Flat, Gaussian, Rough
-from costs.investment_costs.BOS_cost.cable_cost.Cables_cost_efficiency import cable_design
+from costs.investment_costs.BOS_cost.cable_cost.Cables_cost_topology import cable_design
 
 
 class Workflow:

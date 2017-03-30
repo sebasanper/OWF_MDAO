@@ -1,6 +1,7 @@
 from openmdao.api import Component, Group, Problem
 # TODO
 
+
 class CableCost(Component):
     def __init__(self):
         super(CableCost, self).__init__()

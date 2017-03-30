@@ -1,0 +1,189 @@
+
+
+*******************************************************************************
+Tue Nov  1 13:54:40 2016
+
+
+FIT:    data read from 'new4000.dat'
+        format = z
+        #datapoints = 10
+        residuals are weighted equally (unit weight)
+
+function used for fitting: f(x)
+	f(x) = a*x**2+b*x+c
+BREAK: could not read parameter-file "linecentre4000x2000.dat
+linecentre4000x2500.dat
+linecentre4000x3000.dat
+linecentre4000x3500.dat
+
+
+*******************************************************************************
+Tue Nov  1 13:54:56 2016
+
+
+FIT:    data read from 'new4000.dat'
+        format = z
+        #datapoints = 10
+        residuals are weighted equally (unit weight)
+
+function used for fitting: f(x)
+	f(x) = a*x**2+b*x+c
+BREAK: could not read parameter-file "linecentre4000x2000.dat
+linecentre4000x2500.dat
+linecentre4000x3000.dat
+linecentre4000x3500.dat
+
+
+*******************************************************************************
+Tue Nov  1 13:55:48 2016
+
+
+FIT:    data read from 'new4000.dat' u 1:2
+        format = x:z
+        #datapoints = 10
+        residuals are weighted equally (unit weight)
+
+function used for fitting: f(x)
+	f(x) = a*x**2+b*x+c
+BREAK: could not read parameter-file "linecentre4000x2000.dat
+linecentre4000x2500.dat
+linecentre4000x3000.dat
+linecentre4000x3500.dat
+
+
+*******************************************************************************
+Tue Nov  1 13:56:21 2016
+
+
+FIT:    data read from 'new4000.dat' u 1:2
+        format = x:z
+        #datapoints = 10
+        residuals are weighted equally (unit weight)
+
+function used for fitting: f(x)
+	f(x) = a*x**2+b*x+c
+BREAK: could not read parameter-file "linecentre4000x2000.dat
+linecentre4000x2500.dat
+linecentre4000x3000.dat
+linecentre4000x3500.dat
+
+
+*******************************************************************************
+Tue Nov  1 13:56:31 2016
+
+
+FIT:    data read from 'new4000.dat' u 1:2
+        format = x:z
+        #datapoints = 10
+        residuals are weighted equally (unit weight)
+
+function used for fitting: f(x)
+	f(x) = a*x**2+b*x+c
+fitted parameters initialized with current variable values
+
+iter      chisq       delta/lim  lambda   a             b             c            
+   0 5.5753718366e+15   0.00e+00  1.36e+07    1.000000e+00   1.000000e+00   1.000000e+00
+  12 1.2316965776e-05  -2.75e-07  1.36e-05   -2.249257e-09   2.970538e-05   6.162868e+00
+
+After 12 iterations the fit converged.
+final sum of squares of residuals : 1.2317e-05
+rel. change during last iteration : -2.75092e-12
+
+degrees of freedom    (FIT_NDF)                        : 7
+rms of residuals      (FIT_STDFIT) = sqrt(WSSR/ndf)    : 0.00132649
+variance of residuals (reduced chisquare) = WSSR/ndf   : 1.75957e-06
+
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+a               = -2.24926e-09     +/- 2.309e-10    (10.27%)
+b               = 2.97054e-05      +/- 1.984e-06    (6.68%)
+c               = 6.16287          +/- 0.00392      (0.06361%)
+
+correlation matrix of the fit parameters:
+                a      b      c      
+a               1.000 
+b              -0.989  1.000 
+c               0.942 -0.979  1.000 
+
+
+*******************************************************************************
+Tue Nov  1 13:57:14 2016
+
+
+FIT:    data read from 'new4000.dat' u 1:2
+        format = x:z
+        #datapoints = 10
+        residuals are weighted equally (unit weight)
+
+function used for fitting: f(x)
+	f(x) = d*x**3+e*x**2+f*x+g
+fitted parameters initialized with current variable values
+
+iter      chisq       delta/lim  lambda   d             e             f             g            
+   0 1.8071832765e+23   0.00e+00  6.72e+10    1.000000e+00   1.000000e+00   1.000000e+00   1.000000e+00
+  16 6.7793310802e-07  -7.73e-05  6.72e-06    4.910815e-13  -8.510546e-09   5.451727e-05   6.132813e+00
+
+After 16 iterations the fit converged.
+final sum of squares of residuals : 6.77933e-07
+rel. change during last iteration : -7.72866e-10
+
+degrees of freedom    (FIT_NDF)                        : 6
+rms of residuals      (FIT_STDFIT) = sqrt(WSSR/ndf)    : 0.000336138
+variance of residuals (reduced chisquare) = WSSR/ndf   : 1.12989e-07
+
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+d               = 4.91081e-13      +/- 4.839e-14    (9.853%)
+e               = -8.51055e-09     +/- 6.197e-10    (7.281%)
+f               = 5.45173e-05      +/- 2.496e-06    (4.578%)
+g               = 6.13281          +/- 0.003123     (0.05093%)
+
+correlation matrix of the fit parameters:
+                d      e      f      g      
+d               1.000 
+e              -0.996  1.000 
+f               0.979 -0.994  1.000 
+g              -0.948  0.972 -0.991  1.000 
+
+
+*******************************************************************************
+Tue Nov  1 13:58:15 2016
+
+
+FIT:    data read from 'new4000.dat' u 1:2
+        format = x:z
+        x range restricted to [2000.00 : 10000.0]
+        #datapoints = 10
+        residuals are weighted equally (unit weight)
+
+function used for fitting: f(x)
+	f(x) = h*x**4+i*x**3+j*x**2+k*x+l
+fitted parameters initialized with current variable values
+
+iter      chisq       delta/lim  lambda   h             i             j             k             l            
+   0 6.3607052117e+30   0.00e+00  3.57e+14    1.000000e+00   1.000000e+00   1.000000e+00   1.000000e+00   1.000000e+00
+  20 2.7493076497e-08  -6.30e-02  3.57e-06   -1.005378e-16   2.200224e-12  -1.889107e-08   8.100898e-05   6.109016e+00
+
+After 20 iterations the fit converged.
+final sum of squares of residuals : 2.74931e-08
+rel. change during last iteration : -6.29786e-07
+
+degrees of freedom    (FIT_NDF)                        : 5
+rms of residuals      (FIT_STDFIT) = sqrt(WSSR/ndf)    : 7.41526e-05
+variance of residuals (reduced chisquare) = WSSR/ndf   : 5.49862e-09
+
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+h               = -1.00538e-16     +/- 9.244e-18    (9.194%)
+i               = 2.20022e-12      +/- 1.575e-13    (7.159%)
+j               = -1.88911e-08     +/- 9.642e-10    (5.104%)
+k               = 8.1009e-05       +/- 2.497e-06    (3.083%)
+l               = 6.10902          +/- 0.002294     (0.03755%)
+
+correlation matrix of the fit parameters:
+                h      i      j      k      l      
+h               1.000 
+i              -0.998  1.000 
+j               0.990 -0.997  1.000 
+k              -0.975  0.988 -0.997  1.000 
+l               0.954 -0.971  0.986 -0.996  1.000 
