@@ -52,7 +52,7 @@ def energy_one_angle(original_layout, freestream_wind_speeds, probabilities_spee
         individual_powers = [PowerModel(wind) for wind in wind_speeds_array_original]
         farm_power = sum(individual_powers)
         energy += farm_power * probabilities_speed[speed] / 100.0 * 8760.0
-    return energy, individual_powers, wind_speeds_array_original
+    return energy, individual_powers
 
 
 if __name__ == '__main__':

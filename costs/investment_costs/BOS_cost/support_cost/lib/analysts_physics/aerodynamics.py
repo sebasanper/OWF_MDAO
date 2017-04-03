@@ -30,7 +30,6 @@ class AerodynamicAnalysts:
             my_tp = -height * fx_tp + self.get_integrated_aerodynamic_moment(wind_speed, wind_speed_height, alpha, base, top, base_diameter, top_diameter, z_from)
             fx += fx_tp
             my += my_tp
-        print fx, my
         return [fx, 0.0, 0.0, 0.0, my, 0.0]
 
     def get_integrated_aerodynamic_force(self, wind_speed, wind_speed_height, alpha, base, top, base_diameter, top_diameter, z_from):

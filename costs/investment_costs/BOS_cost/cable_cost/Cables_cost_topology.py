@@ -1,27 +1,18 @@
 # -----------------------------------------Input Parameters------------------------------------------------------------------
-from math import hypot
-import matplotlib.pyplot as plt
-import matplotlib.patches as mpatches
-from copy import deepcopy
-from heapq import heappush, heappop, heapify
-import matplotlib.ticker as ticker
-from time import time
-
-number_turbines_per_cable = [2, 4]
-current_turbine = 151.5151
-
-
-def read_cablelist():
-    cables_info = []
-    with open("cable_list.dat", "r") as cables:
-        next(cables)
-        for line in cables:
-            cols = line.split()
-            cables_info.append([float(cols[0]), float(cols[1]), float(cols[2])])
-    return cables_info
+from turbine_description import *
 
 
 def cable_design(WT_List):
+
+    from math import hypot
+    import matplotlib.pyplot as plt
+    import matplotlib.patches as mpatches
+    from copy import deepcopy
+    from heapq import heappush, heappop, heapify
+    import matplotlib.ticker as ticker
+    from time import time
+
+
     central_platform_locations = [[250.0, 250.0]]
     NT = len(WT_List)
     # List of cable types: [Capacity,Cost] in increasing order (maximum 3 cable types)
@@ -32,7 +23,7 @@ def cable_design(WT_List):
             if current_turbine * number <= cable[1]:
                 Cable_List.append([number, cable[2] + 365.0])
                 break
-    print Cable_List
+    # print Cable_List
     # Cable_List = [[2, 256 + 365], [4, 406 + 365]]
     # Cable_List=[[5,110],[8,180]]
     # Cable_List=[[10,406+365]]
@@ -99,10 +90,10 @@ def cable_design(WT_List):
             Savingsi2[key], Savingsi2_finder[key], Crossings_finder[key] = savingsi(Cost0i[key], Costij[key], value, Cable_Costi[1], substationi[key], Area, Crossing_penalty)
             Routesi[key], Routingi[key], Routing_redi[key], Routing_greeni[key] = Esau_Williams_Cable_Choice(Savingsi2[key], Savingsi2_finder[key], Crossings_finder[key], Wind_turbinesi[key], Routesi[key], Routingi[key], substationi[key], Capacityi, Routing_redi[key], Routing_greeni[key], Costi[key], Cable_Costi)
             Routesi[key], Routingi[key] = RouteOpt_Hybrid(Routingi[key], Routing_redi[key], Routing_greeni[key], substationi[key], Costi[key], Capacityi, Routesi[key], Wind_turbinesi[key])
-            blue, red, cost = plotting(substationi[key], Wind_turbinesi[key], Routingi[key], Routing_redi[key], Routing_greeni[key], Capacityi, Cable_Costi)
-            cable_length += blue + red
-            blue_length += blue
-            red_length += red
+            cost = plotting(substationi[key], Wind_turbinesi[key], Routingi[key], Routing_redi[key], Routing_greeni[key], Capacityi, Cable_Costi)
+            # cable_length += blue + red
+            # blue_length += blue
+            # red_length += red
             total_cost += cost
 
             for route in Routingi[key]:
@@ -167,8 +158,6 @@ def cable_design(WT_List):
         # plt.yticks(fontsize=fontsize2)
         # # plt.show()
         # plt.savefig("topology.eps", format="eps", dpi=1000)
-
-        print WT_List
 
         return total_cost, Routesi
 
@@ -913,7 +902,7 @@ def cable_design(WT_List):
         # plt.plot([p[1] for p in central_platform_location1_1], [p[2] for p in central_platform_location1_1], marker='o', ms=10, color='0.35')
         # plt.plot([p[1] for p in Wind_turbines1], [p[2] for p in Wind_turbines1], 'o', ms=6, color='0.3')
 
-        return cable_length1blue, cable_length1red, cable_cost
+        return cable_cost
 
     def cable_cost(central_platform_location, Wind_turbinesi, Routing, Routing_red, Routing_green, Cable_Costi):
         Routing_blue = [i for i in Routing if i not in Routing_red]

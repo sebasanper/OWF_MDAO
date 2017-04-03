@@ -1,3 +1,4 @@
-def oandm(layout_file, windrose_file):
-    costs_om = 100000.0
-    return costs_om
+def oandm(aeroloads, hydroloads, layout):
+    costs_om = 100000000.0
+    availability = 0.98
+    return costs_om, availability

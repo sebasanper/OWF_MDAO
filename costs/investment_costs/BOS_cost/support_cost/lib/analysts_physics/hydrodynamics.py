@@ -36,7 +36,6 @@ class HydrodynamicAnalysts:
 
             fx += sqrt(inertia_force ** 2 + drag_force ** 2)
             my += sqrt(inertia_moment ** 2 + drag_moment ** 2)
-        print fx, my
         return [fx, 0.0, 0.0, 0.0, my, 0.0]
 
     def get_integrated_inertia_force(self, wave_height, wave_number, base, top, diameter):

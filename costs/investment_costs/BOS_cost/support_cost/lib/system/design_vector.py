@@ -25,6 +25,7 @@ class DesignVector:
 
 # SUPPORT STRUCTURE **************************************************
 
+
 class SupportStructure:
     def __init__(self):
         self.monopile = Monopile()
@@ -35,7 +36,8 @@ class SupportStructure:
 #        self.platform = Platform()
 #        self.access_facilities = AccessFacilities()
 #        self.platform_crane = PlatformCrane()
-    
+
+
 class Monopile:
     diameter = 0.0 # [m]
     wall_thickness = 0.0 # [m]
@@ -44,6 +46,7 @@ class Monopile:
 
     def __init__(self):
         pass
+
 
 class TransitionPiece:
     diameter = 0.0 # [m]
@@ -54,6 +57,7 @@ class TransitionPiece:
     def __init__(self):
         pass
 
+
 class Tower:
     base_diameter = 0.0 # [m]
     top_diameter = 0.0 # [m]
@@ -61,6 +65,7 @@ class Tower:
     
     def __init__(self):
         self.wall_thickness = [] # per segment - index 0 indicates lowest segment [m]
+
 
 class ScourProtection:
     diameter = 0.0 # [m]

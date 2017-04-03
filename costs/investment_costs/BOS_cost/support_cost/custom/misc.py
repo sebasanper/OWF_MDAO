@@ -313,7 +313,7 @@ V_rated_voltage = [22000, 33000, 45000, 66000, 132000, 220000]  # Rated voltage 
 
 P_rated = 3.6 * 10 ** 6  # W     # User's option
 
-power_factor = 1.0  # cosφ
+power_factor = 1.0  # cos angle
 installation_cable_cost = 365  # Euros/meter
 inflationrate = 1.18  # average inflation rate
 exchangerate = 0.11  # exchange rate of SEK to Euros

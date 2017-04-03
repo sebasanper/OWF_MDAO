@@ -106,10 +106,10 @@ if __name__ == '__main__':
     ct_upstream = 0.79
     downstream_turbines = [[1, 500.0, 0.0], [2, 1000.0, 0.0], [3, 1500.0, 0.0], [4, 2000.0, 0.0], [5, 2500.0, 0.0]]
 
-    print JensenEffects(upstream, ct_upstream, downstream_turbines, 180.0, 8.5, 0.08)
-
-    print LarsenEffects(upstream, ct_upstream, downstream_turbines, 180.0, 8.5, 0.08)
-
-    print Ainslie1DEffects(upstream, ct_upstream, downstream_turbines, 180.0, 8.5, 0.08)
-
-    print Ainslie2DEffects(upstream, ct_upstream, downstream_turbines, 180.0, 8.5, 0.08)
+    print (upstream, ct_upstream, downstream_turbines, 180.0, 8.5, 0.08)
+    #
+    # print LarsenEffects(upstream, ct_upstream, downstream_turbines, 180.0, 8.5, 0.08)
+    #
+    # print Ainslie1DEffects(upstream, ct_upstream, downstream_turbines, 180.0, 8.5, 0.08)
+    #
+    # print Ainslie2DEffects(upstream, ct_upstream, downstream_turbines, 180.0, 8.5, 0.08)

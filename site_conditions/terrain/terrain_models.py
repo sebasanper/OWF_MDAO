@@ -3,10 +3,9 @@ from numpy import exp
 
 class Flat:
     def __init__(self):
-        self.depth = 30.0
-
-    def depth(self, x=0, y=0):
-        return self.depth
+        pass
+    def depth(self, x, y):
+        return 30.0
 
 
 class Plane:
@@ -77,5 +76,6 @@ if __name__ == '__main__':
     print
     seabed4 = Rough()
     print seabed4.depth(2.5, 3.1)
-
-    print depth([[0, 2.5, 3.0], [1, 4, 2.5]], Rough)
+    print Gaussian
+    print depth([[0, 500.0, 0.0], [1, 1000.0, 0.0]], Flat)
+# [[0, 500.0, 0.0], [1, 1000.0, 0.0], [2, 1500.0, 0.0], [3, 2000.0, 0.0], [4, 2500.0, 0.0], [5, 3000.0, 0.0]] site_conditions.terrain.terrain_models.Flat

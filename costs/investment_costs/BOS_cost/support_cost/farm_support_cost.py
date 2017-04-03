@@ -1,7 +1,8 @@
 from SupportTeam import design_support
 
 
-def farm_support_cost(depths, turbulences):
+def farm_support_cost(depths, turbulence):
     total_cost = 0
-    for i in range(depths):
-        total_cost += design_support(depths[i], turbulences[i])
+    for i in range(len(depths)):
+        total_cost += design_support(depths[i], turbulence)
+    return total_cost

@@ -19,7 +19,7 @@ class AeroLookup:
         lower = []
         upper = []
         if value <= self.x[0]:
-            # print "Found wind speed less than minimum in data"
+            print "Found wind speed less than minimum in data", value
             result = self.y[0]
         else:
             for x in self.x:
@@ -33,8 +33,8 @@ class AeroLookup:
         return result
 
 
-def powerlaw(wind_speed, r, ratedv=11.4, ratedp=5000000.0, cutin=3.0, cutout=25.0):
-    table_cp = AeroLookup("nrel_cp.dat")
+def powerlaw(wind_speed, r=64.0, ratedv=11.4, ratedp=5000000.0, cutin=3.0, cutout=25.0):
+    table_cp = AeroLookup("/home/sebasanper/PycharmProjects/owf_MDAO/farm_energy/wake_model_mean_new/aero_power_ct_models/nrel_cp.dat")
     if wind_speed < cutin:
         return 0.0
     elif wind_speed <= ratedv:
@@ -57,8 +57,8 @@ def power_v80(u0):
         return 0.0
 
 
-def ctlaw(wind_speed, r):
-    table_thrust = AeroLookup("./nrel_ct.dat")
+def ctlaw(wind_speed, r=64.0):
+    table_thrust = AeroLookup("/home/sebasanper/PycharmProjects/owf_MDAO/farm_energy/wake_model_mean_new/aero_power_ct_models/nrel_ct.dat")
     if wind_speed < table_thrust.x[0]:
         T = table_thrust.y[0]
     elif wind_speed > table_thrust.x[-1]:
