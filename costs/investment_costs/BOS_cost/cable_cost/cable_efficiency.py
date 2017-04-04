@@ -1,14 +1,13 @@
 def infield_efficiency(topology, wt_list, powers):
 
     from copy import deepcopy
-    from random import randint
-    from turbine_description import current_turbine, number_turbines_per_cable, read_cablelist
+    from turbine_description import number_turbines_per_cable, read_cablelist, rated_power, rated_current
 
     cables_info = read_cablelist()
     Cable_area = []
     for number in number_turbines_per_cable:
         for cable in cables_info:
-            if current_turbine * number <= cable[1]:
+            if rated_current * number <= cable[1]:
                 Cable_area.append([number, cable[0] / 1000000.0])
                 break
     # print Cable_area
@@ -100,16 +99,12 @@ def infield_efficiency(topology, wt_list, powers):
     current_squared_cables = [0.00 for _ in range(len(max_counter))]
     for i in range(len(max_counter)):
         for turbine in max_counter[i][1]:
-            current_squared_cables[i] += (i + 1) ** 2.0 * (151.51 * powers[turbine - 1] / 5000000.0) ** 2.0
+            current_squared_cables[i] += (i + 1) ** 2.0 * (rated_current * powers[turbine - 1] / rated_power) ** 2.0
             #  Assumed linear current with power.
 
     losses = []  # Expresed in W.
     for i in range(len(max_counter)):
         losses.append(max_counter[i][0] * 1.74e-8 / Cable_area[0][1] * current_squared_cables[i])
-        # if i <= number_turbines_per_cable[0] - 1:
-        #     losses.append(max_counter[i][0] * 1.74e-8 / Cable_area[0][1] * current_squared_cables[i])
-        # elif i <= number_turbines_per_cable[1] - 1:
-        #     losses.append(max_counter[i][0] * 1.74e-8 / Cable_area[1][1] * current_squared_cables[i])
 
     # print sum(powers)  # Expressed in W originally.
     # print sum(losses)

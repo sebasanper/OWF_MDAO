@@ -5,22 +5,18 @@ from turbine_description import *
 def cable_design(WT_List):
 
     from math import hypot
-    import matplotlib.pyplot as plt
-    import matplotlib.patches as mpatches
     from copy import deepcopy
     from heapq import heappush, heappop, heapify
-    import matplotlib.ticker as ticker
     from time import time
 
-
-    central_platform_locations = [[250.0, 250.0]]
+    central_platform_locations = [[4000.0, 4000.0]]
     NT = len(WT_List)
     # List of cable types: [Capacity,Cost] in increasing order (maximum 3 cable types)
     cables_info = read_cablelist()
     Cable_List = []
     for number in number_turbines_per_cable:
         for cable in cables_info:
-            if current_turbine * number <= cable[1]:
+            if rated_current * number <= cable[1]:
                 Cable_List.append([number, cable[2] + 365.0])
                 break
     # print Cable_List
@@ -36,14 +32,8 @@ def cable_design(WT_List):
     'Remove and return the lowest priority task. Raise KeyError if empty.'
     REMOVED = '<removed-task>'  # placeholder for a removed task
 
-    fontsize = 20
-    fontsize2 = 5
-    Euro = "eur"
-    MEuro = "M%s" % Euro
-
     # ---------------------------------------Main--------------------------------------------------------------------------------
     def set_cable_topology(NT, WT_List, central_platform_locations, Cable_List):
-        start = time()
         Wind_turbines = []
         for WT in WT_List:
             Wind_turbines.append([WT[0] + 1, WT[1], WT[2]])
@@ -74,94 +64,24 @@ def cable_design(WT_List):
                                                                                   Cable_Costi[1], substationi[key],
                                                                                   Area,
                                                                                   Crossing_penalty)
-        # fig = plt.figure()
-        # for area in Area:
-        #     plt.plot([area[0][0], area[1][0]], [area[0][1], area[1][1]], color='k', ls='--', linewidth='2')
-        # for trans in Transmission:
-        #     plt.plot([trans[0][0], trans[1][0]], [trans[0][1], trans[1][1]], color='yellow', linewidth='4')
-        cable_length = 0.0
-        blue_length = 0.0
-        red_length = 0.0
         total_cost = 0.0
         crossings = 0
 
         for key, value in Wind_turbinesi.iteritems():
-            Routesi[key], Routingi[key], Routing_redi[key], Routing_greeni[key] = Hybrid(Savingsi[key], Savingsi_finder[key], Wind_turbinesi[key], Routesi[key], Routingi[key], substationi[key], Capacityi, Routing_redi[key], Routing_greeni[key], Costi[key], Cable_Costi)
+            Routesi[key], Routingi[key], Routing_redi[key], Routing_greeni[key] = Hybrid(Savingsi[key], Savingsi_finder[key], Wind_turbinesi[key], Routingi[key], substationi[key], Capacityi, Routing_redi[key], Routing_greeni[key])
             Savingsi2[key], Savingsi2_finder[key], Crossings_finder[key] = savingsi(Cost0i[key], Costij[key], value, Cable_Costi[1], substationi[key], Area, Crossing_penalty)
             Routesi[key], Routingi[key], Routing_redi[key], Routing_greeni[key] = Esau_Williams_Cable_Choice(Savingsi2[key], Savingsi2_finder[key], Crossings_finder[key], Wind_turbinesi[key], Routesi[key], Routingi[key], substationi[key], Capacityi, Routing_redi[key], Routing_greeni[key], Costi[key], Cable_Costi)
-            Routesi[key], Routingi[key] = RouteOpt_Hybrid(Routingi[key], Routing_redi[key], Routing_greeni[key], substationi[key], Costi[key], Capacityi, Routesi[key], Wind_turbinesi[key])
-            cost = plotting(substationi[key], Wind_turbinesi[key], Routingi[key], Routing_redi[key], Routing_greeni[key], Capacityi, Cable_Costi)
-            # cable_length += blue + red
-            # blue_length += blue
-            # red_length += red
+            Routesi[key], Routingi[key] = RouteOpt_Hybrid(Routingi[key], substationi[key], Costi[key], Capacityi, Routesi[key], Wind_turbinesi[key])
+            cost = plotting(substationi[key], Wind_turbinesi[key], Routingi[key], Routing_redi[key], Routing_greeni[key], Cable_Costi)
             total_cost += cost
 
             for route in Routingi[key]:
                 if edge_crossings_area([route[0], route[1]], Wind_turbinesi[key], substationi[key], Area)[0] is True:
                     crossings += edge_crossings_area([route[0], route[1]], Wind_turbinesi[key], substationi[key], Area)[1]
 
-        # print Routesi
-        # print Routesi[1]
-        # print Routingi[1]
-        # print 'Cable length = {0} km'.format(round(cable_length / 1000, 3))
-        # print 'Cable cost = {0:,} {1}'.format(round(total_cost / 1000000, 3), MEuro)
-        # if Area is not []:
-        #     print 'Crossings = {0}'.format(crossings)
-        # print 'Elapsed time = {0:.3f} s'.format(time() - start)
-        ######Legend######
-        # if len(Cable_Costi) == 1:
-        #     label1 = mpatches.Patch(color='blue',
-        #                             label='Capacity: {0}'.format(Capacityi[1], round(cable_length / 1000, 3),
-        #                                                          int(total_cost), name))
-        #     legend = plt.legend([label1], ["Capacity: {0}".format(Capacityi[1])], loc='upper right', numpoints=1,
-        #                         fontsize=fontsize2, fancybox=True, shadow=True, ncol=2,
-        #                         title='Cable Cost: {0:,} {1}'.format(round(total_cost / 1000000, 3), MEuro))
-        # elif len(Cable_Costi) == 2:
-        #     label1 = mpatches.Patch(color='blue',
-        #                             label='Capacity: {0}'.format(Capacityi[1], round(cable_length / 1000, 3),
-        #                                                          int(total_cost)))
-        #     label2 = mpatches.Patch(color='red',
-        #                             label='Capacity: {1}'.format(Capacityi[2], round(cable_length / 1000, 3),
-        #                                                          int(total_cost)))
-        #     legend = plt.legend([label1, (label2)],
-        #                         ["Capacity: {0}".format(Capacityi[1]), "Capacity: {0}".format(Capacityi[2])],
-        #                         loc='upper right', numpoints=1, fontsize=fontsize2, fancybox=True, shadow=True, ncol=2,
-        #                         title='Cable Cost: {0:,} {1}'.format(round(total_cost / 1000000, 3), MEuro))
-        # elif len(Cable_Costi) == 3:
-        #     label1 = mpatches.Patch(color='blue',
-        #                             label='Capacity: {0}'.format(Capacityi[1], round(cable_length / 1000, 3),
-        #                                                          int(total_cost)))
-        #     label2 = mpatches.Patch(color='red',
-        #                             label='Capacity: {1}'.format(Capacityi[2], round(cable_length / 1000, 3),
-        #                                                          int(total_cost)))
-        #     label3 = mpatches.Patch(color='green',
-        #                             label='Capacity: {2}'.format(Capacityi[3], round(cable_length / 1000, 3),
-        #                                                          int(total_cost)))
-        #     legend = plt.legend([label1, label2, label3],
-        #                         ["Capacity: {0}".format(Capacityi[1]), "Capacity: {0}".format(Capacityi[2]),
-        #                          "Capacity: {0}".format(Capacityi[3])], loc='upper right', numpoints=1,
-        #                         fontsize=fontsize2,
-        #                         fancybox=True, shadow=True, ncol=3,
-        #                         title='Cable Cost: {0:,} {1}'.format(round(total_cost / 1000000, 3), MEuro))
-        # plt.setp(legend.get_title(), fontsize=fontsize2)
-        # plt.tight_layout()
-        # plt.subplots_adjust(left=0.06, right=0.94, bottom=0.08)
-        # plt.gca().set_aspect('equal', adjustable='box')
-        # # plt.title(' {0} OWF - Hybrid '.format(name), fontsize=fontsize)
-        # plt.grid()
-        # scale = 1000
-        # ticks1 = ticker.FuncFormatter(lambda x, pos: '{0:g}'.format(x / scale))
-        # ax.xaxis.set_major_formatter(ticks1)
-        # ticks2 = ticker.FuncFormatter(lambda y, pos: '{0:g}'.format(y / scale))
-        # ax.yaxis.set_major_formatter(ticks2)
-        # plt.xticks(fontsize=fontsize2)
-        # plt.yticks(fontsize=fontsize2)
-        # # plt.show()
-        # plt.savefig("topology.eps", format="eps", dpi=1000)
-
         return total_cost, Routesi
 
-    def mainroutine(arc, lines, Routes, Routing):
+    def mainroutine(arc, lines, Routing):
         if [arc[0], 0] in Routing:
             index1 = Routing.index([arc[0], 0])
         else:
@@ -235,7 +155,7 @@ def cable_design(WT_List):
                     temp.remove(pair2)
         temp3 = [x for x in temp if x not in temp3] + temp3
         indeces = []
-        if temp3 != []:
+        if temp3:
             for pair in temp3:
                 for route in Routes:
                     for path in route:
@@ -247,7 +167,7 @@ def cable_design(WT_List):
                             indeces.append(indextemp)
             for index in indeces:
                 temp3[index] = []
-            while temp3 != []:
+            while temp3:
                 indeces = []
                 temp3 = [x for x in temp3 if x != []]
                 temp3.reverse()
@@ -262,7 +182,7 @@ def cable_design(WT_List):
                                 indeces.append(indextemp)
                 for index in indeces:
                     temp3[index] = []
-                if temp3 != []:
+                if temp3:
                     temp3 = [x for x in temp3 if x != []]
                     indeces = []
                     temp3.reverse()
@@ -280,8 +200,8 @@ def cable_design(WT_List):
                     temp3 = [x for x in temp3 if x != []]
         return Routing, Routes
 
-    def Hybrid(Savingsi, Savingsi_finder, Wind_turbinesi, Routes, Routing, central_platform_location, Capacityi,
-               Routing_red, Routing_green, Costi, Cable_Costi):
+    def Hybrid(Savingsi, Savingsi_finder, Wind_turbinesi, Routing, central_platform_location, Capacityi,
+               Routing_red, Routing_green):
         Paths = []
         for WT in Wind_turbinesi:
             Paths.append([0, WT[0]])
@@ -298,7 +218,7 @@ def cable_design(WT_List):
                 condition4 = dict()
                 for key, value in Capacityi.iteritems():
                     condition4[key] = check_capacity(arc, Paths, Capacityi[key])
-                if condition4[1] == False and edge_crossings(arc, Wind_turbinesi, central_platform_location, Routing) == False and edge_crossings_area(arc, Wind_turbinesi, central_platform_location, Transmission)[0] == False:
+                if condition4[1] is False and edge_crossings(arc, Wind_turbinesi, central_platform_location, Routing) is False and edge_crossings_area(arc, Wind_turbinesi, central_platform_location, Transmission)[0] is False:
                     Routing = []
                     for index1, path in enumerate(Paths):
                         if arc[0] == path[1]:
@@ -341,9 +261,9 @@ def cable_design(WT_List):
                     condcap[key] = check_capacityEW(arc, lines, Capacityi[key])
                 if condcap[1] is False:
                     if edge_crossings_area(arc, Wind_turbinesi, central_platform_location, Transmission)[
-                        0] == False and edge_crossings(arc, Wind_turbinesi, central_platform_location,
-                                                       Routing) == False:
-                        Routing, Routes = mainroutine(arc, lines, Routes, Routing)
+                        0] is False and edge_crossings(arc, Wind_turbinesi, central_platform_location,
+                                                       Routing) is False:
+                        Routing, Routes = mainroutine(arc, lines, Routing)
                         lines = turbinesinroute(Routes)
                         for indexl, line in enumerate(lines):
                             if arc[0] in line:
@@ -357,14 +277,13 @@ def cable_design(WT_List):
                                     value += Crossing_penalty * (Crossingsi_finder[(arc2[0], arc2[1])] - Crossingsi_finder[(arc1[0], arc1[1])])
                                 Savingsi, Savingsi_finder = add_task(Savingsi, Savingsi_finder, (turbine, n[0]), value)
                         heapify(Savingsi)
-                if len(condcap) > 1 and condcap[1] == True and condcap[2] == False:
+                if len(condcap) > 1 and condcap[1] is True and condcap[2] is False:
                     if edge_crossings_area(arc, Wind_turbinesi, central_platform_location, Transmission)[
                         0] is False and edge_crossings(arc, Wind_turbinesi, central_platform_location,
                                                        Routing) is False:
-                        Routes_temp = deepcopy(Routes)
                         Routing_temp = deepcopy(Routing)
                         total_update_red_temp = []
-                        Routing_temp, Routes_temp = mainroutine(arc, lines, Routes_temp, Routing_temp)
+                        Routing_temp, Routes_temp = mainroutine(arc, lines, Routing_temp)
                         lines = turbinesinroute(Routes_temp)
                         for indexl, line in enumerate(lines):
                             if arc[0] in line:
@@ -429,13 +348,11 @@ def cable_design(WT_List):
                                                                  max_saving[0])
 
                 if len(condcap) > 2 and condcap[1] is True and condcap[2] is True and condcap[3] is False:
-                    if edge_crossings_area(arc, Wind_turbinesi, central_platform_location, Transmission)[
-                        0] is False and edge_crossings(arc, Wind_turbinesi, central_platform_location, Routing) is False:
-                        Routes_temp = deepcopy(Routes)
+                    if edge_crossings_area(arc, Wind_turbinesi, central_platform_location, Transmission)[0] is False and edge_crossings(arc, Wind_turbinesi, central_platform_location, Routing) is False:
                         Routing_temp = deepcopy(Routing)
                         total_update_red_temp = deepcopy(total_update_red)
                         total_update_green_temp = deepcopy(total_update_green)
-                        Routing_temp, Routes_temp = mainroutine(arc, lines, Routes_temp, Routing_temp)
+                        Routing_temp, Routes_temp = mainroutine(arc, lines, Routing_temp)
                         lines = turbinesinroute(Routes_temp)
                         for indexl, line in enumerate(lines):
                             if arc[0] in line:
@@ -468,7 +385,7 @@ def cable_design(WT_List):
                         for pair in connected_turbines:
                             if pair[2] > Capacityi[2]:
                                 update_green.append([pair[1], pair[0]])
-                            elif pair[2] > Capacityi[1] and pair[2] <= Capacityi[2]:
+                            elif Capacityi[1] < pair[2] <= Capacityi[2]:
                                 update_red.append([pair[1], pair[0]])
 
                         for pair in update_red:
@@ -492,7 +409,7 @@ def cable_design(WT_List):
                             for z in xrange(0, len(route) - 1):
                                 Routing_green_temp.append([route[z], route[z + 1]])
                         arc1 = [lines[indexl][0], 0]
-                        new = new + Crossing_penalty * (
+                        new += Crossing_penalty * (
                             Crossingsi_finder[arc[0], arc[1]] - Crossingsi_finder[arc1[0], arc1[1]])
                         Savingsi, Savingsi_finder = add_task(Savingsi, Savingsi_finder, (arc[0], arc[1]), new)
                         Savingsi, Savingsi_finder, max_saving = pop_task(Savingsi, Savingsi_finder)
@@ -513,7 +430,7 @@ def cable_design(WT_List):
                                         value = -(Costi[lines[indexl][0]][0] - Costi[turbine][n[0]]) * Cable_Costi[1]
                                         arc1 = [lines[indexl][0], 0]
                                         arc2 = [turbine, n[0]]
-                                        value = value + Crossing_penalty * (
+                                        value += Crossing_penalty * (
                                             Crossingsi_finder[arc2[0], arc2[1]] - Crossingsi_finder[arc1[0], arc1[1]])
                                         Savingsi, Savingsi_finder = add_task(Savingsi, Savingsi_finder, (turbine, n[0]),
                                                                              value)
@@ -524,7 +441,7 @@ def cable_design(WT_List):
                                                                  max_saving[0])
         return Routes, Routing, Routing_red, Routing_green
 
-    def RouteOpt_Hybrid(Routing, Routing_red, Routing_green, central_platform_location, Costi, Capacityi, Routes,
+    def RouteOpt_Hybrid(Routing, central_platform_location, Costi, Capacityi, Routes,
                         Wind_turbinesi):
         Paths = []
         temp = []
@@ -532,51 +449,43 @@ def cable_design(WT_List):
             cond = False
             for i in range(len(route) - 1, -1, -1):
                 for pair in route:
-                    if route[i][0] == pair[0] and route[i] != pair and cond == False:
+                    if route[i][0] == pair[0] and route[i] != pair and cond is False:
                         cond = True
                         for pair5 in route:
                             if pair[0] == pair5[0]:
-                                path = []
-                                path.append(pair5[0])
-                                path.append(pair5[1])
+                                path = [pair5[0], pair5[1]]
                                 for pair6 in route:
                                     if pair6[0] == path[-1]:
                                         path.append(pair6[1])
                                 Paths.append(path)
                         temp.append(route)
-            if cond == False and len(route) <= Capacityi[1]:
-                path = []
-                path.append(route[0][0])
+            if cond is False and len(route) <= Capacityi[1]:
+                path = [route[0][0]]
                 for pair in route:
                     path.append(pair[1])
                 Paths.append(path)
-            elif cond == False and len(route) > Capacityi[1]:
+            elif cond is False and len(route) > Capacityi[1]:
                 index = len(route) - Capacityi[1]
-                path = []
-                path.append(route[index][0])
+                path = [route[index][0]]
                 for i in range(index, len(route)):
                     path.append(route[i][1])
                 Paths.append(path)
         before = []
         after = []
         for path in Paths:
-            list = []
+            list_code = []
             index = Paths.index(path)
             path.reverse()
             cond = True
             i = 0
-            while cond == True:
+            while cond:
                 for l in range(1, len(path)):
-                    list.append([Costi[path[l - 1]][path[l]] - Costi[path[l]][path[0]], path[0], path[l]])
-                s = max(list, key=lambda x: x[0])
-                if s[0] > 0 and edge_crossings([s[1], s[2]], Wind_turbinesi, central_platform_location,
-                                               Routing) == False and \
-                                edge_crossings_area([s[1], s[2]], Wind_turbinesi, central_platform_location,
-                                                    Transmission)[
-                                    0] == False:
-                    for k in list:
+                    list_code.append([Costi[path[l - 1]][path[l]] - Costi[path[l]][path[0]], path[0], path[l]])
+                s = max(list_code, key=lambda x: x[0])
+                if s[0] > 0 and edge_crossings([s[1], s[2]], Wind_turbinesi, central_platform_location,Routing) is False and edge_crossings_area([s[1], s[2]], Wind_turbinesi, central_platform_location,Transmission)[0] is False:
+                    for k in list_code:
                         if k == s:
-                            lamd = list.index(k)
+                            lamd = list_code.index(k)
                             xmm = lamd + 1
                             path1 = path[:xmm]
                             path2 = path[xmm:]
@@ -586,10 +495,10 @@ def cable_design(WT_List):
                             i = 1
                             path = path1 + path2
                             Paths[index] = path
-                            list = []
+                            list_code = []
                             cond = True
                 else:
-                    list = []
+                    list_code = []
                     cond = False
                     if i == 1:
                         after.append(Paths[index])
@@ -611,19 +520,17 @@ def cable_design(WT_List):
             for turbine in route:
                 if turbine != 0:
                     for pair in total_update_temp:
-                        if (pair[0] != 0 and pair[1] == 0) or (pair[0] == 0 and pair[1] != 0):
-                            same1 = [turbine, pair[0]]
                         if pair[0] != 0 and pair[1] != 0:
                             same1 = [turbine, pair[0]]
                             same2 = [turbine, pair[1]]
-                            if check_same_path(same1, Paths_temp) == True or check_same_path(same2, Paths_temp) == True:
+                            if check_same_path(same1, Paths_temp) is True or check_same_path(same2, Paths_temp) is True:
                                 if indexerase not in indeces:
                                     indeces.append(indexerase)
-        if indeces != []:
+        if indeces:
             for i in indeces:
                 total_update[i] = []
         for pair in total_update[:]:
-            if pair == []:
+            if not pair:
                 total_update.remove(pair)
         return total_update
 
@@ -696,7 +603,7 @@ def cable_design(WT_List):
         return Savingsi, Savingsi_finder, Crossingsi_finder
 
     def add_task(Savings, entry_finder, task, priority):
-        'Add a new task or update the priority of an existing task'
+        """Add a new task or update the priority of an existing task"""
         if task in entry_finder:
             entry_finder = remove_task(entry_finder, task)
         entry = [priority, task[0], task[1]]
@@ -728,7 +635,7 @@ def cable_design(WT_List):
                     Cost[i[0]][j[0]] = hypot(i[1] - j[1], i[2] - j[2])
 
     def turbinesinroute(Routes):
-        lines = [[] for i in xrange(len(Routes))]
+        lines = [[] for _ in xrange(len(Routes))]
         for route in Routes:
             index = Routes.index(route)
             for pair in route:
@@ -740,7 +647,7 @@ def cable_design(WT_List):
         turbines_in_branch = 0
         for path in Paths:
             if arc[0] in path or arc[1] in path:
-                turbines_in_branch = turbines_in_branch + (len(path))
+                turbines_in_branch += len(path)
                 if turbines_in_branch > Capacity:
                     cap_exceeded = True
                     break
@@ -751,7 +658,7 @@ def cable_design(WT_List):
         turbines_in_branch = 0
         for path in Paths:
             if arc[0] in path or arc[1] in path:
-                turbines_in_branch = turbines_in_branch + (len(path) - 1)
+                turbines_in_branch += len(path) - 1
                 if turbines_in_branch > Capacity:
                     cap_exceeded = True
                     break
@@ -817,17 +724,13 @@ def cable_design(WT_List):
         return intersection, crossings
 
     # Plotting+Cable_length
-    def plotting(central_platform_location1, Wind_turbines1, Routing, Routing_red, Routing_green, Capacityi,
+    def plotting(central_platform_location1, Wind_turbines1, Routing, Routing_red, Routing_green,
                  Cable_Costi):
         central_platform_location1_1 = [[0, central_platform_location1[0], central_platform_location1[1]]]
         Full_List = central_platform_location1_1 + Wind_turbines1
         Routing_blue = [i for i in Routing if i not in Routing_red]
         Routing_blue = [i for i in Routing_blue if i not in Routing_green]
         cable_length1blue = 0
-        index, x, y = zip(*Full_List)
-        # ax = fig.add_subplot(111)
-        # ax.set_xlabel('x [km]', fontsize=fontsize2)
-        # ax.set_ylabel('y [km]', fontsize=fontsize2)
         arcs1 = []
         arcs2 = []
         for i in Routing_blue:
@@ -839,9 +742,8 @@ def cable_design(WT_List):
         for i in xrange(len(arcs1)):
             arcs1.insert(2 * i + 1, arcs2[i])
         for j in xrange(len(arcs1) - len(Routing_blue)):
-            # plt.plot([arcs1[2 * j][0], arcs1[2 * j + 1][0]], [arcs1[2 * j][1], arcs1[2 * j + 1][1]], color='b')
-            cable_length1blue = cable_length1blue + hypot(arcs1[2 * j][0] - arcs1[2 * j + 1][0],
-                                                          arcs1[2 * j][1] - arcs1[2 * j + 1][1])
+            cable_length1blue += hypot(arcs1[2 * j][0] - arcs1[2 * j + 1][0],
+                                       arcs1[2 * j][1] - arcs1[2 * j + 1][1])
         cable_cost = Cable_Costi[1] * cable_length1blue
         cable_length = cable_length1blue
 
@@ -858,9 +760,8 @@ def cable_design(WT_List):
             for i in xrange(len(arcs1)):
                 arcs1.insert(2 * i + 1, arcs2[i])
             for j in xrange(len(arcs1) - len(Routing_red)):
-                # plt.plot([arcs1[2 * j][0], arcs1[2 * j + 1][0]], [arcs1[2 * j][1], arcs1[2 * j + 1][1]], color='r')
-                cable_length1red = cable_length1red + hypot(arcs1[2 * j][0] - arcs1[2 * j + 1][0],
-                                                            arcs1[2 * j][1] - arcs1[2 * j + 1][1])
+                cable_length1red += hypot(arcs1[2 * j][0] - arcs1[2 * j + 1][0],
+                                          arcs1[2 * j][1] - arcs1[2 * j + 1][1])
             cable_cost = Cable_Costi[1] * cable_length1blue + Cable_Costi[2] * cable_length1red
             cable_length = cable_length1blue + cable_length1red
 
@@ -878,9 +779,8 @@ def cable_design(WT_List):
             for i in xrange(len(arcs1)):
                 arcs1.insert(2 * i + 1, arcs2[i])
             for j in xrange(len(arcs1) - len(Routing_red)):
-                # plt.plot([arcs1[2 * j][0], arcs1[2 * j + 1][0]], [arcs1[2 * j][1], arcs1[2 * j + 1][1]], color='r')
-                cable_length1red = cable_length1red + hypot(arcs1[2 * j][0] - arcs1[2 * j + 1][0],
-                                                            arcs1[2 * j][1] - arcs1[2 * j + 1][1])
+                cable_length1red += hypot(arcs1[2 * j][0] - arcs1[2 * j + 1][0],
+                                          arcs1[2 * j][1] - arcs1[2 * j + 1][1])
 
             cable_length1green = 0
             arcs1 = []
@@ -894,14 +794,11 @@ def cable_design(WT_List):
             for i in xrange(len(arcs1)):
                 arcs1.insert(2 * i + 1, arcs2[i])
             for j in xrange(len(arcs1) - len(Routing_green)):
-                # plt.plot([arcs1[2 * j][0], arcs1[2 * j + 1][0]], [arcs1[2 * j][1], arcs1[2 * j + 1][1]], color='g')
                 cable_length1green += hypot(arcs1[2 * j][0] - arcs1[2 * j + 1][0],
                                             arcs1[2 * j][1] - arcs1[2 * j + 1][1])
             cable_length = cable_length1blue + cable_length1red + cable_length1green
             cable_cost = Cable_Costi[1] * cable_length1blue + Cable_Costi[2] * cable_length1red + Cable_Costi[3] * cable_length1green
-        # plt.plot([p[1] for p in central_platform_location1_1], [p[2] for p in central_platform_location1_1], marker='o', ms=10, color='0.35')
-        # plt.plot([p[1] for p in Wind_turbines1], [p[2] for p in Wind_turbines1], 'o', ms=6, color='0.3')
-
+        print "Cable length = " + str(cable_length / 1000.0) + " km"
         return cable_cost
 
     def cable_cost(central_platform_location, Wind_turbinesi, Routing, Routing_red, Routing_green, Cable_Costi):
@@ -911,39 +808,39 @@ def cable_design(WT_List):
         for route in Routing_blue:
             x1, y1 = give_coordinates(route[0], Wind_turbinesi, central_platform_location)
             x2, y2 = give_coordinates(route[1], Wind_turbinesi, central_platform_location)
-            cable_length1blue = cable_length1blue + hypot(x2 - x1, y2 - y1)
-        cable_cost = Cable_Costi[1] * (cable_length1blue)
+            cable_length1blue += hypot(x2 - x1, y2 - y1)
+        cable_cost = Cable_Costi[1] * cable_length1blue
 
         if len(Cable_Costi) == 2:
             cable_length1red = 0
             for route in Routing_red:
                 x1, y1 = give_coordinates(route[0], Wind_turbinesi, central_platform_location)
                 x2, y2 = give_coordinates(route[1], Wind_turbinesi, central_platform_location)
-                cable_length1red = cable_length1red + hypot(x2 - x1, y2 - y1)
-            cable_cost = Cable_Costi[1] * (cable_length1blue) + Cable_Costi[2] * (cable_length1red)
+                cable_length1red += hypot(x2 - x1, y2 - y1)
+            cable_cost = Cable_Costi[1] * cable_length1blue + Cable_Costi[2] * cable_length1red
 
         if len(Cable_Costi) == 3:
             cable_length1red = 0
             for route in Routing_red:
                 x1, y1 = give_coordinates(route[0], Wind_turbinesi, central_platform_location)
                 x2, y2 = give_coordinates(route[1], Wind_turbinesi, central_platform_location)
-                cable_length1red = cable_length1red + hypot(x2 - x1, y2 - y1)
+                cable_length1red += hypot(x2 - x1, y2 - y1)
             cable_length1green = 0
             for route in Routing_green:
                 x1, y1 = give_coordinates(route[0], Wind_turbinesi, central_platform_location)
                 x2, y2 = give_coordinates(route[1], Wind_turbinesi, central_platform_location)
-                cable_length1green = cable_length1green + hypot(x2 - x1, y2 - y1)
-            cable_cost = Cable_Costi[1] * (cable_length1blue) + Cable_Costi[2] * (cable_length1red) + Cable_Costi[3] * (
+                cable_length1green += hypot(x2 - x1, y2 - y1)
+            cable_cost = Cable_Costi[1] * cable_length1blue + Cable_Costi[2] * cable_length1red + Cable_Costi[3] * (
                 cable_length1green)
         return cable_cost
 
     # Submethods return x and y coordinates of a turbine if it's ID is known. The OHVS must also be included
-    def give_coordinates(turbineID, Wind_turbines, central_platform_location):
+    def give_coordinates(turbineID, turbines, central_platform_location):
         if turbineID == 0:
             x = central_platform_location[0]
             y = central_platform_location[1]
         else:
-            turbine = WT_List[turbineID - 1]
+            turbine = turbines[turbineID - 1]
             x = turbine[1]
             y = turbine[2]
         return x, y
@@ -954,138 +851,7 @@ def cable_design(WT_List):
 # ------------------------------------Run------------------------------------------------------------------
 
 if __name__ == '__main__':
-    # ---------------------------------------Input--------------------------------------------------------------------------------
-    # name = 'Borssele'
-    # WT_List = [[0, 485101.04983316606, 5732217.3257142855], [1, 485503.6486449828, 5731759.337142857],
-    #            [2, 485866.01741583704, 5731311.565714286], [3, 486268.61622765375, 5730792.548571428],
-    #            [4, 486671.24216694245, 5732675.28], [5, 487089.95469712175, 5732217.3257142855],
-    #            [6, 487444.23948132276, 5731708.457142857], [7, 487846.86542061146, 5731250.502857143],
-    #            [8, 487846.86542061146, 5733591.222857143], [9, 488249.4642324282, 5733061.988571429],
-    #            [10, 488660.1199034262, 5732624.4], [11, 489014.43181509915, 5732166.411428572],
-    #            [12, 489425.0874860972, 5731657.577142857], [13, 489827.7134253859, 5731199.622857143],
-    #            [14, 489425.0874860972, 5733998.297142857], [15, 489827.7134253859, 5733530.16],
-    #            [16, 490238.3690963839, 5733021.291428572], [17, 490592.65388058487, 5732563.337142857],
-    #            [18, 491003.3366790549, 5732095.2], [19, 491405.9354908716, 5731596.514285714],
-    #            [20, 491808.5614301603, 5733479.245714285], [21, 492170.9030735426, 5732960.228571429],
-    #            [22, 492581.5587445406, 5732502.274285714], [23, 492984.1846838293, 5732034.137142858],
-    #            [24, 494152.1579903969, 5735245.577142857], [25, 494553.2647912541, 5734783.68],
-    #            [26, 494963.2965303963, 5734321.782857143], [27, 495319.8328947725, 5733803.554285714],
-    #            [28, 495720.93969562976, 5735684.938285714], [29, 496130.971434772, 5735166.72],
-    #            [30, 496541.0031739142, 5734716.102857143], [31, 496897.5395382904, 5734265.451428572],
-    #            [32, 497307.57127743267, 5736090.504], [33, 497708.6780782899, 5735628.610285714],
-    #            [34, 489415.4029785964, 5729387.485714286], [35, 489820.4161354203, 5728866.377142857],
-    #            [36, 490184.08702493017, 5728396.285714285], [37, 490589.07305428205, 5727947.108571429],
-    #            [38, 490994.086211106, 5727435.222857143], [39, 491407.34611941513, 5726975.588571428],
-    #            [40, 491762.7431299677, 5726526.411428572], [41, 490994.086211106, 5729775.188571429],
-    #            [42, 491407.34611941513, 5729315.554285714], [43, 491771.0170089249, 5728803.702857143],
-    #            [44, 492167.72915931966, 5728354.491428572], [45, 492581.0161951008, 5727894.857142857],
-    #            [46, 492977.7283454955, 5727435.222857143], [47, 492977.7283454955, 5729712.514285714],
-    #            [48, 493349.6731139625, 5729263.337142857], [49, 493746.4123918292, 5728803.702857143],
-    #            [50, 494556.41157800506, 5730172.148571429], [51, 492974.7985785205, 5725094.708571428],
-    #            [52, 493341.1279602854, 5724641.794285715], [53, 493755.25594769826, 5724128.468571428],
-    #            [54, 494153.43298158044, 5723665.474285714], [55, 494511.78688658006, 5723212.56],
-    #            [56, 493747.2804709329, 5726463.565714286], [57, 494153.43298158044, 5726000.571428572],
-    #            [58, 494511.78688658006, 5725487.28], [59, 494917.93939722754, 5725044.411428572],
-    #            [60, 495332.06738464045, 5724571.337142857], [61, 494909.9910479342, 5727379.508571428],
-    #            [62, 495324.0919078751, 5726856.102857143], [63, 495722.2689417573, 5726403.188571429],
-    #            [64, 496080.6499742289, 5725950.274285714], [65, 495722.2689417573, 5728738.285714285],
-    #            [66, 496128.4214524049, 5728224.96], [67, 496494.75083416974, 5727782.125714285],
-    #            [68, 496892.95499552396, 5727319.131428571], [69, 496892.95499552396, 5729593.817142857],
-    #            [70, 497299.0803786995, 5729140.9028571425], [71, 497705.232889347, 5728677.908571429],
-    #            [72, 498071.56227111194, 5730509.76], [73, 498477.7147817595, 5730056.811428571],
-    #            [74, 496082.4403873803, 5721297.565714286], [75, 496497.110924233, 5720823.737142857],
-    #            [76, 496894.71828120336, 5720378.64], [77, 496889.0215120853, 5722668.754285715],
-    #            [78, 497297.9952798199, 5722202.125714285], [79, 497667.2001736158, 5721749.828571429],
-    #            [80, 498070.50429970433, 5721225.771428571], [81, 498473.7812983208, 5720780.6742857145],
-    #            [82, 498837.31655047066, 5720314.045714286], [83, 499240.62067655916, 5719876.114285714],
-    #            [84, 499643.8976751756, 5719344.857142857], [85, 500041.50503214606, 5718899.76],
-    #            [86, 500410.737053414, 5718440.297142857], [87, 497655.86089032365, 5724025.577142857],
-    #            [88, 498064.8075305862, 5723558.948571429], [89, 498468.1116566747, 5723106.651428571],
-    #            [90, 498871.4157827632, 5722604.125714285], [91, 499240.62067655916, 5722144.662857143],
-    #            [92, 499643.8976751756, 5721692.4], [93, 500041.50503214606, 5721225.771428571],
-    #            [94, 500410.737053414, 5720723.245714285], [95, 500808.3444103844, 5720263.782857143],
-    #            [96, 498466.9180479071, 5725386.377142857], [97, 498878.8487100887, 5724931.851428571],
-    #            [98, 499238.47760627186, 5724469.062857143], [99, 499643.87054770364, 5724014.537142857],
-    #            [100, 500042.72576838563, 5723502.137142858], [101, 500454.68355803925, 5723047.611428572],
-    #            [102, 500820.8501749722, 5722593.085714285], [103, 501219.7053956542, 5722080.72],
-    #            [104, 499226.080351572, 5726806.422857143], [105, 499635.02699183463, 5726298.514285714],
-    #            [106, 500048.9922144155, 5725835.142857143], [107, 500452.8660174158, 5725380.685714286],
-    #            [109, 501206.0874047148, 5724461.348571429], [108, 500819.49380137265, 5724849.84],
-    #            [110, 500043.94650462526, 5728169.794285715], [111, 500452.8660174158, 5727661.885714286],
-    #            [112, 500812.440658655, 5727198.514285714], [113, 501221.36017144565, 5726752.971428571],
-    #            [114, 501623.25366899057, 5726236.148571429], [115, 501221.36017144565, 5729025.257142857],
-    #            [116, 501630.3068117082, 5728570.8], [117, 502032.1731817812, 5728125.257142857],
-    #            [118, 498462.27925019665, 5732385.12], [119, 499640.1540840409, 5733242.228571429],
-    #            [120, 500044.678946369, 5732783.588571428], [121, 500449.20380869706, 5732324.948571429],
-    #            [122, 501621.1377261753, 5730911.451428572], [123, 500445.7857472262, 5734610.777142857],
-    #            [124, 500858.2589588476, 5734151.417142857], [125, 501217.48094295093, 5733680.777142857],
-    #            [126, 501222.55378021323, 5735978.989714285], [127, 501621.1377261753, 5735520.342857143],
-    #            [128, 502031.6035048694, 5735069.245714285], [129, 502783.82117570465, 5731772.468571428],
-    #            [130, 502421.94069934625, 5736879.929142857], [131, 502785.88286357594, 5736427.9954285715],
-    #            [132, 503194.55822911864, 5735911.505142857], [133, 503603.2064671893, 5735467.645714286],
-    #            [134, 503181.78118981095, 5738251.858285714], [135, 503603.2064671893, 5737799.928],
-    #            [136, 504005.47974934214, 5737339.926857143], [137, 505180.37056126737, 5735919.576],
-    #            [138, 506757.5346553455, 5733974.6742857145], [139, 507115.1018636573, 5733522.72],
-    #            [140, 507523.804356672, 5733062.742857143], [141, 507932.3440848547, 5732562.377142857],
-    #            [142, 503961.66888207686, 5730339.6342857145], [143, 504370.69690475543, 5729889.12],
-    #            [144, 504773.919648428, 5729416.457142857], [145, 504364.8644982774, 5732222.914285715],
-    #            [146, 504779.752054906, 5731772.4], [147, 505177.1152646285, 5731248.034285714],
-    #            [148, 505539.40265306673, 5730797.52], [149, 505948.4306757453, 5730347.005714286],
-    #            [150, 506357.48582589586, 5729822.6742857145], [151, 506760.6814420964, 5729364.754285715],
-    #            [152, 507117.1092965846, 5728914.274285714], [153, 507526.2458291512, 5728397.28],
-    #            [154, 507923.39201909775, 5727946.765714286], [155, 505182.94767110655, 5733581.794285715],
-    #            [156, 505591.9756937851, 5733131.314285714], [157, 505942.5982692673, 5732629.0971428575],
-    #            [158, 506351.62629194587, 5732156.434285714], [159, 506754.8219081464, 5731705.92],
-    #            [160, 507122.96883053466, 5731203.737142857], [161, 507526.2458291512, 5730745.817142857],
-    #            [162, 507929.36006293574, 5730280.56], [163, 508332.4742967203, 5729763.565714286],
-    #            [164, 508688.92927868053, 5729313.085714285], [165, 501973.27944008895, 5716503.462857143],
-    #            [166, 502388.62816374144, 5716045.165714285], [167, 502790.79293600627, 5715595.165714285],
-    #            [168, 503153.40585410845, 5715070.217142857], [169, 503562.1897295391, 5714620.2514285715],
-    #            [170, 503964.354501804, 5714161.954285714], [171, 501979.8714157828, 5718844.937142857],
-    #            [172, 502388.62816374144, 5718378.308571429], [173, 502790.79293600627, 5717870.022857143],
-    #            [174, 503199.5768114369, 5717420.057142857], [175, 503555.59775384533, 5716953.428571428],
-    #            [176, 503964.354501804, 5716445.108571429], [177, 504366.5192740688, 5715986.811428571],
-    #            [178, 504729.159319643, 5715528.514285714], [179, 505137.91606760165, 5715020.228571429],
-    #            [180, 502388.62816374144, 5720661.497142857], [181, 502797.3849117001, 5720203.165714285],
-    #            [182, 503199.5768114369, 5719744.868571429], [183, 503555.59775384533, 5719236.582857143],
-    #            [184, 503964.354501804, 5718778.285714285], [185, 504373.11124976265, 5718311.657142857],
-    #            [186, 504781.8951251933, 5717811.702857143], [187, 505137.91606760165, 5717353.371428572],
-    #            [188, 505540.08083986654, 5716886.742857143], [189, 505955.45669099095, 5716445.108571429],
-    #            [190, 502790.7115535903, 5722545.531428572], [191, 503196.9454466538, 5722024.32],
-    #            [192, 503553.97010552586, 5721573.12], [193, 503966.3619347313, 5721121.885714286],
-    #            [194, 504372.6229552668, 5720600.6742857145], [195, 504772.69891218835, 5720141.657142857],
-    #            [196, 505135.88150720234, 5719690.457142857], [197, 505542.11540026584, 5719239.257142857],
-    #            [198, 505948.37642080133, 5718725.794285715], [199, 506351.62629194587, 5718259.028571429],
-    #            [200, 506711.6349727369, 5717815.611428572], [201, 503196.9454466538, 5724358.182857143],
-    #            [202, 503603.2064671893, 5723922.514285714], [203, 503960.20399858936, 5723393.52],
-    #            [204, 504366.46501912485, 5722942.285714285], [205, 504772.69891218835, 5722483.302857143],
-    #            [206, 505135.88150720234, 5722024.32], [207, 505542.11540026584, 5721510.857142857],
-    #            [208, 505948.37642080133, 5721059.657142857], [209, 506354.61031386483, 5720600.6742857145],
-    #            [210, 506717.7929088788, 5720087.2114285715], [211, 507117.8688658004, 5719628.228571429],
-    #            [212, 503594.17301901634, 5726185.371428572], [213, 503964.354501804, 5725724.3657142855],
-    #            [214, 504367.2245883406, 5725270.2514285715], [215, 504770.06754740526, 5724822.994285714],
-    #            [216, 505134.8235357947, 5724313.851428571], [217, 505548.5717385997, 5723839.0971428575],
-    #            [218, 505945.98920326616, 5723384.982857143], [219, 506354.28478420095, 5722882.697142857],
-    #            [220, 506713.5881507202, 5722421.691428571], [221, 507116.43110978487, 5721967.577142857],
-    #            [222, 507524.6181808317, 5721458.4], [223, 504775.5201692754, 5727100.457142857],
-    #            [224, 505172.9376339419, 5726639.485714286], [225, 505537.6664948593, 5726185.371428572],
-    #            [226, 505951.4146976643, 5725669.302857143], [227, 506354.28478420095, 5725215.188571429],
-    #            [228, 506713.5881507202, 5724761.074285714], [229, 507116.43110978487, 5724245.04],
-    #            [230, 507524.6181808317, 5723790.925714286], [231, 507927.7324146163, 5723336.811428571],
-    #            [232, 507927.7324146163, 5725614.274285714], [233, 508286.9001437756, 5725167.051428571]]
-    # central_platform_locations=[[497362.28738843824, 5730299.074285714], [503845.86170414777, 5727342.685714286]]
-    # NT = len(WT_List)
-    # # List of cable types: [Capacity,Cost] in increasing order (maximum 3 cable types)
-    # Cable_List = [[6, 256 + 365], [10, 406 + 365]]
-    # # Cable_List=[[5,110],[8,180]]
-    # # Cable_List=[[10,406+365]]
-    # Crossing_penalty = 0
-    # Area = []
-    # # Transmission = [[central_platform_locations[0], [463000, 5918000]],
-    # #                 [central_platform_locations[1], [463000, 5918000]]]
-    # Transmission = []
 
-    # set_cable_topology(NT, WT_List, central_platform_locations, Cable_List)
     WT_List = []
     with open("layout_cables.dat") as lay:
         i = 0
@@ -1093,18 +859,5 @@ if __name__ == '__main__':
             col = line.split()
             WT_List.append([i, float(col[0]), float(col[1])])
             i += 1
-    # print WT_List
-
+    name = "sebastian"
     print cable_design(WT_List)
-    # from math import sqrt
-    # platform = [[497362.28738843824, 5730299.074285714], [503845.86170414777, 5727342.685714286]]
-    # length1 = 0.0
-    # length2 = 0.0
-    # for i in range(len(WT_List)):
-    #     d1 = sqrt((platform[0][0] - WT_List[i][1]) ** 2.0 + (platform[0][1] - WT_List[i][2]) ** 2.0)
-    #     d2 = sqrt((platform[1][0] - WT_List[i][1]) ** 2.0 + (platform[1][1] - WT_List[i][2]) ** 2.0)
-    #     if d1 >= d2:
-    #         length1 += d1
-    #     else:
-    #         length2 += d2
-    # print length1, length2, (length1 + length2) / 233.0

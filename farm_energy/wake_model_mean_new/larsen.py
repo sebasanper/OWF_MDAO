@@ -73,27 +73,27 @@ def wake_speed(U0, ct, x, y, ia):
 
 
 def wake_deficit(U0, ct, x, y, ia):
-    return 1.0 - wake_speed(U0, ct, x, y, ia) / U0
+    return 1.0 - wake_speed(U0, ct, x + x0(ct, ia), y, ia) / U0
 
 if __name__ == '__main__':
-    U0 = 8.5
-    r0 = 40.0  # Turbine rotor radius
-    D = 2.0 * r0
-    A = pi * r0 ** 2.0
-    ct = 0.81
-    deff = D * sqrt((1.0 + sqrt(1.0 - ct)) / (2.0 * sqrt(1.0 - ct)))
-    H = 70.0  # Hub height
-    ia = 0.1  # Ambient turbulence intensity
-    rnb = max(1.08 * D, 1.08 * D + 21.7 * D * (ia - 0.05))
-    r95 = 0.5 * (rnb + min(H, rnb))
-    x0 = 9.5 * D / (((2.0 * r95 / deff) ** 3.0) - 1.0)
-    # a1 = (105.0 / 2.0 / pi) ** (1.0 / 5.0) * (ct * A) ** (1.0 / 3.0)
-    # b1 = (1.0 / 9.0) * 3.0 ** (- 2.0 / 5.0) * (35.0 / 2.0 / pi) ** (3.0 / 5.0) * (ct * A) ** (1.0 / 3.0)
-    # def Um(x):
-    #     return U0 * (1.0 - b1 * c1(x) ** (- 4.0 / 5.0) * (x0(x) + x) ** (- 2.0 / 3.0))
-    # def x0(x):
-    #     return ((D / 2 / a1) ** (- 3.0) * (b1 / (U0 - Um(x))) ** (3.0 / 4.0) - 1.0) ** (- 1.0) * x
-    c1 = (deff / 2.0) ** (5.0 / 2.0) * (105.0 / 2.0 / pi) ** (- 1.0 / 2.0) * (ct * A * x0) ** (- 5.0 / 6.0)  # Prandtl mixing length
+    # U0 = 8.5
+    # r0 = 40.0  # Turbine rotor radius
+    # D = 2.0 * r0
+    # A = pi * r0 ** 2.0
+    # ct = 0.81
+    # deff = D * sqrt((1.0 + sqrt(1.0 - ct)) / (2.0 * sqrt(1.0 - ct)))
+    # H = 70.0  # Hub height
+    # ia = 0.1  # Ambient turbulence intensity
+    # rnb = max(1.08 * D, 1.08 * D + 21.7 * D * (ia - 0.05))
+    # r95 = 0.5 * (rnb + min(H, rnb))
+    # x0 = 9.5 * D / (((2.0 * r95 / deff) ** 3.0) - 1.0)
+    # # a1 = (105.0 / 2.0 / pi) ** (1.0 / 5.0) * (ct * A) ** (1.0 / 3.0)
+    # # b1 = (1.0 / 9.0) * 3.0 ** (- 2.0 / 5.0) * (35.0 / 2.0 / pi) ** (3.0 / 5.0) * (ct * A) ** (1.0 / 3.0)
+    # # def Um(x):
+    # #     return U0 * (1.0 - b1 * c1(x) ** (- 4.0 / 5.0) * (x0(x) + x) ** (- 2.0 / 3.0))
+    # # def x0(x):
+    # #     return ((D / 2 / a1) ** (- 3.0) * (b1 / (U0 - Um(x))) ** (3.0 / 4.0) - 1.0) ** (- 1.0) * x
+    # c1 = (deff / 2.0) ** (5.0 / 2.0) * (105.0 / 2.0 / pi) ** (- 1.0 / 2.0) * (ct * A * x0) ** (- 5.0 / 6.0)  # Prandtl mixing length
 
-    for x in range(1, 560):
-        print wake_deficit(8.5, 0.79, x+x0, 0.0, 0.08)
+    for x in range(560):
+        print wake_deficit(8.5, 0.79, x*10.0, 0.0, 0.1)

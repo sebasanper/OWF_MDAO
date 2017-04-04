@@ -34,6 +34,7 @@ from order_layout import order
 def energy_one_angle(original_layout, freestream_wind_speeds, probabilities_speed, wind_angle, ambient_turbulences, WakeModel, PowerModel, ThrustModel, MergingModel):
     ordered_layout = order(original_layout, wind_angle)
     energy = 0.0
+    weighted_individuals = [0.0 for _ in range(len(original_layout))]
     for speed in range(len(freestream_wind_speeds)):
         ct = []
         wind_speeds_array = [freestream_wind_speeds[speed]]
@@ -50,9 +51,13 @@ def energy_one_angle(original_layout, freestream_wind_speeds, probabilities_spee
             deficit_matrix[i] += WakeModel(ordered_layout[i], ct[i], ordered_layout[i + 1:], wind_angle, freestream_wind_speeds[speed], ambient_turbulences[speed])
         wind_speeds_array_original = [x for (y, x) in sorted(zip([item[0] for item in ordered_layout], wind_speeds_array), key=lambda pair: pair[0])]
         individual_powers = [PowerModel(wind) for wind in wind_speeds_array_original]
+        for turb in range(len(individual_powers)):
+            weighted_individuals[turb] += individual_powers[turb] * probabilities_speed[speed] / 100.0
         farm_power = sum(individual_powers)
         energy += farm_power * probabilities_speed[speed] / 100.0 * 8760.0
-    return energy, individual_powers
+        # print speed, farm_power, probabilities_speed[speed], energy
+        # print freestream_wind_speeds[speed], wind_speeds_array_original, individual_powers
+    return energy, weighted_individuals
 
 
 if __name__ == '__main__':
@@ -63,8 +68,8 @@ if __name__ == '__main__':
     from wake_overlap import root_sum_square
 
     layout = [[0, 0.0, 0.0], [1, 0.0, 1000.0], [2, 0.0, 2000.0], [3, 0.0, 3000.0], [4, 0.0, 4000.0], [5, 1000.0, 0.0], [6, 1000.0, 1000.0], [7, 1000.0, 2000.0], [8, 1000.0, 3000.0], [9, 1000.0, 4000.0], [10, 2000.0, 0.0], [11, 2000.0, 1000.0], [12, 2000.0, 2000.0], [13, 2000.0, 3000.0], [14, 2000.0, 4000.0], [15, 3000.0, 0.0], [16, 3000.0, 1000.0], [17, 3000.0, 2000.0], [18, 3000.0, 3000.0], [19, 3000.0, 4000.0], [20, 4000.0, 0.0], [21, 4000.0, 1000.0], [22, 4000.0, 2000.0], [23, 4000.0, 3000.0], [24, 4000.0, 4000.0]]
-    U_inf = [8.5]
-    I0 = [0.08]
-    prob = [100.0]
+    U_inf = [8.5, 16]
+    I0 = [0.08, 0.08]
+    prob = [50.0, 50.0]
     # for angle in range(360):
-    print energy_one_angle(layout, U_inf, prob, 127.0, I0, Jensen, power_v80, v80, root_sum_square)
+    print energy_one_angle(layout, U_inf, prob, 0.0, I0, Jensen, power_v80, v80, root_sum_square)
