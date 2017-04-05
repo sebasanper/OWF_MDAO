@@ -1,6 +1,6 @@
-from lib.designers_support.dimension_team_support import DimensionTeamSupport
-from lib.system.properties import RNA
-from lib.environment.physical_environment import Site
+from costs.investment_costs.BOS_cost.support_cost.lib.designers_support.dimension_team_support import DimensionTeamSupport
+from costs.investment_costs.BOS_cost.support_cost.lib.system.properties import RNA
+from costs.investment_costs.BOS_cost.support_cost.lib.environment.physical_environment import Site
 
 
 def design_support(water_depth, TI):

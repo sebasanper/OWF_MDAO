@@ -10,5 +10,5 @@ def read_layout(layout_file):
 
     return layout
 
-if __name__ == '__main__':
-    print read_layout("coordinates.dat")
+# if __name__ == '__main__':
+    # print read_layout("coordinates.dat")

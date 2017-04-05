@@ -14,10 +14,10 @@ def thomas(a, b, c, d):
     # print n # Used for debugging
     # Test the size of a and c
     if len(a) != n - 1:
-        print 'Wrong index size for a.\n A should have an index of', n - 1, '\n Your a has ', len(a)
+        # print 'Wrong index size for a.\n A should have an index of', n - 1, '\n Your a has ', len(a)
         exit()
     if len(c) != n - 1:
-        print 'Wrong index size for c.\n C should have an index of', n - 1, '\n Your c has', len(c)
+        # print 'Wrong index size for c.\n C should have an index of', n - 1, '\n Your c has', len(c)
         exit()
 
     # Converting to float and appending 0.0 to c
@@ -62,4 +62,4 @@ if __name__ == '__main__':
     c = a
     d = [x for x in range(1, 17)] + [(16 - x) for x in range(1, 16)]
     x = thomas(a, b, c, d)
-    print x
+    # print x

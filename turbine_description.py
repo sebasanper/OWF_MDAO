@@ -2,8 +2,10 @@ from math import sqrt
 
 number_turbines_per_cable = [5, 9]
 voltage = 33000.0
-rated_power = 5000000.0
+rated_power = 2000000.0
 rated_current = rated_power / (sqrt(3) * voltage)  # A = Power / sqrt(3) / Voltage. 3 phase.
+rotor_radius = 40.0
+hub_height = 100.0
 
 
 def read_cablelist():

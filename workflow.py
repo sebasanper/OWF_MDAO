@@ -21,6 +21,8 @@ class Workflow:
 
     def connect(self, turbine_coordinates):
 
+        # print turbine_coordinates
+
         from site_conditions.terrain.terrain_models import depth
         from farm_energy.wake_model_mean_new.wake_1angle import energy_one_angle
         from farm_energy.wake_model_mean_new.wake_1angle_turbulence import max_turbulence_one_angle
@@ -34,7 +36,8 @@ class Workflow:
 
         if self.inflow_model == MeanWind:
             self.wind_speeds = self.windrose.speed
-            self.freestream_turbulence = [[0.11]]
+            self.freestream_turbulence = [0.11]
+            self.wind_speeds_probabilities = [[100.0] for _ in range(len(self.wind_directions))]
             # self.wind_speeds = [8.5 for _ in self.wind_speeds]
 
         elif self.inflow_model == WeibullWind:
@@ -58,6 +61,7 @@ class Workflow:
 
         print "=== CALCULATING ENERGY, TURBULENCE PER WIND DIRECTION ==="
         for i in range(len(self.wind_directions)):
+            print " === Wind direction = " + str(self.wind_directions[i])
             # print self.wind_speeds_probabilities[i]
             self.aero_energy_one_angle, self.powers_one_angle = energy_one_angle(turbine_coordinates, self.wind_speeds[i], self.wind_speeds_probabilities[i], self.wind_directions[i], self.freestream_turbulence, self.wake_mean_model, self.power_model, self.thrust_coefficient_model, self.wake_merging_model)
             # print self.aero_energy_one_angle
@@ -93,22 +97,22 @@ class Workflow:
         self.turbulence = max(self.turbulences_per_angle)
         print str(self.turbulence * 100.0) + " %\n"
 
-        print " --- Support structure costs ---"
+        print " --- Support structure investment costs ---"
         self.support_costs = self.support_design_model(self.water_depths, self.turbulence)
         print str(self.support_costs) + " EUR\n"
 
         self.aeroloads = 0.0
         self.hydroloads = 0.0
 
-        print " --- O&M costs ---"
+        print " --- O&M costs 20 years---"
         self.om_costs, self.availability = self.OandM_model(self.farm_annual_energy, self.aeroloads, self.hydroloads, turbine_coordinates)
         print str(self.om_costs * 20.0) + " EUR\n"
 
-        print " --- AEP ---"
+        print " --- Total energy production 20 years ---"
         self.aep = self.aep_model(self.farm_annual_energy, self.availability, self.cable_topology_efficiency) * 20.0
         print str(self.aep / 1000000.0) + " MWh\n"
 
-        print " --- Total costs ---"
+        print " --- Total costs 20 years---"
         self.total_costs = self.costs_model(self.cable_topology_costs, self.support_costs, self.om_costs * 20.0)
         print str(self.total_costs) + " EUR\n"
 
@@ -140,7 +144,7 @@ if __name__ == '__main__':
 
     from time import time
 
-    workflow1 = Workflow(WeibullWind, frandsen2, None, Flat, farm_support_cost, None, oandm, cable_design, infield_efficiency, thrust_coefficient, Jensen, root_sum_square, power, aep_average, total_costs, COE)
+    workflow1 = Workflow(MeanWind, frandsen2, None, Flat, farm_support_cost, None, oandm, cable_design, infield_efficiency, ct_v80, Jensen, root_sum_square, power_v80, aep_average, total_costs, COE)
     start = time()
-    workflow1.run("farm_25_turbines.dat")
+    workflow1.run("coordinates.dat")
     print "time: " + str(time() - start)

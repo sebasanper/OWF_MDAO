@@ -19,4 +19,4 @@ def order(layout_array, wind_direction):
 if __name__ == '__main__':
     layout = [[0, 5, 0], [1, 3, 0], [2, 7, 1], [3, 2.5, 0]]
     angle = 0.0
-    print order(layout, angle)
+    # print order(layout, angle)

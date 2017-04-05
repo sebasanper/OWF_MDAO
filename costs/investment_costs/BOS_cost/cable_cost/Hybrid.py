@@ -6,6 +6,7 @@ from copy import deepcopy
 from heapq import heappush, heappop, heapify
 import matplotlib.ticker as ticker
 from time import time
+from memoize import Memoize
 
 'Remove and return the lowest priority task. Raise KeyError if empty.'
 REMOVED = '<removed-task>'  # placeholder for a removed task
@@ -36,11 +37,13 @@ def draw_cables(WT_List, central_platform_locations, Cable_List):
             substationi[i] = substation
             i = i + 1
         # splits the Wind_turbines list in the closest substation
+        def second(x):
+            return x[2]
         for j in xrange(NT):
             empty = []
             for key, value in distancefromsubstationi.iteritems():
                 empty.append(value[j])
-            index = empty.index(min(empty, key=lambda x: x[2])) + 1
+            index = empty.index(min(empty, key=second)) + 1
             Wind_turbinesi[index].append([value[j][1], Wind_turbines[j][1], Wind_turbines[j][2]])
         #        Wind_turbinesi[1]=[x for x in Wind_turbines if x[0]<=118]
         #        Wind_turbinesi[2]=[x for x in Wind_turbines if x[0]>118]
@@ -103,7 +106,7 @@ def draw_cables(WT_List, central_platform_locations, Cable_List):
                     crossings += edge_crossings_area([route[0], route[1]], Wind_turbinesi[key], substationi[key], Area)[1]
         # print Routesi[1]
         # print Routesi
-        # print 'Cable length = {0} km'.format(round(cable_length / 1000, 3))
+        print('Cable length = {0} km'.format(round(cable_length / 1000, 3)))
         # print 'Cable cost = {0:,} {1}'.format(round(total_cost / 1000000, 3), MEuro)
         # if Area is not []:
         #     print 'Crossings = {0}'.format(crossings)
@@ -143,9 +146,11 @@ def draw_cables(WT_List, central_platform_locations, Cable_List):
         plt.title(' {0} OWF - Hybrid '.format(name), fontsize=fontsize2)
         plt.grid()
         scale = 1000
-        ticks1 = ticker.FuncFormatter(lambda x, pos: '{0:g}'.format(x / scale))
+        def plotaxis(x, pos):
+            return '{0:g}'.format(x / scale)
+        ticks1 = ticker.FuncFormatter(plotaxis)
         ax.xaxis.set_major_formatter(ticks1)
-        ticks2 = ticker.FuncFormatter(lambda y, pos: '{0:g}'.format(y / scale))
+        ticks2 = ticker.FuncFormatter(plotaxis)
         ax.yaxis.set_major_formatter(ticks2)
         plt.xticks(fontsize=fontsize2)
         plt.yticks(fontsize=fontsize2)
@@ -801,7 +806,6 @@ def draw_cables(WT_List, central_platform_locations, Cable_List):
                     intersection = True
                     break
         return intersection
-
 
     def edge_crossings_area(arc, Wind_turbines, central_platform_location, Area_cross):
         x1, y1 = give_coordinates(arc[0], Wind_turbines, central_platform_location)

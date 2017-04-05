@@ -1,4 +1,4 @@
-from order_layout import order
+from .order_layout import order
 #
 # class Wake1Angle:
 #     def __init__(self, thrust_coefficient, wake_model, wake_merging, aero_power):
@@ -35,6 +35,8 @@ def energy_one_angle(original_layout, freestream_wind_speeds, probabilities_spee
     ordered_layout = order(original_layout, wind_angle)
     energy = 0.0
     weighted_individuals = [0.0 for _ in range(len(original_layout))]
+    def first(x):
+        return x[0]
     for speed in range(len(freestream_wind_speeds)):
         ct = []
         wind_speeds_array = [freestream_wind_speeds[speed]]
@@ -49,7 +51,7 @@ def energy_one_angle(original_layout, freestream_wind_speeds, probabilities_spee
             ct.append(ThrustModel(wind_speeds_array[i]))
             deficit_matrix[i] = [0.0 for _ in range(i + 1)]
             deficit_matrix[i] += WakeModel(ordered_layout[i], ct[i], ordered_layout[i + 1:], wind_angle, freestream_wind_speeds[speed], ambient_turbulences[speed])
-        wind_speeds_array_original = [x for (y, x) in sorted(zip([item[0] for item in ordered_layout], wind_speeds_array), key=lambda pair: pair[0])]
+        wind_speeds_array_original = [x for (y, x) in sorted(zip([item[0] for item in ordered_layout], wind_speeds_array), key=first)]
         individual_powers = [PowerModel(wind) for wind in wind_speeds_array_original]
         for turb in range(len(individual_powers)):
             weighted_individuals[turb] += individual_powers[turb] * probabilities_speed[speed] / 100.0
@@ -72,4 +74,4 @@ if __name__ == '__main__':
     I0 = [0.08, 0.08]
     prob = [50.0, 50.0]
     # for angle in range(360):
-    print energy_one_angle(layout, U_inf, prob, 0.0, I0, Jensen, power_v80, v80, root_sum_square)
+    # print energy_one_angle(layout, U_inf, prob, 0.0, I0, Jensen, power_v80, v80, root_sum_square)

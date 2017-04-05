@@ -48,9 +48,9 @@ class Gaussian:
 
 class Rough:
     def __init__(self):
-        self.coordinates_x = [float(number) for number in 0, 2, 4, 6, 0, 2, 4, 6, 0, 2, 4, 6, 0, 2, 4, 6]
-        self.coordinates_y = [float(number) for number in 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4]
-        self.depths = [float(number) for number in 0, 1, 0, 1, 1, 2, 1, 2, 0, 1, 0, 1, 1, 2, 1, 2]
+        self.coordinates_x = [float(number) for number in [0, 2, 4, 6, 0, 2, 4, 6, 0, 2, 4, 6, 0, 2, 4, 6]]
+        self.coordinates_y = [float(number) for number in [1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4]]
+        self.depths = [float(number) for number in [0, 1, 0, 1, 1, 2, 1, 2, 0, 1, 0, 1, 1, 2, 1, 2]]
 
     def depth(self, x, y):
         from scipy.interpolate import interp2d
@@ -66,16 +66,16 @@ def depth(layout, model_type):
 
 if __name__ == '__main__':
     seabed1 = Flat()
-    print seabed1.depth
-    print
+    #print seabed1.depth
+    #print
     seabed2 = Plane()
-    print seabed2.depth(0, 1)
-    print
+    #print seabed2.depth(0, 1)
+    #print
     seabed3 = Gaussian()
-    print seabed3.depth(0.4, 0.8)
-    print
+    #print seabed3.depth(0.4, 0.8)
+    #print
     seabed4 = Rough()
-    print seabed4.depth(2.5, 3.1)
-    print Gaussian
-    print depth([[0, 500.0, 0.0], [1, 1000.0, 0.0]], Flat)
+    #print seabed4.depth(2.5, 3.1)
+    #print Gaussian
+    #print depth([[0, 500.0, 0.0], [1, 1000.0, 0.0]], Flat)
 # [[0, 500.0, 0.0], [1, 1000.0, 0.0], [2, 1500.0, 0.0], [3, 2000.0, 0.0], [4, 2500.0, 0.0], [5, 3000.0, 0.0]] site_conditions.terrain.terrain_models.Flat

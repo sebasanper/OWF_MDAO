@@ -8,7 +8,9 @@ def root_sum_square(array_deficits):
 
 
 def multiplied(array_deficits):
-    total_deficit = reduce(lambda x, y: x * y, array_deficits)
+    def multi(x, y):
+        return x * y
+    total_deficit = reduce(multi, array_deficits)
     return total_deficit
 
 
@@ -18,6 +20,6 @@ def summed(array_deficits):
 
 if __name__ == '__main__':
     deficits = [3, 4]
-    print root_sum_square(deficits)
-    print multiplied(deficits)
-    print summed(deficits)
+    # print root_sum_square(deficits)
+    # print multiplied(deficits)
+    # print summed(deficits)

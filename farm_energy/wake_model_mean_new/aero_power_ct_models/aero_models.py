@@ -1,5 +1,6 @@
-from util import interpolate
+from .util import interpolate
 from numpy import pi
+from memoize import Memoize
 
 
 class AeroLookup:
@@ -41,6 +42,7 @@ def power_coefficient(wind_speed, r=64.0, cutin=3.0, cutout=25.0):
         return 0.5 * 1.225 * pi * r ** 2.0 * wind_speed ** 3.0 * cp
     else:
         return 0.0
+power_coefficient = Memoize(power_coefficient)
 
 
 def power(wind_speed, cutin=3.0, cutout=25.0):
@@ -53,6 +55,7 @@ def power(wind_speed, cutin=3.0, cutout=25.0):
         return p
     else:
         return 0.0
+power = Memoize(power)
 
 
 def thrust(wind_speed, r=64.0):
@@ -64,6 +67,7 @@ def thrust(wind_speed, r=64.0):
     else:
         T = table_thrust.interpolation(wind_speed)
     return 1000.0 * T / (0.5 * 1.225 * pi * r ** 2.0 * wind_speed ** 2.0)
+thrust = Memoize(thrust)
 
 
 def thrust_coefficient(wind_speed):
@@ -71,6 +75,7 @@ def thrust_coefficient(wind_speed):
         "/home/sebasanper/PycharmProjects/owf_MDAO/farm_energy/wake_model_mean_new/aero_power_ct_models/windsim_ct.dat")
     ct = ct_table.interpolation(wind_speed)
     return ct
+thrust_coefficient = Memoize(thrust_coefficient)
 
 
 def power_v80(u0):
@@ -85,5 +90,5 @@ def power_v80(u0):
 
 if __name__ == '__main__':
     table1 = AeroLookup("./nrel_cp.dat")
-    for v in range(1, 50):
-        print v / 2.0, power_coefficient(v / 2.0, 64.0), thrust(v / 2.0, 64.0)
+    # for v in range(1, 50):
+    #     print v / 2.0, power_coefficient(v / 2.0, 64.0), thrust(v / 2.0, 64.0)

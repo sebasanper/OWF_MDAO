@@ -1,6 +1,7 @@
 from numpy import exp
-from ainslie_common import b, E
-D = 80.0
+from .ainslie_common import b, E
+from turbine_description import rotor_radius
+D = rotor_radius * 2.0
 
 
 def ainslie(Ct, u0, distance_parallel, distance_perpendicular, I0):
@@ -48,9 +49,10 @@ def ainslie(Ct, u0, distance_parallel, distance_perpendicular, I0):
     # return 1.0 - U / U0
 
 if __name__ == '__main__':
-    from ainslie2d import ainslie_full
-    from jensen import wake_deficit
-    from larsen import wake_deficit as larsen
-    for i in range(1, 560):
-        print ainslie(0.79, 8.5, i/80.0, 0.0, 0.08), ainslie_full(0.79, 8.5, i/80.0, 0.0, 0.08), larsen(8.5, 0.79, i, 0.0, 0.08), wake_deficit(0.79, i, 0.04, 40.0)
+    pass
+    # from ainslie2d import ainslie_full
+    # from jensen import wake_deficit
+    # from larsen import wake_deficit as larsen
+    # for i in range(1, 560):
+    #     print ainslie(0.79, 8.5, i/80.0, 0.0, 0.08), ainslie_full(0.79, 8.5, i/80.0, 0.0, 0.08), larsen(8.5, 0.79, i, 0.0, 0.08), wake_deficit(0.79, i, 0.04, 40.0)
 

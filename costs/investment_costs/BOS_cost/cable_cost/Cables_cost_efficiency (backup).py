@@ -43,11 +43,13 @@ def cable_design(WT_List):
             substationi[i] = substation
             i += 1
         # splits the Wind_turbines list in the closest substation
+        def second(x):
+            return x[2]
         for j in xrange(NT):
             empty = []
             for key, value in distancefromsubstationi.iteritems():
                 empty.append(value[j])
-            index = empty.index(min(empty, key=lambda x: x[2])) + 1
+            index = empty.index(min(empty, key=second)) + 1
             Wind_turbinesi[index].append([value[j][1], Wind_turbines[j][1], Wind_turbines[j][2]])
         # Wind_turbinesi[1]=[x for x in Wind_turbines if x[0]<=118]
         #        Wind_turbinesi[2]=[x for x in Wind_turbines if x[0]>118]
@@ -554,6 +556,8 @@ def cable_design(WT_List):
                 Paths.append(path)
         before = []
         after = []
+        def first(x):
+            return x[0]
         for path in Paths:
             list = []
             index = Paths.index(path)
@@ -563,7 +567,7 @@ def cable_design(WT_List):
             while cond == True:
                 for l in range(1, len(path)):
                     list.append([Costi[path[l - 1]][path[l]] - Costi[path[l]][path[0]], path[0], path[l]])
-                s = max(list, key=lambda x: x[0])
+                s = max(list, key=first)
                 if s[0] > 0 and edge_crossings([s[1], s[2]], Wind_turbinesi, central_platform_location,
                                                Routing) == False and \
                                 edge_crossings_area([s[1], s[2]], Wind_turbinesi, central_platform_location,

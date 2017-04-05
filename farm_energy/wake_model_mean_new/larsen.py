@@ -1,9 +1,8 @@
 from numpy import pi, sqrt, deg2rad, tan, cos, sin
-import area
-r0 = 40.0
+from .area import *
+from turbine_description import rotor_radius as r0, hub_height as H
 D = 2.0 * r0
 rotor_area = pi * r0 ** 2.0
-H = 100.0  # Hub height
 
 
 def rnb(ia):
@@ -72,7 +71,7 @@ def wake_speed(U0, ct, x, y, ia):
     return U0 * (1.0 - ((ct * rotor_area * x ** (- 2.0)) ** (1.0 / 3.0)) / 9.0 * (y ** (3.0 / 2.0) * (3.0 * c1(ct, ia) ** 2.0 * ct * rotor_area * x) ** (- 1.0 / 2.0) - (35.0 / 2.0 / pi) ** (3.0 / 10.0) * (3.0 * c1(ct, ia) ** 2.0) ** (- 1.0 / 5.0)) ** 2.0)
 
 
-def wake_deficit(U0, ct, x, y, ia):
+def wake_deficit_larsen(U0, ct, x, y, ia):
     return 1.0 - wake_speed(U0, ct, x + x0(ct, ia), y, ia) / U0
 
 if __name__ == '__main__':
@@ -95,5 +94,6 @@ if __name__ == '__main__':
     # #     return ((D / 2 / a1) ** (- 3.0) * (b1 / (U0 - Um(x))) ** (3.0 / 4.0) - 1.0) ** (- 1.0) * x
     # c1 = (deff / 2.0) ** (5.0 / 2.0) * (105.0 / 2.0 / pi) ** (- 1.0 / 2.0) * (ct * A * x0) ** (- 5.0 / 6.0)  # Prandtl mixing length
 
-    for x in range(560):
-        print wake_deficit(8.5, 0.79, x*10.0, 0.0, 0.1)
+    # for x in range(560):
+    #     print wake_deficit(8.5, 0.79, x*10.0, 0.0, 0.1)
+    pass

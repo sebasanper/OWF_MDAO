@@ -12,4 +12,4 @@ def v80(wind_speed):
 
 if __name__ == '__main__':
     speed = 8.5
-    print v80(speed)
+    # print v80(speed)

@@ -6,10 +6,10 @@ def cable_design(WT_List):
 
     from math import hypot
     from copy import deepcopy
-    from heapq import heappush, heappop, heapify
+    from heapq import heappush, heappop, heapify, nsmallest
     from time import time
+    from farm_description import central_platform as central_platform_locations
 
-    central_platform_locations = [[4000.0, 4000.0]]
     NT = len(WT_List)
     # List of cable types: [Capacity,Cost] in increasing order (maximum 3 cable types)
     cables_info = read_cablelist()
@@ -45,19 +45,23 @@ def cable_design(WT_List):
             substationi[i] = substation
             i += 1
         # splits the Wind_turbines list in the closest substation
-        for j in xrange(NT):
+
+        def second(x):
+            return x[2]
+
+        for j in range(NT):
             empty = []
-            for key, value in distancefromsubstationi.iteritems():
+            for key, value in list(distancefromsubstationi.items()):
                 empty.append(value[j])
-            index = empty.index(min(empty, key=lambda x: x[2])) + 1
+            index = empty.index(min(empty, key=second)) + 1
             Wind_turbinesi[index].append([value[j][1], Wind_turbines[j][1], Wind_turbines[j][2]])
         # Wind_turbinesi[1]=[x for x in Wind_turbines if x[0]<=118]
         #        Wind_turbinesi[2]=[x for x in Wind_turbines if x[0]>118]
-        for j in xrange(len(Cable_List)):
+        for j in range(len(Cable_List)):
             Capacityi[j + 1] = Cable_List[j][0]
             Cable_Costi[j + 1] = Cable_List[j][1]
         # initialize routes and Saving matrix
-        for key, value in Wind_turbinesi.iteritems():
+        for key, value in list(Wind_turbinesi.items()):
             Routesi[key], Routingi[key], Routing_redi[key], Routing_greeni[key] = initial_routes(value)
             Cost0i[key], Costij[key] = costi(value, substationi[key])
             Savingsi[key], Savingsi_finder[key], Crossings_finder[key] = savingsi(Cost0i[key], Costij[key], value,
@@ -67,7 +71,7 @@ def cable_design(WT_List):
         total_cost = 0.0
         crossings = 0
 
-        for key, value in Wind_turbinesi.iteritems():
+        for key, value in list(Wind_turbinesi.items()):
             Routesi[key], Routingi[key], Routing_redi[key], Routing_greeni[key] = Hybrid(Savingsi[key], Savingsi_finder[key], Wind_turbinesi[key], Routingi[key], substationi[key], Capacityi, Routing_redi[key], Routing_greeni[key])
             Savingsi2[key], Savingsi2_finder[key], Crossings_finder[key] = savingsi(Cost0i[key], Costij[key], value, Cable_Costi[1], substationi[key], Area, Crossing_penalty)
             Routesi[key], Routingi[key], Routing_redi[key], Routing_greeni[key] = Esau_Williams_Cable_Choice(Savingsi2[key], Savingsi2_finder[key], Crossings_finder[key], Wind_turbinesi[key], Routesi[key], Routingi[key], substationi[key], Capacityi, Routing_redi[key], Routing_greeni[key], Costi[key], Cable_Costi)
@@ -96,7 +100,7 @@ def cable_design(WT_List):
                 indexline = lines.index(line)
                 indexarc = line.index(arc[0])
         indeces = []
-        for i in xrange(0, indexarc):
+        for i in range(0, indexarc):
             turbine = lines[indexline][i]
             for route in Routing:
                 if route[1] == turbine and route != [arc[0], arc[1]]:
@@ -216,7 +220,7 @@ def cable_design(WT_List):
             if check_same_path(arc, Paths) is False and any(
                     [True for e in [[arc[0], 0]] if e in Routing]) is True and one_neighbor(arc[1], Paths) is False:
                 condition4 = dict()
-                for key, value in Capacityi.iteritems():
+                for key, value in list(Capacityi.items()):
                     condition4[key] = check_capacity(arc, Paths, Capacityi[key])
                 if condition4[1] is False and edge_crossings(arc, Wind_turbinesi, central_platform_location, Routing) is False and edge_crossings_area(arc, Wind_turbinesi, central_platform_location, Transmission)[0] is False:
                     Routing = []
@@ -231,12 +235,12 @@ def cable_design(WT_List):
                     Paths[index1] = []
                     Paths = [path for path in Paths if path != []]
                     for i in Paths:
-                        for j in xrange(len(i) - 1):
+                        for j in range(len(i) - 1):
                             Routing.append([i[j + 1], i[j]])
         Routes = []
         for index, path in enumerate(Paths):
             route = []
-            for j in xrange(len(path) - 1):
+            for j in range(len(path) - 1):
                 route.append([path[j], path[j + 1]])
             Routes.append(route)
         return Routes, Routing, Routing_red, Routing_green
@@ -257,7 +261,7 @@ def cable_design(WT_List):
             lines = turbinesinroute(Routes)
             if check_same_path(arc, lines) is False:
                 condcap = dict()
-                for key, value in Capacityi.iteritems():
+                for key, value in list(Capacityi.items()):
                     condcap[key] = check_capacityEW(arc, lines, Capacityi[key])
                 if condcap[1] is False:
                     if edge_crossings_area(arc, Wind_turbinesi, central_platform_location, Transmission)[
@@ -290,18 +294,18 @@ def cable_design(WT_List):
                                 break
                         update = []
                         for route in Routes_temp:
-                            for i in xrange(0, len(route)):
+                            for i in range(0, len(route)):
                                 if arc[1] in route[i]:
                                     index = Routes_temp.index(route)
                         elements = len(Routes_temp[index])
                         if elements == 1:
                             index1 = len(Routes_temp[index][0]) - 1 - Capacityi[1]
-                            for j in xrange(0, index1):
+                            for j in range(0, index1):
                                 update.append([Routes_temp[index][0][j + 1], Routes_temp[index][0][j]])
                         connected_turbines = []
                         if elements > 1:
-                            for i in xrange(0, elements):
-                                for j in xrange(len(Routes_temp[index][elements - 1 - i]) - 1, 0, -1):
+                            for i in range(0, elements):
+                                for j in range(len(Routes_temp[index][elements - 1 - i]) - 1, 0, -1):
                                     connected_turbines.append([Routes_temp[index][elements - 1 - i][j - 1],
                                                                Routes_temp[index][elements - 1 - i][j], 1])
                         for pair1 in connected_turbines:
@@ -316,7 +320,7 @@ def cable_design(WT_List):
                                                              Routes_temp) + update
                         Routing_red_temp = []
                         for route in total_update_red_temp:
-                            for z in xrange(0, len(route) - 1):
+                            for z in range(0, len(route) - 1):
                                 Routing_red_temp.append([route[z], route[z + 1]])
                         new = -(cable_cost(central_platform_location, Wind_turbinesi, Routing, Routing_red, Routing_green, Cable_Costi) - cable_cost(central_platform_location, Wind_turbinesi,  Routing_temp, Routing_red_temp, Routing_green,  Cable_Costi))
                         arc1 = [lines[indexl][0], 0]
@@ -360,21 +364,21 @@ def cable_design(WT_List):
                         update_red = []
                         update_green = []
                         for route in Routes_temp:
-                            for i in xrange(0, len(route)):
+                            for i in range(0, len(route)):
                                 if arc[1] in route[i]:
                                     index = Routes_temp.index(route)
                         elements = len(Routes_temp[index])
                         if elements == 1:
                             index1 = len(Routes_temp[index][0]) - 1 - Capacityi[1]
                             index2 = len(Routes_temp[index][0]) - 1 - Capacityi[2]
-                            for j in xrange(index2, index1):
+                            for j in range(index2, index1):
                                 update_red.append([Routes_temp[index][0][j + 1], Routes_temp[index][0][j]])
-                            for j in xrange(0, index2):
+                            for j in range(0, index2):
                                 update_green.append([Routes_temp[index][0][j + 1], Routes_temp[index][0][j]])
                         connected_turbines = []
                         if elements > 1:
-                            for i in xrange(0, elements):
-                                for j in xrange(len(Routes_temp[index][elements - 1 - i]) - 1, 0, -1):
+                            for i in range(0, elements):
+                                for j in range(len(Routes_temp[index][elements - 1 - i]) - 1, 0, -1):
                                     connected_turbines.append([Routes_temp[index][elements - 1 - i][j - 1],
                                                                Routes_temp[index][elements - 1 - i][j], 1])
                         for pair1 in connected_turbines:
@@ -402,11 +406,11 @@ def cable_design(WT_List):
 
                         Routing_red_temp = []
                         for route in total_update_red_temp:
-                            for z in xrange(0, len(route) - 1):
+                            for z in range(0, len(route) - 1):
                                 Routing_red_temp.append([route[z], route[z + 1]])
                         Routing_green_temp = []
                         for route in total_update_green_temp:
-                            for z in xrange(0, len(route) - 1):
+                            for z in range(0, len(route) - 1):
                                 Routing_green_temp.append([route[z], route[z + 1]])
                         arc1 = [lines[indexl][0], 0]
                         new += Crossing_penalty * (
@@ -472,6 +476,8 @@ def cable_design(WT_List):
                 Paths.append(path)
         before = []
         after = []
+        def first(x):
+            return x[0]
         for path in Paths:
             list_code = []
             index = Paths.index(path)
@@ -481,7 +487,7 @@ def cable_design(WT_List):
             while cond:
                 for l in range(1, len(path)):
                     list_code.append([Costi[path[l - 1]][path[l]] - Costi[path[l]][path[0]], path[0], path[l]])
-                s = max(list_code, key=lambda x: x[0])
+                s = max(list_code, key=first)
                 if s[0] > 0 and edge_crossings([s[1], s[2]], Wind_turbinesi, central_platform_location,Routing) is False and edge_crossings_area([s[1], s[2]], Wind_turbinesi, central_platform_location,Transmission)[0] is False:
                     for k in list_code:
                         if k == s:
@@ -535,10 +541,10 @@ def cable_design(WT_List):
         return total_update
 
     def initial_values(NT, Wind_turbines, central_platform_location):
-        Costi = [[0 for i in xrange(NT + 1)] for j in xrange(NT + 1)]
+        Costi = [[0 for i in range(NT + 1)] for j in range(NT + 1)]
         set_cost_matrix(Costi, Wind_turbines, central_platform_location)
         distancefromsubstationi = []
-        for i in xrange(len(Costi[0]) - 1):
+        for i in range(len(Costi[0]) - 1):
             distancefromsubstationi.append([0, i + 1, Costi[0][i + 1]])
         Wind_turbinesi = []
         return Wind_turbinesi, Costi, distancefromsubstationi
@@ -585,10 +591,10 @@ def cable_design(WT_List):
         Savingsi_finder = {}
         Crossingsi_finder = {}
         counter = 0
-        for i in zip(*Wind_turbinesi)[0]:
+        for i in list(zip(*Wind_turbinesi))[0]:
             k = Cost0i[counter]
             step = (len(Wind_turbinesi) - 1) * counter
-            for j in xrange(step, step + len(Wind_turbinesi) - 1):
+            for j in range(step, step + len(Wind_turbinesi) - 1):
                 saving = -(k[2] - Costij[j][2]) * Cable_Cost1
                 arc1 = [i, 0]
                 arc2 = [i, Costij[j][1]]
@@ -635,7 +641,7 @@ def cable_design(WT_List):
                     Cost[i[0]][j[0]] = hypot(i[1] - j[1], i[2] - j[2])
 
     def turbinesinroute(Routes):
-        lines = [[] for _ in xrange(len(Routes))]
+        lines = [[] for _ in range(len(Routes))]
         for route in Routes:
             index = Routes.index(route)
             for pair in route:
@@ -682,7 +688,7 @@ def cable_design(WT_List):
                 Area[1] = (x2 - x1) * (y4 - y1) - (x4 - x1) * (y2 - y1)
                 Area[2] = (x4 - x3) * (y1 - y3) - (x1 - x3) * (y4 - y3)
                 Area[3] = (x4 - x3) * (y2 - y3) - (x2 - x3) * (y4 - y3)
-                for i in xrange(4):
+                for i in range(4):
                     if Area[i] > 0:
                         Position[i] = 0
                     elif Area[i] < 0:
@@ -710,7 +716,7 @@ def cable_design(WT_List):
             Area[1] = (x2 - x1) * (y4 - y1) - (x4 - x1) * (y2 - y1)
             Area[2] = (x4 - x3) * (y1 - y3) - (x1 - x3) * (y4 - y3)
             Area[3] = (x4 - x3) * (y2 - y3) - (x2 - x3) * (y4 - y3)
-            for i in xrange(4):
+            for i in range(4):
                 if Area[i] > 0:
                     Position[i] = 0
                 elif Area[i] < 0:
@@ -739,9 +745,9 @@ def cable_design(WT_List):
                     arcs1.append([j[1], j[2]])
                 if j[0] == i[1]:
                     arcs2.append([j[1], j[2]])
-        for i in xrange(len(arcs1)):
+        for i in range(len(arcs1)):
             arcs1.insert(2 * i + 1, arcs2[i])
-        for j in xrange(len(arcs1) - len(Routing_blue)):
+        for j in range(len(arcs1) - len(Routing_blue)):
             cable_length1blue += hypot(arcs1[2 * j][0] - arcs1[2 * j + 1][0],
                                        arcs1[2 * j][1] - arcs1[2 * j + 1][1])
         cable_cost = Cable_Costi[1] * cable_length1blue
@@ -757,9 +763,9 @@ def cable_design(WT_List):
                         arcs1.append([j[1], j[2]])
                     if j[0] == i[1]:
                         arcs2.append([j[1], j[2]])
-            for i in xrange(len(arcs1)):
+            for i in range(len(arcs1)):
                 arcs1.insert(2 * i + 1, arcs2[i])
-            for j in xrange(len(arcs1) - len(Routing_red)):
+            for j in range(len(arcs1) - len(Routing_red)):
                 cable_length1red += hypot(arcs1[2 * j][0] - arcs1[2 * j + 1][0],
                                           arcs1[2 * j][1] - arcs1[2 * j + 1][1])
             cable_cost = Cable_Costi[1] * cable_length1blue + Cable_Costi[2] * cable_length1red
@@ -776,9 +782,9 @@ def cable_design(WT_List):
                         arcs1.append([j[1], j[2]])
                     if j[0] == i[1]:
                         arcs2.append([j[1], j[2]])
-            for i in xrange(len(arcs1)):
+            for i in range(len(arcs1)):
                 arcs1.insert(2 * i + 1, arcs2[i])
-            for j in xrange(len(arcs1) - len(Routing_red)):
+            for j in range(len(arcs1) - len(Routing_red)):
                 cable_length1red += hypot(arcs1[2 * j][0] - arcs1[2 * j + 1][0],
                                           arcs1[2 * j][1] - arcs1[2 * j + 1][1])
 
@@ -791,14 +797,13 @@ def cable_design(WT_List):
                         arcs1.append([j[1], j[2]])
                     if j[0] == i[1]:
                         arcs2.append([j[1], j[2]])
-            for i in xrange(len(arcs1)):
+            for i in range(len(arcs1)):
                 arcs1.insert(2 * i + 1, arcs2[i])
-            for j in xrange(len(arcs1) - len(Routing_green)):
+            for j in range(len(arcs1) - len(Routing_green)):
                 cable_length1green += hypot(arcs1[2 * j][0] - arcs1[2 * j + 1][0],
                                             arcs1[2 * j][1] - arcs1[2 * j + 1][1])
             cable_length = cable_length1blue + cable_length1red + cable_length1green
             cable_cost = Cable_Costi[1] * cable_length1blue + Cable_Costi[2] * cable_length1red + Cable_Costi[3] * cable_length1green
-        print "Cable length = " + str(cable_length / 1000.0) + " km"
         return cable_cost
 
     def cable_cost(central_platform_location, Wind_turbinesi, Routing, Routing_red, Routing_green, Cable_Costi):
@@ -860,4 +865,4 @@ if __name__ == '__main__':
             WT_List.append([i, float(col[0]), float(col[1])])
             i += 1
     name = "sebastian"
-    print cable_design(WT_List)
+    # print cable_design(WT_List)

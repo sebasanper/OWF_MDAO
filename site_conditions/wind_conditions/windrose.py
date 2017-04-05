@@ -4,7 +4,7 @@ from numpy import exp
 class MeanWind:
 
     def __init__(self):
-        self.windrose_file = "/home/sebasanper/PycharmProjects/owf_MDAO/farm_energy/windrose2.dat"
+        self.windrose_file = "/home/sebasanper/PycharmProjects/owf_MDAO/site_conditions/wind_conditions/windrose2.dat"
         self.direction = []
         self.speed = []
         self.dir_probability = []
@@ -14,7 +14,7 @@ class MeanWind:
             for line in windrose:
                 columns = line.split()
                 self.direction.append(float(columns[0]))
-                self.speed.append(float(columns[1]))
+                self.speed.append([float(columns[1])])
                 self.dir_probability.append(float(columns[2]))
 
 
@@ -47,4 +47,4 @@ class WeibullWind:
 
 if __name__ == '__main__':
     seb = WeibullWind()
-    print seb.speed_probabilities(range(3, 26))
+    print(seb.speed_probabilities(range(3, 26)))

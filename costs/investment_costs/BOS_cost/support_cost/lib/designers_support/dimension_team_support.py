@@ -6,9 +6,9 @@ from ..system.value import Value
 
 from ..environment.physical_environment import PhysicalEnvironment
 
-from master import MasterDesigners
+from costs.investment_costs.BOS_cost.support_cost.lib.designers_support.master import MasterDesigners
 
-from support_structures import SupportDesigners
+from .support_structures import SupportDesigners
 
 from ..analysts_physics.rna import RNAAnalysts
 from ..analysts_physics.site_conditions import SiteConditionsAnalysts
