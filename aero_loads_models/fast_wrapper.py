@@ -41,7 +41,7 @@ def callfast():
     # Define various members of the FAST instance. Can use relative locations.
     fstInst.fst_exe = "/home/sebasanper/PycharmProjects/owf_MDAO/aero_loads_models/bin/FAST_glin64"
     fstInst.fst_dir = "input_FAST"
-    fstInst.fst_file = "Test18.fst"
+    fstInst.fst_file = "Test19.fst"
     fstInst.run_dir = "FAST_run"
     fstInst.fst_file_type = 2  # specifies v8.15
     fstInst.fst_exe_type = 2  # specifies v8.15
@@ -78,7 +78,7 @@ if __name__ == '__main__':
     #         with open(name, "w") as out:
     #             for i in range(len(a)):
     #                 out.write('{0}\t{1}\t{2}\t{3}\t{4}\n'.format(a[i], b[i], c[i], d[i], e[i]))
-    callturbsim(8.5, 8.0)
+    # callturbsim(8.5, 8.0)
 
     a, b, c, d, e = callfast()
     for i in range(len(a)):

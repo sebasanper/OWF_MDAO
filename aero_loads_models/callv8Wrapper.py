@@ -27,7 +27,7 @@ def pyWrapper():
     # Define various members of the FAST instance. Can use relative locations.
     fstInst.fst_exe = "/home/sebasanper/PycharmProjects/owf_MDAO/aero_loads_models/bin/FAST_glin64"
     fstInst.fst_dir = "input_FAST"
-    fstInst.fst_file = "Test18.fst"
+    fstInst.fst_file = "Test18_.fst"
     fstInst.run_dir = "FAST_run"
     fstInst.fst_file_type = 2  # specifies v8.15
     fstInst.fst_exe_type = 2  # specifies v8.15
@@ -69,7 +69,7 @@ def omdaoSingle(record):
     # in config dictionary alongside FST/AeroDyn/ElastoDyn parameters. Running directory is
     # automatically setup inside of FASTv8_Workflow and assumes directory run_omdao exists.
     caseid = "omdaoSingleCase"
-    cfg = {'fst_exe': "/home/sebasanper/Downloads/FAST_v8.15.00a-bjj/bin/FAST_glin64", 'fst_dir': "TemplateTest/", 'fst_file': "Test18.fst",
+    cfg = {'fst_exe': "/home/sebasanper/Downloads/FAST_v8.15.00a-bjj/bin/FAST_glin64", 'fst_dir': "TemplateTest/", 'fst_file': "Test18_.fst",
            'DT': 0.02, 'TMax': 10, 'fstInst.run_dir': "run", 'InflowFile': "Wind/turbsim.dat"}
     root.add('fast_component', FASTv8_Workflow(cfg, caseid))
 
@@ -125,7 +125,7 @@ def omdaoGroup(record):
         # fst_exe, fst_file, fst_dir same for all cases
         cfg['fst_exe'] = "../../../FAST_v8/bin/FAST_glin64"
         cfg['fst_dir'] = "TemplateTest/"
-        cfg['fst_file'] = "Test18.fst"
+        cfg['fst_file'] = "Test18_.fst"
 
         # Put dictionary into master dictionary, keyed by caseid
         cfg_master[caseids[i]] = cfg

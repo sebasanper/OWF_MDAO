@@ -38,9 +38,9 @@ class AerodynamicAnalysts:
         l = top - base
         d_diameter = top_diameter - base_diameter
         
-        return (0.5 * self.rho_air * self.cd_cylinder * wind_speed**2 * (1.0 / wind_speed_height)**(2 * alpha) *
-                (((base_diameter - base * d_diameter / l) * (1.0 / (2.0 * alpha + 1.0)) * b**(2.0 * alpha + 1.0) + ((d_diameter / l) * (1.0 / (2.0 * alpha + 2.0)) * b**(2.0 * alpha + 2.0))) -
-                 ((base_diameter - base * d_diameter / l) * (1.0 / (2.0 * alpha + 1.0)) * a**(2.0 * alpha + 1.0) + ((d_diameter / l) * (1.0 / (2.0 * alpha + 2.0)) * a**(2.0 * alpha + 2.0)))) 
+        return (0.5 * self.rho_air * self.cd_cylinder * wind_speed ** 2 * (1.0 / wind_speed_height) ** (2 * alpha) *
+                (((base_diameter - base * d_diameter / l) * (1.0 / (2.0 * alpha + 1.0)) * b ** (2.0 * alpha + 1.0) + ((d_diameter / l) * (1.0 / (2.0 * alpha + 2.0)) * b ** (2.0 * alpha + 2.0))) -
+                 ((base_diameter - base * d_diameter / l) * (1.0 / (2.0 * alpha + 1.0)) * a ** (2.0 * alpha + 1.0) + ((d_diameter / l) * (1.0 / (2.0 * alpha + 2.0)) * a ** (2.0 * alpha + 2.0)))) 
                 )
 
     def get_integrated_aerodynamic_moment(self, wind_speed, wind_speed_height, alpha, base, top, base_diameter, top_diameter, z_from):
@@ -49,7 +49,7 @@ class AerodynamicAnalysts:
         l = top - base
         d_diameter = top_diameter - base_diameter
         
-        return (0.5 * self.rho_air * self.cd_cylinder * wind_speed**2 * (1.0 / wind_speed_height)**(2 * alpha) *
-                (((base_diameter - base * d_diameter / l) * (1.0 / (2.0 * alpha + 2.0)) * b**(2.0 * alpha + 2.0) + ((d_diameter / l) * (1.0 / (2.0 * alpha + 3.0)) * b**(2.0 * alpha + 3.0))) -
-                 ((base_diameter - base * d_diameter / l) * (1.0 / (2.0 * alpha + 2.0)) * a**(2.0 * alpha + 2.0) + ((d_diameter / l) * (1.0 / (2.0 * alpha + 3.0)) * a**(2.0 * alpha + 3.0)))) 
+        return (0.5 * self.rho_air * self.cd_cylinder * wind_speed ** 2 * (1.0 / wind_speed_height) ** (2 * alpha) *
+                (((base_diameter - base * d_diameter / l) * (1.0 / (2.0 * alpha + 2.0)) * b ** (2.0 * alpha + 2.0) + ((d_diameter / l) * (1.0 / (2.0 * alpha + 3.0)) * b ** (2.0 * alpha + 3.0))) -
+                 ((base_diameter - base * d_diameter / l) * (1.0 / (2.0 * alpha + 2.0)) * a ** (2.0 * alpha + 2.0) + ((d_diameter / l) * (1.0 / (2.0 * alpha + 3.0)) * a ** (2.0 * alpha + 3.0)))) 
                 )

@@ -66,7 +66,11 @@ def thrust(wind_speed, r=64.0):
         T = table_thrust.x[-1]
     else:
         T = table_thrust.interpolation(wind_speed)
-    return 1000.0 * T / (0.5 * 1.225 * pi * r ** 2.0 * wind_speed ** 2.0)
+    ct = 1000.0 * T / (0.5 * 1.225 * pi * r ** 2.0 * wind_speed ** 2.0)
+    if ct > 1.0:
+        return 1.0
+    else:
+        return ct
 thrust = Memoize(thrust)
 
 

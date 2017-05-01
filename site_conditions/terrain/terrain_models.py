@@ -4,8 +4,9 @@ from numpy import exp
 class Flat:
     def __init__(self):
         pass
+
     def depth(self, x, y):
-        return 30.0
+        return 13.5
 
 
 class Plane:
@@ -79,3 +80,5 @@ if __name__ == '__main__':
     #print Gaussian
     #print depth([[0, 500.0, 0.0], [1, 1000.0, 0.0]], Flat)
 # [[0, 500.0, 0.0], [1, 1000.0, 0.0], [2, 1500.0, 0.0], [3, 2000.0, 0.0], [4, 2500.0, 0.0], [5, 3000.0, 0.0]] site_conditions.terrain.terrain_models.Flat
+    place = [0, 429500, 6147600]
+    print depth(place, Flat)

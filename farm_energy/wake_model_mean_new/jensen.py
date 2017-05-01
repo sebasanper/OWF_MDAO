@@ -1,4 +1,4 @@
-from .area import *
+from farm_energy.wake_model_mean_new.area import *
 from numpy import deg2rad, tan, sqrt, cos, sin
 
 from turbine_description import rotor_radius

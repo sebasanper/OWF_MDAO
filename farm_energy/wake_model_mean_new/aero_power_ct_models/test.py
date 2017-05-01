@@ -46,3 +46,5 @@ a = 0.4
 for i in range(40):
     a = cp / (4.0 * (1.0 - a) ** 2.0)
     print 4.0 * a * (1.0 - a)
+
+print str([0,9,8])

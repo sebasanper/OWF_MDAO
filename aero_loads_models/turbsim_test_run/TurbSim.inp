@@ -1,7 +1,7 @@
 TurbSim Input File. Valid for TurbSim v1.06.00, 21-Sep-2012 
 
 ---------Runtime Options-----------------------------------
--1591582095 RandSeed1 - First random seed (-2147483648 to 2147483647)
+-279307157 RandSeed1 - First random seed (-2147483648 to 2147483647)
 RANLUX              RandSeed2       - Second random seed (-2147483648 to 2147483647) for intrinsic pRNG, or an alternative pRNG: "RanLux" or "RNSNLW"
 False               WrBHHTP         - Output hub-height turbulence parameters in binary form?  (Generates RootName.bin)
 True               WrFHHTP         - Output hub-height turbulence parameters in formatted form?  (Generates RootName.dat)

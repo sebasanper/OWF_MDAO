@@ -1231,7 +1231,7 @@ def example():
     if case == 1:
         #    fast.fst_dir = "/Users/pgraf/work/wese/AeroelasticSE-1_3_14/src/AeroelasticSE/FAST_VT/OC3_Files/"  # either abs or rel path ok.
         fast.fst_dir = "input_FAST"
-        fast.fst_file = "Test18.fst"  # should _not_ be full path, is in relation to fst_dir
+        fast.fst_file = "Test18_.fst"  # should _not_ be full path, is in relation to fst_dir
     elif case == 2:
         fast.fst_dir = "/Users/pgraf/work/wese/fatigue12-13/from_gordie/SparFAST3.orig"
         fast.fst_file = "NRELOffshrBsline5MW_Floating_OC3Hywind.fst"
@@ -1292,7 +1292,7 @@ def turbsim_example():
     case = 1
     if case == 1:
         fast.fst_dir = "TemplateTest/"
-        fast.fst_file = "Test18.fst"
+        fast.fst_file = "Test18_.fst"
     elif case == 2:
         fast.fst_dir = "/Users/pgraf/work/wese/fatigue12-13/from_gordie/SparFAST3.orig"
         fast.fst_file = "NRELOffshrBsline5MW_Floating_OC3Hywind.fst"

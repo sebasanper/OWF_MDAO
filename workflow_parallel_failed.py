@@ -137,7 +137,7 @@ if __name__ == '__main__':
     from costs.investment_costs.BOS_cost.support_cost.farm_support_cost import farm_support_cost
     from finance.finance_models import COE
     from farm_energy.AEP.aep import aep_average
-    from costs.total_cost import total_costs
+    from costs.other_costs import total_costs
     from farm_energy.wake_model_mean_new.aero_power_ct_models.thrust_coefficient import ct_v80
     from farm_energy.wake_model_mean_new.wake_turbulence_models import frandsen2, danish_recommendation, frandsen, larsen_turbulence, Quarton
     from site_conditions.terrain.terrain_models import Gaussian, Flat, Plane, Rough

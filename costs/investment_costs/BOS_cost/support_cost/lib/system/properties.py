@@ -1,23 +1,4 @@
-from ...custom.misc import power_curve
-from ...custom.misc import thrust_curve
-from ...custom.misc import solidity_rotor
-from ...custom.misc import cd_rotor_idle_vane
-from ...custom.misc import cd_nacelle
-from ...custom.misc import front_area_nacelle
-from ...custom.misc import max_thrust
-from ...custom.misc import yaw_to_hub_height
-from ...custom.misc import mass
-from ...custom.misc import mass_eccentricity
-from ...custom.misc import yaw_diameter
-from ...custom.misc import rotor_radius
-from ...custom.misc import wind_speed_at_max_thrust
-from ...custom.misc import generator_voltage
-from ...custom.misc import pm_interval
-from ...custom.misc import pm_duration
-from ...custom.misc import pm_consumables_costs
-from ...custom.misc import people_per_crew
-from ...custom.misc import purchase_price
-from ...custom.misc import warranty_percentage
+from more_descriptions import solidity_rotor, cd_rotor_idle_vane, cd_nacelle, front_area_nacelle, max_thrust, yaw_to_hub_height, mass, mass_eccentricity, yaw_diameter, rotor_radius, wind_speed_at_max_thrust, generator_voltage, purchase_price, warranty_percentage
 
 
 class Properties:
@@ -45,10 +26,10 @@ class RNA:
     rotor_radius = rotor_radius  # [m]
     wind_speed_at_max_thrust = wind_speed_at_max_thrust  # [m/s] Horns rev website: 13 m/s - Vestas V80 brochure: 16 m/s, but max thrust appears at 12 m/s
     generator_voltage = generator_voltage  # [V] There are 480 and 690 voltage versions of the V80. The higher voltage is assumed, considering the need of high voltage in the connections to the public grid.
-    pm_interval = pm_interval  # [h] Horns Rev website: two services per year
-    pm_duration = pm_duration  # [h] (Spare parts report: 1x 3 days, 1x 2 days. 1 day = 12 hours minus ~3 hours preparation and sailing (2x 2 hours are mentioned for CM, but during PM an extra boat is available): average: 2.5 * 9 hours)
-    pm_consumables_costs = pm_consumables_costs  # [E] (Spare parts report: 1x 1500, 1x 1000 Euro; Average: 1250 Euro)
-    people_per_crew = people_per_crew  # [-] (Spare part optimisation report p.52: 6 Vattenfall technicians in 1 shift, with 3 Vestas service personnel, so probably 2 Vattenfall and 1 Vestas people per crew - For PM 2 technicians are needed)
+    # pm_interval = pm_interval  # [h] Horns Rev website: two services per year
+    # pm_duration = pm_duration  # [h] (Spare parts report: 1x 3 days, 1x 2 days. 1 day = 12 hours minus ~3 hours preparation and sailing (2x 2 hours are mentioned for CM, but during PM an extra boat is available): average: 2.5 * 9 hours)
+    # pm_consumables_costs = pm_consumables_costs  # [E] (Spare parts report: 1x 1500, 1x 1000 Euro; Average: 1250 Euro)
+    # people_per_crew = people_per_crew  # [-] (Spare part optimisation report p.52: 6 Vattenfall technicians in 1 shift, with 3 Vestas service personnel, so probably 2 Vattenfall and 1 Vestas people per crew - For PM 2 technicians are needed)
     purchase_price = purchase_price  # [Euro]
     warranty_percentage = warranty_percentage  # [%]
 
@@ -56,6 +37,7 @@ class RNA:
     rated_power = 0.0  # [W]
 
     def __init__(self):
+        pass
         #        # DATA FROM USER INPUT **************************************************
         #        self.failure_stat = ([[73000.0, 8.0, 85.0, 0.0, 'yes', 210000.0],
         #                              [6100.0, 1.0, 5.0, 0.0, 'no', 1100.0],
@@ -64,10 +46,10 @@ class RNA:
         # [MTBF [h], Diagnose time [h], Repair time [h], Waiting time for spare parts [h], Lifting equipment [yes/no], costs of consumables/spare parts [E]]
         # (Data based on Spare parts optimisation thesis - Appendix B)
         # Source for power curve: Jensen, EWEC 2004 (Corresponds well with my own readings of Vestas V80 brochure)
-        self.power_curve = power_curve
+        # self.power_curve = power_curve
 
         #    # Source for thrust (coefficient) curve: Jensen, EWEC 2004 - Paper mentions that this V80 curve is specific for the turbines delivered for Horns Rev (Appears to be one of the curves in Fernando's report, figure 5-8, p. 74)
-        self.thrust_curve = thrust_curve
+        # self.thrust_curve = thrust_curve
 
 
 # SUPPORT STRUCTURE **************************************************

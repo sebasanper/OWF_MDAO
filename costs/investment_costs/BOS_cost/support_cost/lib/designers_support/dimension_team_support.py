@@ -29,7 +29,7 @@ class DimensionTeamSupport:
         #        self.previous_score = 0.0
         #        self.improvement = 100.0
         self.total_support_structure_cost = None
-        self.fsf = 1.5
+        # self.fsf = 1.5
 
     def run(self, rna, site_data):
         #        print "start run"

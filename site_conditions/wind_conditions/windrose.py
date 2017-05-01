@@ -45,6 +45,12 @@ class WeibullWind:
         return speed_probabilities
 
 
+class WeibullWindBins(WeibullWind):
+    def speed_probabilities(self, nbins):
+        
+
+
+
 if __name__ == '__main__':
     seb = WeibullWind()
     print(seb.speed_probabilities(range(3, 26)))

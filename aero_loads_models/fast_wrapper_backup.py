@@ -41,7 +41,7 @@ def callfast():
     # Define various members of the FAST instance. Can use relative locations.
     fstInst.fst_exe = "/home/sebasanper/PycharmProjects/owf_MDAO/aero_loads_models/bin/FAST_glin64"
     fstInst.fst_dir = "input_FAST"
-    fstInst.fst_file = "Test18.fst"
+    fstInst.fst_file = "Test18_.fst"
     fstInst.run_dir = "FAST_run"
     fstInst.fst_file_type = 2  # specifies v8.15
     fstInst.fst_exe_type = 2  # specifies v8.15

@@ -1,6 +1,6 @@
 class Workflow:
 
-    def __init__(self, inflow_model, wake_turbulence_model, aeroloads_model, depth_model, support_design_model, hydroloads_model, OandM_model, cable_costs_model, cable_efficiency_model, thrust_coefficient_model, wake_mean_model, wake_merging_model, power_model, aep_model, costs_model, finance_model):
+    def __init__(self, inflow_model, wake_turbulence_model, aeroloads_model, depth_model, support_design_model, hydroloads_model, OandM_model, cable_costs_model, cable_efficiency_model, thrust_coefficient_model, wake_mean_model, wake_merging_model, power_model, aep_model, more_costs, total_costs_model, finance_model):
 
         self.inflow_model = inflow_model
         self.wake_turbulence_model = wake_turbulence_model
@@ -16,11 +16,12 @@ class Workflow:
         self.wake_merging_model = wake_merging_model
         self.power_model = power_model
         self.aep_model = aep_model
-        self.costs_model = costs_model
+        self.total_costs_model = total_costs_model
         self.finance_model = finance_model
+        self.more_costs = more_costs
 
     def connect(self, turbine_coordinates):
-
+        self.number_turbines = len(turbine_coordinates)
         # print turbine_coordinates
 
         from site_conditions.terrain.terrain_models import depth
@@ -41,23 +42,31 @@ class Workflow:
             # self.wind_speeds = [8.5 for _ in self.wind_speeds]
 
         elif self.inflow_model == WeibullWind:
-            self.wind_speeds = [range(25) for _ in range(len(self.wind_directions))]
+            self.wind_speeds = [range(1, 26) for _ in range(len(self.wind_directions))]
             self.freestream_turbulence = [0.11 for _ in range(len(self.wind_speeds[0]))]
             self.wind_speeds_probabilities = self.windrose.speed_probabilities(self.wind_speeds[0])
 
         print "=== CALCULATING WATER DEPTH ==="
         self.water_depths = depth(turbine_coordinates, self.depth_model)
+        print str(self.water_depths) + "\n"
+
+        central_platform_coordinates = [[0, central_platform[0][0], central_platform[0][1]]]
+        print "=== CALCULATING DEPTH AT CENTRAL PLATFORM ==="
+        self.depth_central_platform = depth(central_platform_coordinates, self.depth_model)[0]
+        print str(self.depth_central_platform) + " m\n"
 
         print "=== OPTIMISING INFIELD CABLE TOPOLOGY (COST)==="
         draw_cables(turbine_coordinates, central_platform, cable_list)
-        self.cable_topology_costs, self.cable_topology = self.cable_topology_model(turbine_coordinates)
-        print str(self.cable_topology_costs) + " EUR"
+        self.cable_topology_costs, self.cable_topology, self.infield_length = self.cable_topology_model(turbine_coordinates)
+        print str(self.cable_topology_costs) + " EUR\n"
 
         self.energies_per_angle = []
         self.turbulences_per_angle = []
         self.cable_efficiencies_per_angle = []
         self.array_efficiencies = []
         # print [sum(self.wind_speeds_probabilities[i]) for i in range(len(self.wind_speeds_probabilities))]
+
+        self.max_turbulence_per_turbine = [0.0 for _ in range(len(turbine_coordinates))]
 
         print "=== CALCULATING ENERGY, TURBULENCE PER WIND DIRECTION ==="
         for i in range(len(self.wind_directions)):
@@ -80,6 +89,10 @@ class Workflow:
             self.turbulences_per_angle.append(self.turbulences)
             self.cable_efficiencies_per_angle.append(self.cable_topology_efficiency)
 
+            for j in range(len(turbine_coordinates)):
+                if self.turbulences[j] > self.max_turbulence_per_turbine[j]:
+                    self.max_turbulence_per_turbine[j] = self.turbulences[j]
+
         # print self.array_efficiencies
         print " --- Array efficiency---"
         self.array_efficiency = sum(self.array_efficiencies)
@@ -94,8 +107,17 @@ class Workflow:
         print str(self.cable_efficiency * 100.0) + " %\n"
 
         print " --- Maximum wind turbulence intensity ---"
-        self.turbulence = max(self.turbulences_per_angle)
-        print str(self.turbulence * 100.0) + " %\n"
+        self.turbulence = self.max_turbulence_per_turbine
+        print str([self.turbulence[l] * 100.0 for l in range(len(self.turbulence))]) + " %\n"
+
+        # --------- COSTS ----------------------------------------
+
+        print " --- Other investment and decommissioning costs ---"
+        self.investment, self.decommissioning_cost = self.more_costs(self.depth_central_platform, self.number_turbines, self.infield_length)
+        print "Other investment costs"
+        print str(self.investment) + " EUR\n"
+        print "Decommissioning costs"
+        print str(self.decommissioning_cost) + " EUR\n"
 
         print " --- Support structure investment costs ---"
         self.support_costs = self.support_design_model(self.water_depths, self.turbulence)
@@ -104,20 +126,23 @@ class Workflow:
         self.aeroloads = 0.0
         self.hydroloads = 0.0
 
-        print " --- O&M costs 20 years---"
+        print " --- O&M costs---"
         self.om_costs, self.availability = self.OandM_model(self.farm_annual_energy, self.aeroloads, self.hydroloads, turbine_coordinates)
-        print str(self.om_costs * 20.0) + " EUR\n"
+        # self.om_costs *= 20.0  # Number of years
+        print self.om_costs
+        print str(self.om_costs) + " EUR\n"
 
-        print " --- Total energy production 20 years ---"
-        self.aep = self.aep_model(self.farm_annual_energy, self.availability, self.cable_topology_efficiency) * 20.0
+        print " --- Total energy production ---"
+        # self.aep = self.aep_model(self.farm_annual_energy, self.availability, self.cable_topology_efficiency) * 20.0
+        self.aep = self.aep_model(self.farm_annual_energy, self.availability, self.cable_topology_efficiency)
         print str(self.aep / 1000000.0) + " MWh\n"
 
-        print " --- Total costs 20 years---"
-        self.total_costs = self.costs_model(self.cable_topology_costs, self.support_costs, self.om_costs * 20.0)
+        print " --- Total investment costs ---"
+        self.total_costs = self.support_costs + self.cable_topology_costs + self.investment
         print str(self.total_costs) + " EUR\n"
 
-        print " --- COE ---"
-        self.finance = self.finance_model(self.total_costs * 100.0, self.aep / 1000.0)
+        print " --- LPC ---"
+        self.finance = self.finance_model(self.investment + self.cable_topology_costs + self.support_costs, self.om_costs, self.decommissioning_cost, self.farm_annual_energy, 0.95)
         print str(self.finance) + " cents/kWh\n"
 
     def run(self, layout_file):
@@ -132,9 +157,10 @@ if __name__ == '__main__':
     from costs.investment_costs.BOS_cost.cable_cost.cable_efficiency import infield_efficiency
     from costs.OM_costs.om_models import oandm
     from costs.investment_costs.BOS_cost.support_cost.farm_support_cost import farm_support_cost
-    from finance.finance_models import COE
+    from finance.finance_models import COE, LPC
     from farm_energy.AEP.aep import aep_average
-    from costs.total_cost import total_costs
+    from costs.other_costs import other_costs
+    from costs.total_costs import total_costs
     from farm_energy.wake_model_mean_new.aero_power_ct_models.thrust_coefficient import ct_v80
     from farm_energy.wake_model_mean_new.wake_turbulence_models import frandsen2, danish_recommendation, frandsen, larsen_turbulence, Quarton
     from site_conditions.terrain.terrain_models import Gaussian, Flat, Plane, Rough
@@ -144,7 +170,7 @@ if __name__ == '__main__':
 
     from time import time
 
-    workflow1 = Workflow(MeanWind, frandsen2, None, Flat, farm_support_cost, None, oandm, cable_design, infield_efficiency, ct_v80, Jensen, root_sum_square, power_v80, aep_average, total_costs, COE)
+    workflow1 = Workflow(WeibullWind, frandsen2, None, Flat, farm_support_cost, None, oandm, cable_design, infield_efficiency, ct_v80, Larsen, root_sum_square, power_v80, aep_average, other_costs, total_costs, LPC)
     start = time()
     workflow1.run("coordinates.dat")
     print "time: " + str(time() - start)

@@ -35,6 +35,7 @@ def energy_one_angle(original_layout, freestream_wind_speeds, probabilities_spee
     ordered_layout = order(original_layout, wind_angle)
     energy = 0.0
     weighted_individuals = [0.0 for _ in range(len(original_layout))]
+
     def first(x):
         return x[0]
     for speed in range(len(freestream_wind_speeds)):
@@ -64,7 +65,7 @@ def energy_one_angle(original_layout, freestream_wind_speeds, probabilities_spee
 
 if __name__ == '__main__':
 
-    from aero_power_ct_models.thrust_coefficient import v80
+    from aero_power_ct_models.thrust_coefficient import v80, ct_v80
     from downstream_effects import Ainslie2DEffects as Ainslie2D, JensenEffects as Jensen
     from aero_power_ct_models.aero_models import power_v80
     from wake_overlap import root_sum_square

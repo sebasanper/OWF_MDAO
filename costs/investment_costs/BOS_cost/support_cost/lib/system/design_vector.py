@@ -59,16 +59,16 @@ class TransitionPiece:
 
 
 class Tower:
-    base_diameter = 0.0 # [m]
-    top_diameter = 0.0 # [m]
-    length = 0.0 # [m]
+    base_diameter = 0.0  # [m]
+    top_diameter = 0.0  # [m]
+    length = 0.0  # [m]
     
     def __init__(self):
-        self.wall_thickness = [] # per segment - index 0 indicates lowest segment [m]
+        self.wall_thickness = []  # per segment - index 0 indicates lowest segment [m]
 
 
 class ScourProtection:
-    diameter = 0.0 # [m]
+    diameter = 0.0  # [m]
 
     def __init__(self):
         self.armour = [0.0, 0.0, 0.0, 0.0, 0.0] # [m, m, m, m, m] - [d15, d50, d85, thickness in annulus up to 1 times pile diameter, thickness further away from pile]

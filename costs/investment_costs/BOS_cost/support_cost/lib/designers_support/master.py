@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Nov 10 21:42:41 2015
-
-@author: Αλβέρτος
-"""
-
 class MasterDesigners:
     def __init__(self, support_team):
         self.support_team = support_team
@@ -12,8 +5,8 @@ class MasterDesigners:
         pass
 
     def initialyse(self):
-       # print "4001"
-        self.support_team.site_conditions_analysts.set_conditions() # it uses the layout module!!
-       # print "4002"
+        # print "4001"
+        self.support_team.site_conditions_analysts.set_conditions()  # it uses the layout module!!
+        # print "4002"
         self.support_team.rna_analysts.initialyse()
-        #print "4003"
+        #  print "4003"

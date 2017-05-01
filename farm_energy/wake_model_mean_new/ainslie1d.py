@@ -1,5 +1,5 @@
 from numpy import exp
-from .ainslie_common import b, E
+from farm_energy.wake_model_mean_new.ainslie_common import b, E
 from turbine_description import rotor_radius
 D = rotor_radius * 2.0
 

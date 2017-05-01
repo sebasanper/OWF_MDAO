@@ -1,6 +1,6 @@
 from numpy import exp
-from .thomas_algorithm import thomas
-from .ainslie_common import b, E
+from farm_energy.wake_model_mean_new.thomas_algorithm import thomas
+from farm_energy.wake_model_mean_new.ainslie_common import b, E
 from time import time
 
 

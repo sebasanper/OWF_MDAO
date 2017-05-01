@@ -1,5 +1,5 @@
 from numpy import pi, sqrt, deg2rad, tan, cos, sin
-from .area import *
+from farm_energy.wake_model_mean_new.area import AreaReal
 from turbine_description import rotor_radius as r0, hub_height as H
 D = 2.0 * r0
 rotor_area = pi * r0 ** 2.0
@@ -26,8 +26,7 @@ def x0(Ct, ia):
 
 
 def c1(Ct, ia):
-    return (deff(Ct) / 2.0) ** (5.0 / 2.0) * (105.0 / 2.0 / pi) ** (- 1.0 / 2.0) * (Ct * rotor_area * x0(Ct, ia)) ** (
-        - 5.0 / 6.0)  # Prandtl mixing length
+    return (deff(Ct) / 2.0) ** (5.0 / 2.0) * (105.0 / 2.0 / pi) ** (- 1.0 / 2.0) * (Ct * rotor_area * x0(Ct, ia)) ** (- 5.0 / 6.0)  # Prandtl mixing length
 
 
 def determine_if_in_wake_larsen(xt, yt, xw, yw, ct, alpha, ia):  # According to Larsen Model only
@@ -51,7 +50,7 @@ def determine_if_in_wake_larsen(xt, yt, xw, yw, ct, alpha, ia):  # According to 
                 value = True
                 return fraction, value, distance_to_centre, distance_to_turbine
             elif abs(radius) < abs(distance_to_centre) + r0:
-                fraction = area.AreaReal(r0, radius, distance_to_centre).area()
+                fraction = AreaReal(r0, radius, distance_to_centre).area()
                 value = True
                 return fraction, value, distance_to_centre, distance_to_turbine
         elif abs(radius) < abs(distance_to_centre):
@@ -60,7 +59,7 @@ def determine_if_in_wake_larsen(xt, yt, xw, yw, ct, alpha, ia):  # According to 
                 value = False
                 return fraction, value, distance_to_centre, distance_to_turbine
             elif abs(radius) > abs(distance_to_centre) - r0:
-                fraction = area.AreaReal(r0, radius, distance_to_centre).area()
+                fraction = AreaReal(r0, radius, distance_to_centre).area()
                 value = True
                 return fraction, value, distance_to_centre, distance_to_turbine
     else:

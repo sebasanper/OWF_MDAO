@@ -76,14 +76,14 @@ def cable_design(WT_List):
             Savingsi2[key], Savingsi2_finder[key], Crossings_finder[key] = savingsi(Cost0i[key], Costij[key], value, Cable_Costi[1], substationi[key], Area, Crossing_penalty)
             Routesi[key], Routingi[key], Routing_redi[key], Routing_greeni[key] = Esau_Williams_Cable_Choice(Savingsi2[key], Savingsi2_finder[key], Crossings_finder[key], Wind_turbinesi[key], Routesi[key], Routingi[key], substationi[key], Capacityi, Routing_redi[key], Routing_greeni[key], Costi[key], Cable_Costi)
             Routesi[key], Routingi[key] = RouteOpt_Hybrid(Routingi[key], substationi[key], Costi[key], Capacityi, Routesi[key], Wind_turbinesi[key])
-            cost = plotting(substationi[key], Wind_turbinesi[key], Routingi[key], Routing_redi[key], Routing_greeni[key], Cable_Costi)
+            cost, total_length = plotting(substationi[key], Wind_turbinesi[key], Routingi[key], Routing_redi[key], Routing_greeni[key], Cable_Costi)
             total_cost += cost
 
             for route in Routingi[key]:
                 if edge_crossings_area([route[0], route[1]], Wind_turbinesi[key], substationi[key], Area)[0] is True:
                     crossings += edge_crossings_area([route[0], route[1]], Wind_turbinesi[key], substationi[key], Area)[1]
 
-        return total_cost, Routesi
+        return total_cost, Routesi, total_length
 
     def mainroutine(arc, lines, Routing):
         if [arc[0], 0] in Routing:
@@ -804,7 +804,7 @@ def cable_design(WT_List):
                                             arcs1[2 * j][1] - arcs1[2 * j + 1][1])
             cable_length = cable_length1blue + cable_length1red + cable_length1green
             cable_cost = Cable_Costi[1] * cable_length1blue + Cable_Costi[2] * cable_length1red + Cable_Costi[3] * cable_length1green
-        return cable_cost
+        return cable_cost, cable_length
 
     def cable_cost(central_platform_location, Wind_turbinesi, Routing, Routing_red, Routing_green, Cable_Costi):
         Routing_blue = [i for i in Routing if i not in Routing_red]

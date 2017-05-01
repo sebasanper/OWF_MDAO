@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Nov 11 18:03:30 2015
-
-@author: Αλβέρτος
-"""
 from math import pi, sqrt
 
 

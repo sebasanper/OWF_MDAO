@@ -16,9 +16,10 @@ class RNAAnalysts:
         self.properties = self.support_team.properties.rna
 
     def initialyse(self):
-        self.power_curve = InterpolatedArray(self.support_team.properties.rna.power_curve)
-        self.thrust_curve = InterpolatedArray(self.support_team.properties.rna.thrust_curve)
-        self.properties.rated_power = max([x[1] for x in self.support_team.properties.rna.power_curve])
+        pass
+        # self.power_curve = InterpolatedArray(self.support_team.properties.rna.power_curve)
+        # self.thrust_curve = InterpolatedArray(self.support_team.properties.rna.thrust_curve)
+        # self.properties.rated_power = max([x[1] for x in self.support_team.properties.rna.power_curve])
 
     def get_loads(self, wind_condition, wind_speed, height):
 
@@ -36,21 +37,21 @@ class RNAAnalysts:
         my = fx * (self.support_team.properties.support_structure.hub_height - height)
         return [fx, 0.0, 0.0, 0.0, my, 0.0]
 
-    def get_Ct(self, wind_speed):
-        """
-        if wind_speed < 25.0:
-            return min(0.8, 7.0 / wind_speed) # Expression is based on Figure 1 of the article of frohboese (in 'wakes' directory)
-        return 0.0
-        """
-        return self.thrust_curve[wind_speed]
-
-    def get_power(self, wind_speed):
-        """
-        if wind_speed < 25.0:
-            return min (0.5 * self.rho_air * 0.48 * 0.9 * pi * self.properties.rotor_radius**2 * wind_speed**3, 3600000.0)
-        return 0.0
-        """
-        return self.power_curve[wind_speed]
+    # def get_Ct(self, wind_speed):
+    #     """
+    #     if wind_speed < 25.0:
+    #         return min(0.8, 7.0 / wind_speed) # Expression is based on Figure 1 of the article of frohboese (in 'wakes' directory)
+    #     return 0.0
+    #     """
+    #     return self.thrust_curve[wind_speed]
+    #
+    # # def get_power(self, wind_speed):
+    # #     """
+    # #     if wind_speed < 25.0:
+    # #         return min (0.5 * self.rho_air * 0.48 * 0.9 * pi * self.properties.rotor_radius**2 * wind_speed**3, 3600000.0)
+    # #     return 0.0
+    # #     """
+    # #     return self.power_curve[wind_speed]
 
 
 class InterpolatedArray(object):

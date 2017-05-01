@@ -1,8 +1,8 @@
-from .jensen import *
-from .larsen import *
-from .ainslie1d import *
-from .ainslie2d import *
-from .ainslie_common import crosswind_distance, determine_front
+from farm_energy.wake_model_mean_new.jensen import *
+from farm_energy.wake_model_mean_new.larsen import *
+from farm_energy.wake_model_mean_new.ainslie1d import *
+from farm_energy.wake_model_mean_new.ainslie2d import *
+from farm_energy.wake_model_mean_new.ainslie_common import crosswind_distance, determine_front
 from time import time
 from memoize import Memoize
 from turbine_description import rotor_radius
@@ -87,7 +87,7 @@ if __name__ == '__main__':
     ct_upstream = 0.79
     downstream_turbines = [[1, 500.0, 0.0], [2, 1000.0, 0.0], [3, 1500.0, 0.0], [4, 2000.0, 0.0], [5, 2500.0, 0.0]]
 
-    print (upstream, ct_upstream, downstream_turbines, 180.0, 8.5, 0.08)
+    print LarsenEffects(upstream, ct_upstream, downstream_turbines, 180.0, 8.5, 0.08)
     #
     # print LarsenEffects(upstream, ct_upstream, downstream_turbines, 180.0, 8.5, 0.08)
     #
