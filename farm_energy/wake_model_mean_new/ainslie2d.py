@@ -2,6 +2,9 @@ from numpy import exp
 from farm_energy.wake_model_mean_new.thomas_algorithm import thomas
 from farm_energy.wake_model_mean_new.ainslie_common import b, E
 from time import time
+from memoize import Memoize
+from turbine_description import rotor_radius
+rotor_diameter = 2.0 * rotor_radius
 
 
 def ainslie_full(ct, u0, distance_parallel, distance_perpendicular, i0):
@@ -12,24 +15,27 @@ def ainslie_full(ct, u0, distance_parallel, distance_perpendicular, i0):
     dj = distance_parallel
     # ni = int(di * 80)
     # nj = int(dj * 80)
-    ni = nj = 100
+    ni = 100
+    nj = 100
     k = dj / float(nj)
     h = di / float(ni)
 
     nj += 1
     ni += 1
     Dmi = ct - 0.05 - (16.0 * ct - 0.5) * i0 / 10.0
+    if Dmi < 0.0:
+        Dmi = 0.00000000001
 
     u = [0.0 for _ in range(ni)]
     v = [0.0 for _ in range(ni)]
 
     for g in range(ni):
         u[g] = u0 * (1.0 - Dmi * exp(- 3.56 * float(g * h) ** 2.0 / b(Dmi, ct) ** 2.0))
-
+    # print u
     old_u = u
     u_initial = u
     old_v = v
-    old2_u = v
+    old2_u = u
     # start = time()
     for j in range(1, nj):
         # start = time()
@@ -48,7 +54,7 @@ def ainslie_full(ct, u0, distance_parallel, distance_perpendicular, i0):
         v[0] = 0.0
         # print time() - start, "loop out"
         for i in range(1, ni):
-
+            # print j, i, j * k, i * h, old_u[i], (u0 - old_u[i]) / u0
             #  Uncomment if v is not neglected. Radial velocity.
             if j == 1:
                 v[i] = (i * h) / ((i * h) + h) * (old_v[i-1] - h / k * (old_u[i] - u_initial[i]))
@@ -71,7 +77,7 @@ def ainslie_full(ct, u0, distance_parallel, distance_perpendicular, i0):
         # start3 = time()
         old2_u = old_u
         old_u = thomas(A, B, C, R)
-
+        # print old_u
         old_v = v
         # print time() - start3
     # print time() - star,
@@ -89,13 +95,13 @@ def ainslie_full(ct, u0, distance_parallel, distance_perpendicular, i0):
     #
     # A = pi * 0.5 ** 2.0  ## Unitary diameter in this program.
     # U = U0 - sqrt((1.0 / A) * simpson_integrate2D(G, 0.0, 0.5, 5, 0.0, 2.0 * pi, 10))
-    return 1.0 - old_u[int(round(distance_perpendicular * 80.0, 0))] / u0
-    # return 1.0 - old_u[int(distance_perpendicular * ni / di)] / u0
-
+    # return 1.0 - old_u[int(round(distance_perpendicular * rotor_diameter, 0))] / u0
+    return 1.0 - old_u[int(distance_perpendicular * ni / di)] / u0
+ainslie_full = Memoize(ainslie_full)
     # centreline.close()
     # velocity.close()
 
-# if __name__ == '__main__':
+if __name__ == '__main__':
 #     from ainslie1d import ainslie
 #     from jensen import wake_deficit as jensen
 #     from larsen import wake_deficit as larsen
@@ -109,3 +115,6 @@ def ainslie_full(ct, u0, distance_parallel, distance_perpendicular, i0):
     #     print ainslie(0.79, 8.5, x, 0.0, 0.08)
     # print jensen(0.79, 560.0, 0.04, 40.0)
     # print larsen(8.5, 0.79, 560.0, 0.0, 0.08)
+    # print ainslie_full(0.28025, -30.7274355682, 2.30063219336, 23.625, 0.11, 0.0537295322098)
+    print ainslie_full(0.0537295322098, 23.625, 14.0125, 0.0, 0.11)
+

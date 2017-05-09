@@ -39,6 +39,7 @@ def energy_one_angle(original_layout, freestream_wind_speeds, probabilities_spee
     def first(x):
         return x[0]
     for speed in range(len(freestream_wind_speeds)):
+        print freestream_wind_speeds[speed]
         ct = []
         wind_speeds_array = [freestream_wind_speeds[speed]]
         deficit_matrix = [[] for _ in range(len(ordered_layout))]

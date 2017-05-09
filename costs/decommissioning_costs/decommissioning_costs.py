@@ -1,5 +1,6 @@
 from costs.currency import Cost1
-from more_descriptions import NT, mass, management_percentage, hub_height, distance_to_grid
+from turbine_description import mass, hub_height
+from farm_description import management_percentage, distance_to_grid, NT
 
 
 def decommissioning_costs(infield_cable_length):

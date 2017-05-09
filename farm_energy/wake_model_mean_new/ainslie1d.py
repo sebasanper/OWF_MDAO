@@ -1,6 +1,7 @@
 from numpy import exp
 from farm_energy.wake_model_mean_new.ainslie_common import b, E
 from turbine_description import rotor_radius
+from memoize import Memoize
 D = rotor_radius * 2.0
 
 
@@ -20,6 +21,8 @@ def ainslie(Ct, u0, distance_parallel, distance_perpendicular, I0):
     # m = int(Y / dr)
 
     Dmi = ct - 0.05 - (16.0 * ct - 0.5) * i0 / 10.0
+    if Dmi < 0:
+        Dmi = 0.0000000001
 
     Uc1[0] = U0 * (1.0 - Dmi)  # Boundary condition at x = 2.0
     d1[0] = Dmi
@@ -29,10 +32,10 @@ def ainslie(Ct, u0, distance_parallel, distance_perpendicular, I0):
         d1[i] = 1.0 - Uc1[i] / U0
 
     # Code to calculate wake deficit at a specific point instead of the whole grid. Namely, the rotor's centrepoint.
-    answer = d1[-1] * exp(- 3.56 * (Y / b(d1[-1], ct)) ** 2.0) #  * (1.0 + 7.12 * (0.07 * distance_perpendicular / b(d1[-1], ct))) ** (- 0.5)
+    answer = d1[-1] * exp(- 3.56 * (Y / b(d1[-1], ct)) ** 2.0)  # * (1.0 + 7.12 * (0.07 * distance_perpendicular b(d1[-1], ct))) ** (- 0.5)
 
     return answer
-
+ainslie = Memoize(ainslie)
     # Code to calculate average wake deficit in all area of the rotor ###############
 
     # Define function to integrate.

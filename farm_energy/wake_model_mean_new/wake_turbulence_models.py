@@ -6,7 +6,7 @@ from memoize import Memoize
 
 def frandsen2(ambient_turbulence, Ct, spacing):
     return sqrt(1.2 * Ct / spacing ** 2.0 + ambient_turbulence ** 2.0)
-# frandsen2 = Memoize(frandsen2)
+frandsen2 = Memoize(frandsen2)
 
 
 def danish_recommendation(ambient_turbulence, wind_speed, spacing):

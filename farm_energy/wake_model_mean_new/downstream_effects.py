@@ -75,6 +75,8 @@ def Ainslie2DEffects(coordinates_upstream, thrust_coefficient, coordinates_downs
         parallel_distance = determine_front(angle3, normalised_upstream[0], normalised_upstream[1], normalised_downstream[i][0], normalised_downstream[i][1])
         perpendicular_distance = crosswind_distance(angle3, normalised_upstream[0], normalised_upstream[1], normalised_downstream[i][0], normalised_downstream[i][1])
         if perpendicular_distance <= 2.0 and parallel_distance > 0.0:
+            # if wind_speed_upstream > 23.0:
+                # print thrust_coefficient, wind_speed_upstream, parallel_distance, perpendicular_distance, ambient_turbulence_intensity
             partial_deficits.append(ainslie_full(thrust_coefficient, wind_speed_upstream, parallel_distance, perpendicular_distance, ambient_turbulence_intensity))
         else:
             partial_deficits.append(0.0)
@@ -85,7 +87,7 @@ def Ainslie2DEffects(coordinates_upstream, thrust_coefficient, coordinates_downs
 if __name__ == '__main__':
     upstream = [0, 0.0, 0.0]
     ct_upstream = 0.79
-    downstream_turbines = [[1, 500.0, 0.0], [2, 1000.0, 0.0], [3, 1500.0, 0.0], [4, 2000.0, 0.0], [5, 2500.0, 0.0]]
+    downstream_turbines = [[1, 500.0, 0.0], [2, 1000.0, 0.0], [3, 1500.0, 0.0], [4, 2000.0, 0.0], [5, 2500.0, 0.0], [6, 1000.0, 0.0], [7, 1500.0, 0.0], [8, 2000.0, 0.0], [9, 2500.0, 0.0], [10, 1000.0, 0.0], [11, 1500.0, 0.0], [12, 2000.0, 0.0], [13, 2500.0, 0.0], [14, 1000.0, 0.0], [15, 1500.0, 0.0], [16, 2000.0, 0.0], [17, 2500.0, 0.0], [18, 1000.0, 0.0], [19, 1500.0, 0.0], [20, 2000.0, 0.0], [21, 2500.0, 0.0]]
 
     print LarsenEffects(upstream, ct_upstream, downstream_turbines, 180.0, 8.5, 0.08)
     #

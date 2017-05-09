@@ -8,7 +8,7 @@ def cable_design(WT_List):
     from copy import deepcopy
     from heapq import heappush, heappop, heapify, nsmallest
     from time import time
-    from farm_description import central_platform as central_platform_locations
+    from farm_description import central_platform as central_platform_locations, number_turbines_per_cable, read_cablelist
 
     NT = len(WT_List)
     # List of cable types: [Capacity,Cost] in increasing order (maximum 3 cable types)

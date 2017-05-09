@@ -1,3 +1,6 @@
+from memoize import Memoize2
+
+
 def thomas(a, b, c, d):
     """Uses Thomas algorithm for solving a tridiagonal matrix for n unknowns.
      a, b, and  are a list of the matrix entries
@@ -54,7 +57,6 @@ def thomas(a, b, c, d):
 
     # Return the value
     return x
-
 
 if __name__ == '__main__':
     a = [1.0 for _ in range(30)]

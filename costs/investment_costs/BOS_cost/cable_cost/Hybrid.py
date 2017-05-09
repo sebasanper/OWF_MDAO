@@ -106,12 +106,14 @@ def draw_cables(WT_List, central_platform_locations, Cable_List):
                     crossings += edge_crossings_area([route[0], route[1]], Wind_turbinesi[key], substationi[key], Area)[1]
         # print Routesi[1]
         # print Routesi
-        print('Cable length = {0} km'.format(round(cable_length / 1000, 3)))
+        # print('Cable length = {0} km'.format(round(cable_length / 1000, 3)))
         # print 'Cable cost = {0:,} {1}'.format(round(total_cost / 1000000, 3), MEuro)
         # if Area is not []:
         #     print 'Crossings = {0}'.format(crossings)
         # print 'Elapsed time = {0:.3f} s'.format(time() - start)
+
             ######Legend######
+
         if len(Cable_Costi) == 1:
             label1 = mpatches.Patch(color='blue', label='Capacity: {0}'.format(Capacityi[1], round(cable_length / 1000, 3),
                                                                                int(total_cost), name))

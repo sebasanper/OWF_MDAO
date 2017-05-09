@@ -1,4 +1,5 @@
-from more_descriptions import NT, purchase_price, warranty_percentage
+from turbine_description import purchase_price, warranty_percentage
+from farm_description import NT
 
 
 def rna_costs():

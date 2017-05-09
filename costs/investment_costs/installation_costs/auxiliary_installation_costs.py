@@ -1,5 +1,6 @@
 from costs.currency import Cost1
-from more_descriptions import NT, P_rated
+from turbine_description import rated_power as P_rated
+from farm_description import NT
 
 
 def auxiliary_installation_costs():

@@ -1,7 +1,8 @@
 def infield_efficiency(topology, wt_list, powers):
 
     from copy import deepcopy
-    from turbine_description import number_turbines_per_cable, read_cablelist, rated_power, rated_current
+    from farm_description import number_turbines_per_cable, read_cablelist
+    from turbine_description import rated_power, rated_current
 
     cables_info = read_cablelist()
     Cable_area = []
@@ -106,7 +107,7 @@ def infield_efficiency(topology, wt_list, powers):
 
     losses = []  # Expresed in W.
     for i in range(len(max_counter)):
-        losses.append(max_counter[i][0] * 1.74e-8 / Cable_area[0][1] * current_squared_cables[i])
+        losses.append(max_counter[i][0] * 1.74e-8 / Cable_area[0][1] * current_squared_cables[i] * 3.0)  # Three times the loss of each cable (* 3.0)
 
     # print sum(powers)  # Expressed in W originally.
     # print sum(losses)

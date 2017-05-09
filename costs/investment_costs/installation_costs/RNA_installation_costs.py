@@ -1,5 +1,6 @@
-from more_descriptions import rotor_radius, onshore_transport_distance, NT, hub_height
+from turbine_description import rotor_radius, hub_height
 from costs.currency import Cost1
+from farm_description import onshore_transport_distance, NT
 
 
 def rna_installation_costs():

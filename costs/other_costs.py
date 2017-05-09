@@ -1,5 +1,5 @@
 def other_costs(depth_central_platform, number_turbines, infield_length):
-    from more_descriptions import P_rated as rated_power
+    from turbine_description import rated_power
     from costs.investment_costs.project_development_cost import project_development_cost
     from costs.investment_costs.management_cost import management_costs
     from costs.investment_costs.procurement_costs.auxiliary_costs.auxiliary_costs import auxiliary_procurement

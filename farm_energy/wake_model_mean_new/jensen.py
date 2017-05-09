@@ -41,11 +41,12 @@ determine_if_in_wake = Memoize(determine_if_in_wake)
 
 def wake_deficit(Ct, x, k=jensen_k, r0=rotor_radius):
     return (1.0 - sqrt(1.0 - Ct)) / (1.0 + (k * x) / r0) ** 2.0
+wake_deficit = Memoize(wake_deficit)
 
 
 def wake_radius(x, r0=rotor_radius, k=jensen_k):
     return r0 + k * x
-
+wake_radius = Memoize(wake_radius)
 
 if __name__ == '__main__':
     pass

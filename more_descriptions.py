@@ -6,9 +6,9 @@
 rotor_radius = 40.0
 hub_height = 80.0
 # ----------------------------------------------------------- INPUTS ----------------------------------------------------------------------------------
-Delta = 0.5  # m/s. Delta is the size of the wind speed bins
-k = 0.04  # Decay constant
-r0 = 40.0  # Turbine rotor radius
+# Delta = 0.5  # m/s. Delta is the size of the wind speed bins
+# k = 0.04  # Decay constant
+# r0 = 40.0  # Turbine rotor radius
 # ----------------------------------------------------- Support Structure - INPUTS ----------------------------------------------------------------------
 # Properties
 solidity_rotor = 0.052  # [-] 'Generic' value, based on Peter Jamieson's book - Figure 2.5 - P.53

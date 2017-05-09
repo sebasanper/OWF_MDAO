@@ -91,6 +91,7 @@ def power_v80(u0):
         return 2000000.0
     else:
         return 0.0
+power_v80 = Memoize(power_v80)
 
 if __name__ == '__main__':
     table1 = AeroLookup("./nrel_cp.dat")

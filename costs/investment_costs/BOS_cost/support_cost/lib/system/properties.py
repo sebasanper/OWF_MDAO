@@ -1,4 +1,4 @@
-from more_descriptions import solidity_rotor, cd_rotor_idle_vane, cd_nacelle, front_area_nacelle, max_thrust, yaw_to_hub_height, mass, mass_eccentricity, yaw_diameter, rotor_radius, wind_speed_at_max_thrust, generator_voltage, purchase_price, warranty_percentage
+from turbine_description import solidity_rotor, cd_rotor_idle_vane, cd_nacelle, front_area_nacelle, max_thrust, yaw_to_hub_height, mass, mass_eccentricity, yaw_diameter, rotor_radius, wind_speed_at_max_thrust, generator_voltage, purchase_price, warranty_percentage
 
 
 class Properties:

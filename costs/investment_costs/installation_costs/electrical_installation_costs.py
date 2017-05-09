@@ -1,5 +1,5 @@
 from costs.currency import Cost1
-from more_descriptions import distance_to_grid
+from farm_description import distance_to_grid
 
 
 def electrical_installation_costs():

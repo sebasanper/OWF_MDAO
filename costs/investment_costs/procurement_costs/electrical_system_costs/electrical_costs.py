@@ -1,6 +1,7 @@
 from costs.currency import Cost1
-from more_descriptions import generator_voltage, transmission_voltage, grid_coupling_point_voltage, V_rated_voltage, P_rated, rv, NT, distance_to_grid, rho_copper, rho_xlpe, epsilon_0, epsilon_r, frequency
+from farm_description import transmission_voltage, grid_coupling_point_voltage, V_rated_voltage, rv, NT, distance_to_grid, rho_copper, rho_xlpe, epsilon_0, epsilon_r, frequency
 import math
+from turbine_description import generator_voltage, rated_power as P_rated
 
 
 def electrical_procurement_costs():
