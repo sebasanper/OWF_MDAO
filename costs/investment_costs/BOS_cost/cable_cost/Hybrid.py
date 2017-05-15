@@ -37,8 +37,10 @@ def draw_cables(WT_List, central_platform_locations, Cable_List):
             substationi[i] = substation
             i = i + 1
         # splits the Wind_turbines list in the closest substation
+
         def second(x):
             return x[2]
+
         for j in xrange(NT):
             empty = []
             for key, value in distancefromsubstationi.iteritems():

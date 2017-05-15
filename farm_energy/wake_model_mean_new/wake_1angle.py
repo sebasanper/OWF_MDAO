@@ -31,7 +31,7 @@ from .order_layout import order
 #         return powers
 
 
-def energy_one_angle(original_layout, freestream_wind_speeds, probabilities_speed, wind_angle, ambient_turbulences, WakeModel, PowerModel, ThrustModel, MergingModel):
+def energy_one_angle(original_layout, freestream_wind_speeds, probabilities_speed, wind_angle, ambient_turbulences, WakeModel, PowerModel, power_lookup_file, ThrustModel, thrust_lookup_file, MergingModel):
     ordered_layout = order(original_layout, wind_angle)
     energy = 0.0
     weighted_individuals = [0.0 for _ in range(len(original_layout))]
@@ -39,7 +39,7 @@ def energy_one_angle(original_layout, freestream_wind_speeds, probabilities_spee
     def first(x):
         return x[0]
     for speed in range(len(freestream_wind_speeds)):
-        print freestream_wind_speeds[speed]
+        #print freestream_wind_speeds[speed]
         ct = []
         wind_speeds_array = [freestream_wind_speeds[speed]]
         deficit_matrix = [[] for _ in range(len(ordered_layout))]
@@ -50,11 +50,11 @@ def energy_one_angle(original_layout, freestream_wind_speeds, probabilities_spee
             else:
                 total_deficit.append(MergingModel([deficit_matrix[j][i] for j in range(i)]))
                 wind_speeds_array.append(freestream_wind_speeds[speed] * (1.0 - total_deficit[i]))
-            ct.append(ThrustModel(wind_speeds_array[i]))
+            ct.append(ThrustModel(wind_speeds_array[i], thrust_lookup_file))
             deficit_matrix[i] = [0.0 for _ in range(i + 1)]
             deficit_matrix[i] += WakeModel(ordered_layout[i], ct[i], ordered_layout[i + 1:], wind_angle, freestream_wind_speeds[speed], ambient_turbulences[speed])
         wind_speeds_array_original = [x for (y, x) in sorted(zip([item[0] for item in ordered_layout], wind_speeds_array), key=first)]
-        individual_powers = [PowerModel(wind) for wind in wind_speeds_array_original]
+        individual_powers = [PowerModel(wind, power_lookup_file) for wind in wind_speeds_array_original]
         for turb in range(len(individual_powers)):
             weighted_individuals[turb] += individual_powers[turb] * probabilities_speed[speed] / 100.0
         farm_power = sum(individual_powers)

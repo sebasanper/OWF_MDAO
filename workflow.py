@@ -1,10 +1,10 @@
 class Workflow:
-    def __init__(self, inflow_model, wake_turbulence_model, aeroloads_model, depth_model, support_design_model,
-                 hydroloads_model, OandM_model, cable_costs_model, cable_efficiency_model, thrust_coefficient_model,
-                 wake_mean_model, wake_merging_model, power_model, aep_model, more_costs, total_costs_model,
+    def __init__(self, inflow_model, windrose_file, wake_turbulence_model, aeroloads_model, depth_model, support_design_model,
+                 hydroloads_model, OandM_model, cable_costs_model, cable_efficiency_model, thrust_coefficient_model, thrust_lookup_file, wake_mean_model, wake_merging_model, power_model, power_lookup_file, aep_model, more_costs, total_costs_model,
                  finance_model):
 
-        self.print_output = True
+        self.print_output = False
+        self.draw_infield = False
 
         self.inflow_model = inflow_model
         self.wake_turbulence_model = wake_turbulence_model
@@ -23,17 +23,33 @@ class Workflow:
         self.total_costs_model = total_costs_model
         self.finance_model = finance_model
         self.more_costs = more_costs
-        self.windrose = self.inflow_model()
+        self.windrose = self.inflow_model(windrose_file)
+        self.thrust_lookup_file = thrust_lookup_file
+        self.power_lookup_file = power_lookup_file
 
+    # @profile
     def connect(self, turbine_coordinates):
         self.number_turbines = len(turbine_coordinates)
-        if self.print_output is True: print turbine_coordinates
+        # print turbine_coordinates
 
         from site_conditions.terrain.terrain_models import depth
         from farm_energy.wake_model_mean_new.wake_1angle import energy_one_angle
         from farm_energy.wake_model_mean_new.wake_1angle_turbulence import max_turbulence_one_angle
         from costs.investment_costs.BOS_cost.cable_cost.Hybrid import draw_cables
-        from farm_description import cable_list, central_platform
+        from farm_description import central_platform, read_cablelist, number_turbines_per_cable
+        from turbine_description import rated_current
+
+        cables_info = read_cablelist()
+        cable_list = []
+
+        for number in number_turbines_per_cable:
+            for cable in cables_info:
+                if rated_current * number <= cable[1]:
+                    cable_list.append([number, cable[2] + 365.0])
+                    break
+
+        # print cable_list
+
         from turbine_description import cutin_wind_speed, cutout_wind_speed
 
         if self.print_output is True:
@@ -48,18 +64,10 @@ class Workflow:
             self.wind_speeds_probabilities = [[100.0] for _ in range(len(self.wind_directions))]
             # self.wind_speeds = [8.5 for _ in self.wind_speeds]
 
-        elif self.inflow_model == WeibullWind:
-
-            self.wind_speeds = [range(1, 26) for _ in range(len(self.wind_directions))]
-            self.freestream_turbulence = [0.11 for _ in range(len(self.wind_speeds[0]))]
-            self.wind_speeds_probabilities = self.windrose.speed_probabilities(self.wind_speeds[0])
-
         elif self.inflow_model == WeibullWindBins:
-
-            self.cutin_speed = 3.0
-            self.cutout_speed = 25.0
-            self.wind_speeds, self.wind_speeds_probabilities = self.windrose.speed_probabilities2(self.cutin_speed,
-                                                                                                  self.cutout_speed)
+            self.windrose.cutin = cutin_wind_speed
+            self.windrose.cutout = cutout_wind_speed
+            self.wind_speeds, self.wind_speeds_probabilities = self.windrose.speed_probabilities()
             self.freestream_turbulence = [0.11 for _ in range(len(self.wind_speeds[0]))]
 
         # if self.print_output is True: print self.wind_speeds, self.wind_speeds_probabilities
@@ -74,9 +82,10 @@ class Workflow:
         if self.print_output is True: print str(self.depth_central_platform) + " m\n"
 
         if self.print_output is True: print "=== OPTIMISING INFIELD CABLE TOPOLOGY (COST)==="
-        # draw_cables(turbine_coordinates, central_platform, cable_list)
+        if self.draw_infield is True: draw_cables(turbine_coordinates, central_platform, cable_list)
         self.cable_topology_costs, self.cable_topology, self.infield_length = self.cable_topology_model(
             turbine_coordinates)
+        # print self.cable_topology
         if self.print_output is True: print str(self.cable_topology_costs) + " EUR\n"
 
         self.energies_per_angle = []
@@ -96,15 +105,14 @@ class Workflow:
                                                                                  self.wind_speeds_probabilities[i],
                                                                                  self.wind_directions[i],
                                                                                  self.freestream_turbulence,
-                                                                                 self.wake_mean_model, self.power_model,
-                                                                                 self.thrust_coefficient_model,
+                                                                                 self.wake_mean_model, self.power_model, self.power_lookup_file,
+                                                                                 self.thrust_coefficient_model, self.thrust_lookup_file,
                                                                                  self.wake_merging_model)
             # if self.print_output is True: print self.aero_energy_one_angle
             # if self.print_output is True: print self.powers_one_angle, max(self.powers_one_angle)
             # if self.print_output is True: print turbine_coordinates, self.wind_speeds[i], self.windrose.direction[i], self.freestream_turbulence[0], Jensen, self.thrust_coefficient_model, self.wake_turbulence_model
             self.turbulences = max_turbulence_one_angle(turbine_coordinates, self.wind_speeds[i],
-                                                        self.windrose.direction[i], self.freestream_turbulence, Jensen,
-                                                        self.thrust_coefficient_model, self.wake_turbulence_model)
+                                                        self.windrose.direction[i], self.freestream_turbulence, Jensen,self.thrust_coefficient_model, self.thrust_lookup_file, self.wake_turbulence_model)
 
             self.cable_topology_efficiency = self.cable_efficiency_model(self.cable_topology, turbine_coordinates,
                                                                          self.powers_one_angle)
@@ -177,56 +185,94 @@ class Workflow:
                                           self.om_costs, self.decommissioning_cost, self.farm_annual_energy, 0.95)
         if self.print_output is True: print str(self.finance) + " cents/kWh\n"
 
+        return self.finance
+
     def run(self, layout_file):
         from farm_energy.layout.layout import read_layout
         self.coordinates = read_layout(layout_file)
-        self.connect(self.coordinates)
+        return self.connect(self.coordinates)
 
 
 if __name__ == '__main__':
-    from site_conditions.wind_conditions.windrose import MeanWind, WeibullWind, WeibullWindBins
-    from costs.investment_costs.BOS_cost.cable_cost.Cables_cost_topology import cable_design
+    from site_conditions.wind_conditions.windrose import MeanWind, WeibullWindBins
+    from costs.investment_costs.BOS_cost.cable_cost.cable_cost_models import cable_optimiser, radial_cable, random_cable
     from costs.investment_costs.BOS_cost.cable_cost.cable_efficiency import infield_efficiency
     from costs.OM_costs.om_models import oandm
     from costs.investment_costs.BOS_cost.support_cost.farm_support_cost import farm_support_cost
-    from finance.finance_models import COE, LPC
+    from finance.finance_models import LPC
     from farm_energy.AEP.aep import aep_average
     from costs.other_costs import other_costs
     from costs.total_costs import total_costs
-    from farm_energy.wake_model_mean_new.aero_power_ct_models.thrust_coefficient import ct_v80
+    # from farm_energy.wake_model_mean_new.aero_power_ct_models.thrust_coefficient import ct_v80
     from farm_energy.wake_model_mean_new.wake_turbulence_models import frandsen2, danish_recommendation, frandsen, \
         larsen_turbulence, Quarton
     from site_conditions.terrain.terrain_models import Gaussian, Flat, Plane, Rough
     from farm_energy.wake_model_mean_new.downstream_effects import JensenEffects as Jensen, LarsenEffects as Larsen, \
         Ainslie1DEffects as Ainslie1D, Ainslie2DEffects as Ainslie2D
-    from farm_energy.wake_model_mean_new.wake_overlap import root_sum_square
-    from farm_energy.wake_model_mean_new.aero_power_ct_models.aero_models import power_coefficient, thrust, power_v80, power, thrust_coefficient
+    from farm_energy.wake_model_mean_new.wake_overlap import root_sum_square, maximum, multiplied, summed
+    from farm_energy.wake_model_mean_new.aero_power_ct_models.aero_models import power_coefficient, power_v80, power, thrust_coefficient
 
     from time import time
 
     from joblib import Parallel, delayed
 
-    # workflow1 = Workflow(WeibullWindBins, frandsen2, None, Flat, farm_support_cost, None, oandm, cable_design, infield_efficiency, ct_v80, Larsen, root_sum_square, power_v80, aep_average, other_costs, total_costs, LPC)
-
-    output_file = open("nbins_study_ainslie2D.dat", "a", 1)
-
-
-    def workflow(bins):
-        workflow2 = Workflow(WeibullWindBins, frandsen2, None, Flat, farm_support_cost, None, oandm, cable_design,
-                             infield_efficiency, ct_v80, Ainslie2D, root_sum_square, power_v80, aep_average,
-                             other_costs, total_costs, LPC)
+    # @profile
+    def exe():
         start = time()
-        workflow2.windrose.nbins = bins
-        print
-        workflow2.run("coordinates.dat")
-        print "nbins: " + str(bins) + "////  time Ainslie 2D : " + str(time() - start)
-        print
-        output_file.write("{0:d}\t{1:f}\t{2:f}\n".format(bins, workflow2.aep, workflow2.finance))
-        return bins, workflow2.aep, workflow2.finance
+        workflow1 = Workflow(WeibullWindBins, "/home/sebasanper/PycharmProjects/owf_MDAO/site_conditions/wind_conditions/weibull_windrose.dat", frandsen2, None, Flat, farm_support_cost, None, oandm, cable_optimiser, infield_efficiency, thrust_coefficient, "/home/sebasanper/PycharmProjects/owf_MDAO/farm_energy/wake_model_mean_new/aero_power_ct_models/windsim_ct.dat", Jensen, root_sum_square, power, "/home/sebasanper/PycharmProjects/owf_MDAO/farm_energy/wake_model_mean_new/aero_power_ct_models/nrel_cp.dat", aep_average, other_costs, total_costs, LPC)
+        workflow1.windrose.nbins = 15
+        print workflow1.run("coords2.dat")
+        print "////  time Jensen : " + str(time() - start) + " s."
+    # exe()
+
+    # def workflow(bins):
+    #     workflow2 = Workflow(WeibullWindBins, "/home/sebasanper/PycharmProjects/owf_MDAO/site_conditions/wind_conditions/weibull_windrose.dat", frandsen2, None, Flat, farm_support_cost, None, oandm, cable_design,
+    #                          infield_efficiency, ct_v80, Ainslie2D, root_sum_square, power_v80, aep_average,
+    #                          other_costs, total_costs, LPC)
+    #     start = time()
+    #     workflow2.windrose.nbins = bins
+    #     print
+    #     workflow2.run("coordinates.dat")
+    #     print "nbins: " + str(bins) + "////  time Ainslie 2D : " + str(time() - start)
+    #     print
+    #     output_file.write("{0:d}\t{1:f}\t{2:f}\n".format(bins, workflow2.aep, workflow2.finance))
+    #     return bins, workflow2.aep, workflow2.finance
 
     # with open("nbins_study_ainslie1D.dat", "a", 1) as output_file:
-    # nbins_study = Parallel(n_jobs=8)(delayed(workflow)(nbins) for nbins in range(30, 31))
+    #     nbins_study = Parallel(n_jobs=8)(delayed(workflow)(nbins) for nbins in range(30, 31))
 
-    output_file.close()
+    # print nbins_study
+    wakemodels = [Jensen, Larsen, Ainslie1D, Ainslie2D]
+    windrosemodels = [
+        "/home/sebasanper/PycharmProjects/owf_MDAO/site_conditions/wind_conditions/weibull_windrose_12unique.dat",
+        "/home/sebasanper/PycharmProjects/owf_MDAO/site_conditions/wind_conditions/weibull_windrose_12sameWeibull.dat",
+        "/home/sebasanper/PycharmProjects/owf_MDAO/site_conditions/wind_conditions/weibull_windrose_12identical.dat"]
+    turbmodels = [frandsen2, danish_recommendation, frandsen, larsen_turbulence, Quarton]
+    cablemodels = [cable_optimiser, radial_cable, random_cable]
+    mergingmodels = [root_sum_square, maximum, multiplied, summed]
+    thrustmodels = [
+        "/home/sebasanper/PycharmProjects/owf_MDAO/farm_energy/wake_model_mean_new/aero_power_ct_models/windsim_ct.dat",
+        "/home/sebasanper/PycharmProjects/owf_MDAO/farm_energy/wake_model_mean_new/aero_power_ct_models/NREL_5MW_C_T_new.txt",
+        "/home/sebasanper/PycharmProjects/owf_MDAO/farm_energy/wake_model_mean_new/aero_power_ct_models/FASTstatistics_ct.dat"]
+    powermodels = [
+        "/home/sebasanper/PycharmProjects/owf_MDAO/farm_energy/wake_model_mean_new/aero_power_ct_models/FASTstatistics_power.dat",
+        "/home/sebasanper/PycharmProjects/owf_MDAO/farm_energy/wake_model_mean_new/aero_power_ct_models/windsim_power.dat",
+        "/home/sebasanper/PycharmProjects/owf_MDAO/farm_energy/wake_model_mean_new/aero_power_ct_models/powercurve.dat",
+        "/home/sebasanper/PycharmProjects/owf_MDAO/farm_energy/wake_model_mean_new/aero_power_ct_models/nrel_cp.dat"]
+    depthmodels = [Plane, Gaussian, Flat]
 
-    print nbins_study
+    def study(a, b, c, d, e, f, g, h):
+        print a, b, c, d, e, f, g, h
+        workflow1 = Workflow(WeibullWindBins, windrosemodels[b], turbmodels[c], None, depthmodels[h], farm_support_cost, None, oandm, cablemodels[d], infield_efficiency, thrust_coefficient, thrustmodels[f], wakemodels[a], mergingmodels[e], power, powermodels[g], aep_average, other_costs, total_costs, LPC)
+        start = time()
+        workflow1.windrose.nbins = 15
+        workflow1.run("coords2.dat")
+        output.write("{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\n".format(a, b, c, d, e, f, g, h, workflow1.aep, workflow1.finance, time() - start))
+        return workflow1.aep, workflow1.finance
+
+        # output.write("{}\t{}\t{}\t{}\t{}\n".format(i, j, k, workflow1.run("coords2.dat"), time() - start))
+    start1 = time()
+    with open("second_study.dat", "w", 1) as output:
+        second_study = Parallel(n_jobs=8)(delayed(study)(a, b) for a in range(4) for b in range(3) for c in range(5) for d in range(3) for e in range(4) for f in range(3) for g in range(4) for h in range(3))
+
+    print second_study, time() - start1

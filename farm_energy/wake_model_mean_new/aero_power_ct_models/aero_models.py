@@ -1,6 +1,7 @@
-from .util import interpolate
+from farm_energy.wake_model_mean_new.aero_power_ct_models.util import interpolate
 from numpy import pi
 from memoize import Memoize
+from turbine_description_5MW import cutout_wind_speed, cutin_wind_speed, rotor_radius, wind_speed_at_max_thrust as rated_wind, rated_power
 
 
 class AeroLookup:
@@ -21,7 +22,7 @@ class AeroLookup:
         upper = []
         if value <= self.x[0]:
             result = self.y[0]
-        else:
+        elif value < self.x[-1]:
             for x in self.x:
                 if x <= value:
                     lower = [x, self.y[ii]]
@@ -30,24 +31,38 @@ class AeroLookup:
                     break
                 ii += 1
             result = interpolate(float(lower[0]), float(lower[1]), float(upper[0]), float(upper[1]), value)
+        else:
+            result = self.y[-1]
         return result
 
 
-def power_coefficient(wind_speed, r=64.0, cutin=3.0, cutout=25.0):
+def power_coefficient(wind_speed, cutin=cutin_wind_speed, cutout=cutout_wind_speed):
     table_cp = AeroLookup("/home/sebasanper/PycharmProjects/owf_MDAO/farm_energy/wake_model_mean_new/aero_power_ct_models/nrel_cp.dat")
     if wind_speed < cutin:
         return 0.0
-    elif wind_speed <= cutout:
+    elif wind_speed <= rated:
         cp = table_cp.interpolation(wind_speed)
         return 0.5 * 1.225 * pi * r ** 2.0 * wind_speed ** 3.0 * cp
+    elif wind_speed <= cutout:
+        return rated_power
     else:
         return 0.0
 power_coefficient = Memoize(power_coefficient)
 
 
-def power(wind_speed, cutin=3.0, cutout=25.0):
-    table_power = AeroLookup(
-        "/home/sebasanper/PycharmProjects/owf_MDAO/farm_energy/wake_model_mean_new/aero_power_ct_models/windsim_power.dat")
+def power(wind_speed, power_lookup_file, cutin=cutin_wind_speed, cutout=cutout_wind_speed, rated=rated_wind, r=rotor_radius):
+    table_power = AeroLookup(power_lookup_file)
+    if power_lookup_file == "/home/sebasanper/PycharmProjects/owf_MDAO/farm_energy/wake_model_mean_new/aero_power_ct_models/nrel_cp.dat":
+        if wind_speed < cutin:
+            return 0.0
+        elif wind_speed <= rated:
+            cp = table_power.interpolation(wind_speed)
+            return 0.5 * 1.225 * pi * r ** 2.0 * wind_speed ** 3.0 * cp
+        elif wind_speed <= cutout:
+            return rated_power
+        else:
+            return 0.0
+
     if wind_speed < cutin:
         return 0.0
     elif wind_speed <= cutout:
@@ -58,7 +73,7 @@ def power(wind_speed, cutin=3.0, cutout=25.0):
 power = Memoize(power)
 
 
-def thrust(wind_speed, r=64.0):
+def thrust_nrel2(wind_speed, r=rotor_radius):
     table_thrust = AeroLookup("/home/sebasanper/PycharmProjects/owf_MDAO/farm_energy/wake_model_mean_new/aero_power_ct_models/nrel_ct.dat")
     if wind_speed < table_thrust.x[0]:
         T = table_thrust.y[0]
@@ -71,12 +86,11 @@ def thrust(wind_speed, r=64.0):
         return 1.0
     else:
         return ct
-thrust = Memoize(thrust)
+thrust_nrel2 = Memoize(thrust_nrel2)
 
 
-def thrust_coefficient(wind_speed):
-    ct_table = AeroLookup(
-        "/home/sebasanper/PycharmProjects/owf_MDAO/farm_energy/wake_model_mean_new/aero_power_ct_models/windsim_ct.dat")
+def thrust_coefficient(wind_speed, lookup_file):
+    ct_table = AeroLookup(lookup_file)
     ct = ct_table.interpolation(wind_speed)
     return ct
 thrust_coefficient = Memoize(thrust_coefficient)
@@ -97,3 +111,4 @@ if __name__ == '__main__':
     table1 = AeroLookup("./nrel_cp.dat")
     # for v in range(1, 50):
     #     print v / 2.0, power_coefficient(v / 2.0, 64.0), thrust(v / 2.0, 64.0)
+    print power_coefficient(25.0)

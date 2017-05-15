@@ -10,11 +10,10 @@ class Flat:
 
 
 class Plane:
-
     def __init__(self):
-        point1 = [0.0, 0.0, 0.0]
-        point2 = [1.0, 2.0, 3.0]
-        point3 = [- 4.0, 2.0, - 1.0]
+        point1 = [7000.0, 0.0, 13.5]
+        point2 = [0.0, 0.0, 0.5]
+        point3 = [0.0, 1.0, 0.5]
         self.point1 = [float(point1[i]) for i in range(3)]
         self.point2 = [float(point2[i]) for i in range(3)]
         self.point3 = [float(point3[i]) for i in range(3)]
@@ -29,18 +28,16 @@ class Plane:
         z1 = self.point1[2]
         z2 = self.point2[2]
         z3 = self.point3[2]
-        return ((y - y1) * ((x2 - x1) * (z3 - z1) - (x3 - x1) * (z2 - z1))
-                - (x - x1) * ((y2 - y1) * (z3 - z1) - (z2 - z1) * (y3 - y1))) \
-               / ((x2 - x1) * (y3 - y1) - (y2 - y1) * (x3 - x1)) + \
-               z1
+
+        return ((y - y1) * ((x2 - x1) * (z3 - z1) - (x3 - x1) * (z2 - z1)) - (x - x1) * ((y2 - y1) * (z3 - z1) - (z2 - z1) * (y3 - y1))) / ((x2 - x1) * (y3 - y1) - (y2 - y1) * (x3 - x1)) + z1
 
 
 class Gaussian:
     def __init__(self):
-        self.centre = [0, 0]
-        self.var_x = 0.2
-        self.var_y = 1.0
-        self.height = 1.0
+        self.centre = [3500.0, 0.0]
+        self.var_x = 1000000.0
+        self.var_y = 1000000.0
+        self.height = 13.5
 
     def depth(self, x, y):
         return self.height * exp(
@@ -66,19 +63,21 @@ def depth(layout, model_type):
 
 
 if __name__ == '__main__':
-    seabed1 = Flat()
-    #print seabed1.depth
-    #print
-    seabed2 = Plane()
-    #print seabed2.depth(0, 1)
-    #print
-    seabed3 = Gaussian()
-    #print seabed3.depth(0.4, 0.8)
-    #print
-    seabed4 = Rough()
-    #print seabed4.depth(2.5, 3.1)
-    #print Gaussian
-    #print depth([[0, 500.0, 0.0], [1, 1000.0, 0.0]], Flat)
-# [[0, 500.0, 0.0], [1, 1000.0, 0.0], [2, 1500.0, 0.0], [3, 2000.0, 0.0], [4, 2500.0, 0.0], [5, 3000.0, 0.0]] site_conditions.terrain.terrain_models.Flat
-    place = [0, 429500, 6147600]
+    # seabed1 = Flat()
+    # # print seabed1.depth
+    # # print
+    # seabed2 = Plane()
+    # # print seabed2.depth(0, 1)
+    # # print
+    # seabed3 = Gaussian()
+    # print seabed3.depth(2000.0, 0.8)
+    # # print
+    # seabed4 = Rough()
+    # print seabed4.depth(2.5, 3.1)
+    # print Gaussian
+    # print depth([[0, 500.0, 0.0], [1, 1000.0, 0.0]], Flat)
+    # [[0, 500.0, 0.0], [1, 1000.0, 0.0], [2, 1500.0, 0.0], [3, 2000.0, 0.0], [4, 2500.0, 0.0], [5, 3000.0, 0.0]] site_conditions.terrain.terrain_models.Flat
+    place = [[0, 230, 0.0]]
     print depth(place, Flat)
+    print depth(place, Gaussian)
+    print depth(place, Plane)

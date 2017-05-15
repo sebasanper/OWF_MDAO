@@ -1,7 +1,6 @@
-# central_platform = [[4000.0, 4000.0]]
-central_platform = [[429500, 6147600]]
-cable_list = [[5, 652.0], [9, 944.0]]
-number_turbines_per_cable = [5, 9]
+central_platform = [[4000.0, 4000.0]]
+number_turbines_per_cable = [3]
+NT = 8
 
 
 class Cost1:
@@ -35,8 +34,6 @@ def read_cablelist():
     return cables_info
 
 # Physical Environment
-scale_factor = 10.83  # [m/s] Horns Rev website: Data fitted, resulting in average wind speed of 9.6, which is close to given value of 9.7
-shape_factor = 2.35  # [-] Horns Rev website: Data fitted, resulting in average wind speed of 9.6, which is close to given value of 9.7
 ref_height_wind_speed = 62.0
 alpha = 0.10  # Approximate mean value of fits to data in ECN report and paper of Tambke (EWEC 2004)
 hat = 0.8  # Horns Rev website: Tides are approximately 1.2 m; Paper ICCE: appr. 1.5 m - A little more than half of this is taken for 'extrapolation'
@@ -53,17 +50,10 @@ d50_soil = 0.0002  # [m]  Values given as 'range' in baggrund8 IEA report and co
 d90_soil = 0.0005  # [m]  Values given as 'range' in baggrund8 IEA report and confirmed by figure 2.2. in fish IEA report
 friction_angle = 35.0  # [degrees] Depth averaged friction angle from 'friction angle-report'
 submerged_unit_weight = 10000.0  # [N/m^3] From 'friction angle-report', lighter layer ignored, because it is at great depth.
-ref_storm_fraction = 0.6  # [-] (Storm fraction of time for Hs_ref) Slides of O&M lecture Gerard ('Accessibility of site (Vessel)') - Spare part optimisation report says vessels can sail out about 40% of the time
-ref_storm_scale = 19.5  # [h] (Storm scale factor for Hs_ref - Lightning study ECN part 1 - IJmuiden minutiestortplaats) No data for Horns Rev found (not searched explicitly)
-ref_storm_shape = 0.65  # [-] (Storm shape factor for Hs_ref - Lightning study ECN part 1 - IJmuiden minutiestortplaats) No data for Horns Rev found (not searched explicitly)
-ref_hs_accessibility = 1.5  # [m] (Significant wave height for which the previous reference values apply) - Slides of O&M lecture Gerard ('Access systems considered')
 
 V_rated_voltage = [22000, 33000, 45000, 66000, 132000, 220000]  # Rated voltage in V # User's option
 
-P_rated = 5.0 * 10 ** 6  # W     # User
-
 power_factor = 1.0  # cos angle
-installation_cable_cost = 365  # Euros/meter
 inflationrate = 1.18  # average inflation rate
 exchangerate = 0.11  # exchange rate of SEK to Euros
 
@@ -74,12 +64,10 @@ Cp_init = [6.15, 4.1, 3.0, 2.05, 1.66, 1.16]  # must be multiplied by 10**6
 
 # Cable procurement costs
 
-cross_section = [95.0, 120.0, 150.0, 185.0, 240.0, 300.0, 400.0, 500.0, 630.0, 800.0, 1000.0]  # mm**2
-current_rating = [300, 340, 375, 420, 480, 530, 590, 655, 715, 775, 825]  # Ampere
-Cost = [206.0, 221.0, 236.0, 256.0, 287.0, 316.0, 356.0, 406.0, 459.0, 521.0, 579.0]  # Euros/meter
+# cross_section = [95.0, 120.0, 150.0, 185.0, 240.0, 300.0, 400.0, 500.0, 630.0, 800.0, 1000.0]  # mm**2
+# current_rating = [300, 340, 375, 420, 480, 530, 590, 655, 715, 775, 825]  # Ampere
+# Cost = [206.0, 221.0, 236.0, 256.0, 287.0, 316.0, 356.0, 406.0, 459.0, 521.0, 579.0]  # Euros/meter
 rv = 1  # User can pick each time one rated voltage. 0 represents the first place in a Python list
-cr1 = 3  # User can pick two cable types, so he can select two values of rating current. 0 represents the first place in a Python list
-cr2 = 7  # User can pick two cable types, so he can select two values of rating current. 0 represents the first place in a Python list
 
 # -------------------------------------------------- Cable Topology - INPUT -----------------------------------------------------------------------
 Crossing_penalty = 0

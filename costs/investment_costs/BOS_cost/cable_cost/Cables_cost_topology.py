@@ -865,4 +865,4 @@ if __name__ == '__main__':
             WT_List.append([i, float(col[0]), float(col[1])])
             i += 1
     name = "sebastian"
-    # print cable_design(WT_List)
+    print cable_design(WT_List)

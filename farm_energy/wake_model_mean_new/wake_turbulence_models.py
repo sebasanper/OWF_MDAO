@@ -4,12 +4,12 @@ from memoize import Memoize
 #  Only nearest wake-shedding turbine matters in a wind farm.
 
 
-def frandsen2(ambient_turbulence, Ct, spacing):
+def frandsen2(ambient_turbulence, Ct, wind_speed, spacing):
     return sqrt(1.2 * Ct / spacing ** 2.0 + ambient_turbulence ** 2.0)
 frandsen2 = Memoize(frandsen2)
 
 
-def danish_recommendation(ambient_turbulence, wind_speed, spacing):
+def danish_recommendation(ambient_turbulence, ct, wind_speed, spacing):
 
     def beta_v(u):
         if u < 12.0:
@@ -44,7 +44,7 @@ def danish_recommendation(ambient_turbulence, wind_speed, spacing):
     return Id
 
 
-def larsen_turbulence(ambient_turbulence, Ct, spacing):
+def larsen_turbulence(ambient_turbulence, Ct, speed, spacing):
     # Wind Resource Assessment and Micro-siting: Science and Engineering
     # By Matthew Huaiquan Zhangaiquan Zhang
     # for spacings larger than 2D
@@ -55,7 +55,7 @@ def larsen_turbulence(ambient_turbulence, Ct, spacing):
     return Id
 
 
-def frandsen(ambient_turbulence, Ct, spacing, large=False):
+def frandsen(ambient_turbulence, Ct, speed, spacing, large=False):
     #  For spacings smaller than 10D
     Ia = ambient_turbulence
     s = spacing
@@ -77,9 +77,9 @@ def frandsen(ambient_turbulence, Ct, spacing, large=False):
     return It
 
 
-def Quarton(ambient_turb_percentage, Ct, x, Diameter, tsr):
-
-    D = Diameter
+def Quarton(ambient_turb_percentage, Ct, speed, x, tsr=9):
+    # TODO
+    D = 80.0
     Ia = ambient_turb_percentage
     K1 = 4.8
     a1 = 0.7

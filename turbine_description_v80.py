@@ -4,7 +4,7 @@ from math import sqrt
 voltage = 33000.0
 rated_power = 2000000.0
 rated_current = rated_power / (sqrt(3) * voltage)  # A = Power / sqrt(3) / Voltage. 3 phase.
-cutin_wind_speed = 4.0
+cutin_wind_speed = 3.0
 cutout_wind_speed = 25.0
 
 hub_height = 90.0

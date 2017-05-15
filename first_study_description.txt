@@ -1,0 +1,7 @@
+first   windmodels = [MeanWind, WeibullWind, WeibullWindBins]
+second  turbmodels = [frandsen2, danish_recommendation, frandsen, larsen_turbulence, Quarton]
+third   wakemodels = [Jensen, Larsen, Ainslie1D, Ainslie2D]
+
+workflow1.windrose.nbins = 15
+
+"first_study.dat"

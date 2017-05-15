@@ -16,10 +16,17 @@ def multiplied(array_deficits):
 
 def summed(array_deficits):
     total_deficit = sum(array_deficits)
+    if total_deficit > 1.0:
+        total_deficit = 1.0
     return total_deficit
 
+
+def maximum(array_deficits):
+    return max(array_deficits)
+
 if __name__ == '__main__':
-    deficits = [3, 4]
-    # print root_sum_square(deficits)
-    # print multiplied(deficits)
-    # print summed(deficits)
+    deficits = [0.3, 0.4]
+    print root_sum_square(deficits)
+    print multiplied(deficits)
+    print summed(deficits)
+    print maximum(deficits)
