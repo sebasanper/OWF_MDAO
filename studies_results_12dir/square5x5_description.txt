@@ -1,0 +1,6 @@
+5x5
+
+Had to change Gaussian shape to avoid depth less than 5.X m. And avoid crash of support structure design.
+var_x = var_y = 20000000.
+
+In study 3x3 its var_x = var_y = 10000000.

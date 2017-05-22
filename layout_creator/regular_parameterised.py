@@ -34,7 +34,7 @@ def square_layout(dx, dy, dh, n_rows, n_columns, area, angle):
         if j % 2 == 0:
             layout[0][j] = [layout[0][j - 1][0] - dh, layout[0][j - 1][1] + dy]
 
-        elif j % 2 == 1:
+        else:
             layout[0][j] = [layout[0][j - 1][0] + dh, layout[0][j - 1][1] + dy]
 
     for i in range(1, n_rows):
@@ -47,21 +47,19 @@ def square_layout(dx, dy, dh, n_rows, n_columns, area, angle):
             else:
                 layout[i][j] = [layout[i][j-1][0] + dh, layout[i][j-1][1] + dy]
 
-    c = 0
     for i in range(n_rows):
 
         for j in range(n_columns):
 
-            layout[i][j] = [c, layout[i][j][0] * (cos(angle)) - layout[i][j][1] * sin(angle), layout[i][j][0] * (sin(angle)) + layout[i][j][1] * cos(angle)]
-            c += 1
+            layout[i][j] = [layout[i][j][0] * (cos(angle)) - layout[i][j][1] * sin(angle), layout[i][j][0] * (sin(angle)) + layout[i][j][1] * cos(angle)]
 
-    with open("regular_layout.dat", "w") as regular_file:
+    with open("regular_3x5.dat", "w") as regular_file:
         for i in range(n_rows):
             for j in range(n_columns):
-                regular_file.write("{0:d}\t{1:f}\t{2:f}\n".format(layout[i][j][0], layout[i][j][1], layout[i][j][2]))
+                regular_file.write("{0}\t{1}\n".format(layout[i][j][0], layout[i][j][1]))
     return layout
 
 
 if __name__ == '__main__':
     area1 = AreaGiven()
-    print square_layout(560.0, 560.0, 0.0, 1, 8, area1, 0.0)
+    print square_layout(882.0, 450.0, 441.0, 5, 3, area1, 0.0)

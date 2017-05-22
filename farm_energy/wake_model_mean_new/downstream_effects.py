@@ -74,7 +74,7 @@ def Ainslie2DEffects(coordinates_upstream, thrust_coefficient, coordinates_downs
     for i in range(len(normalised_downstream)):
         parallel_distance = determine_front(angle3, normalised_upstream[0], normalised_upstream[1], normalised_downstream[i][0], normalised_downstream[i][1])
         perpendicular_distance = crosswind_distance(angle3, normalised_upstream[0], normalised_upstream[1], normalised_downstream[i][0], normalised_downstream[i][1])
-        if perpendicular_distance <= 2.0 and parallel_distance > 0.0:
+        if perpendicular_distance < 2.0 and parallel_distance > 0.0:
             # if wind_speed_upstream > 23.0:
                 # print thrust_coefficient, wind_speed_upstream, parallel_distance, perpendicular_distance, ambient_turbulence_intensity
             partial_deficits.append(ainslie_full(thrust_coefficient, wind_speed_upstream, parallel_distance, perpendicular_distance, ambient_turbulence_intensity))

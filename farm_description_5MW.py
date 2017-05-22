@@ -1,6 +1,6 @@
-central_platform = [[4000.0, 4000.0]]
+central_platform = [[2000.0, 450.0]]
 number_turbines_per_cable = [3]
-NT = 8
+NT = 15
 
 
 class Cost1:
@@ -34,12 +34,12 @@ def read_cablelist():
     return cables_info
 
 # Physical Environment
-ref_height_wind_speed = 62.0
+ref_height_wind_speed = 90.0
 alpha = 0.10  # Approximate mean value of fits to data in ECN report and paper of Tambke (EWEC 2004)
 hat = 0.8  # Horns Rev website: Tides are approximately 1.2 m; Paper ICCE: appr. 1.5 m - A little more than half of this is taken for 'extrapolation'
-lat = -0.8  # Horns Rev website: Tides are approximately 1.2 m; Paper ICCE: appr. 1.5 m - A little more than half of this is taken for 'extrapolation'
+lat = - 0.8  # Horns Rev website: Tides are approximately 1.2 m; Paper ICCE: appr. 1.5 m - A little more than half of this is taken for 'extrapolation'
 storm_surge_pos = 2.5  # Paper ICCE
-storm_surge_neg = -0.5  # Guess
+storm_surge_neg = - 0.5  # Guess
 Hs_50_year = 5.0  # Horns Rev website: Highest value in graph of Hm0 is 4.3. Somewhat higher value taken for 'extrapolation' (note: graph is for 1 hour values) - Support structure design tool description derives Hs_1_year = 0.64 * Hs_50_year
 Hs_1_year = 3.3  # Horns Rev website: waves of more than 6 m height reached every year. Divided by 1.86 to estimate significant wave height
 current_depth_averaged_50_year = 0.8  # [m/s] Horns Rev website: Currents may reach 0.8 m/s during storms (doesn't mention return period and whether this is depth averaged)

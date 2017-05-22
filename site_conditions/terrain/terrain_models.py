@@ -11,9 +11,9 @@ class Flat:
 
 class Plane:
     def __init__(self):
-        point1 = [7000.0, 0.0, 13.5]
-        point2 = [0.0, 0.0, 0.5]
-        point3 = [0.0, 1.0, 0.5]
+        point1 = [4000.0, 0.0, 15]
+        point2 = [0.0, 0.0, 12.0]
+        point3 = [0.0, 1.0, 12.0]
         self.point1 = [float(point1[i]) for i in range(3)]
         self.point2 = [float(point2[i]) for i in range(3)]
         self.point3 = [float(point3[i]) for i in range(3)]
@@ -34,21 +34,27 @@ class Plane:
 
 class Gaussian:
     def __init__(self):
-        self.centre = [3500.0, 0.0]
-        self.var_x = 1000000.0
-        self.var_y = 1000000.0
-        self.height = 13.5
+        self.centre = [2000.0, 450.0]
+        self.sigma_x = 3000.0  # Sigma is (max - desired value) times the distance from centre of rectangle to the sides, divided by two. Example: Rectangle is 4000x900. Centre at 2000x450. So 450 to one side, 450 * 3 = 1350 / 2 = 675.0. 3 is 15.0 m - 12.0 m (max - min water depth).
+        self.sigma_y = 675.0
+        self.height = 15.0
 
     def depth(self, x, y):
-        return self.height * exp(
-            - ((x - self.centre[0]) ** 2.0 / 2.0 / self.var_x + (y - self.centre[1]) ** 2.0 / 2.0 / self.var_y))
+        return self.height * exp(- ((x - self.centre[0]) ** 2.0 / 2.0 / self.sigma_x ** 2.0 + (y - self.centre[1]) ** 2.0 / 2.0 / self.sigma_y ** 2.0))
 
 
 class Rough:
+
     def __init__(self):
-        self.coordinates_x = [float(number) for number in [0, 2, 4, 6, 0, 2, 4, 6, 0, 2, 4, 6, 0, 2, 4, 6]]
-        self.coordinates_y = [float(number) for number in [1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4]]
-        self.depths = [float(number) for number in [0, 1, 0, 1, 1, 2, 1, 2, 0, 1, 0, 1, 1, 2, 1, 2]]
+        from random import random
+        self.coordinates_x = [float(number) for number in range(0, 4000, 500)]
+        self.coordinates_y = [float(number) for number in range(0, 900, 100)]
+        self.depths = [12.0 + random() * 3.0 for _ in range(len(self.coordinates_x) * len(self.coordinates_y))]
+        # k = 0
+        # for i in self.coordinates_x:
+        #     for j in self.coordinates_y:
+        #         print i, j, self.depths[k]
+        #         k += 1
 
     def depth(self, x, y):
         from scipy.interpolate import interp2d
@@ -77,7 +83,12 @@ if __name__ == '__main__':
     # print Gaussian
     # print depth([[0, 500.0, 0.0], [1, 1000.0, 0.0]], Flat)
     # [[0, 500.0, 0.0], [1, 1000.0, 0.0], [2, 1500.0, 0.0], [3, 2000.0, 0.0], [4, 2500.0, 0.0], [5, 3000.0, 0.0]] site_conditions.terrain.terrain_models.Flat
-    place = [[0, 230, 0.0]]
-    print depth(place, Flat)
-    print depth(place, Gaussian)
-    print depth(place, Plane)
+    place1 = [[0, 2000.000000,	450.000000]]
+    place2 = [[0, 0.000000,	450.000000]]
+    place3 = [[0, 2000.000000,	0.000000]]
+    print depth(place1, Flat)
+    print depth(place1, Gaussian)
+    print depth(place2, Gaussian)
+    print depth(place3, Gaussian)
+    print depth(place1, Plane)
+    print depth(place1, Rough)

@@ -1,0 +1,3 @@
+regular layout 3x8 with phase in between rows
+
+only Flat analysis until depth models are sorted.

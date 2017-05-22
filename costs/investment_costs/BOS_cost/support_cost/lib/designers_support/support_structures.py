@@ -130,6 +130,7 @@ class SupportDesigners(Designers):
     def design_monopile_diameter(self):
         if self.verbose is True:
             print "monopile diameter"
+        # print self.support_team.physical_environment.site.water_depth, self.fatigue_safety_factor
         monop_diam = brentq(self.stress_reserve_pile, 0.01, 100.0, xtol=0.01, full_output=True)[0]
         if self.verbose is True:
             print monop_diam
@@ -151,7 +152,7 @@ class SupportDesigners(Designers):
 
         max_pile_penetration = 0.0
         for loadcase in self.loadcases:
-            loads_with_safety = self.get_loads(loadcase, -self.support_team.physical_environment.site.water_depth)
+            loads_with_safety = self.get_loads(loadcase, - self.support_team.physical_environment.site.water_depth)
             fx = abs(loads_with_safety[0]) / (self.bearing_resistance_factor * self.fatigue_safety_factor)
             my = abs(loads_with_safety[4]) / (self.bearing_resistance_factor * self.fatigue_safety_factor)
 
@@ -246,7 +247,7 @@ class SupportDesigners(Designers):
         d_inner = d_outer - 2.0 * self.design_variables.monopile.wall_thickness
         # loads_with_safety = range(6)
         for loadcase in self.loadcases:
-            loads_with_safety = self.get_loads(loadcase, -self.support_team.physical_environment.site.water_depth)
+            loads_with_safety = self.get_loads(loadcase, - self.support_team.physical_environment.site.water_depth)
 
             [stress, critical_stress] = self.support_team.mechanical_analysts.get_stress_pile(d_outer, d_inner,
                                                                                               loads_with_safety[2],

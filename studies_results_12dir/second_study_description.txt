@@ -1,0 +1,48 @@
+wakemodels = [Jensen, Larsen, Ainslie1D, Ainslie2D]
+    windrosemodels = [
+        "/home/sebasanper/PycharmProjects/owf_MDAO/site_conditions/wind_conditions/weibull_windrose_12unique.dat",
+        "/home/sebasanper/PycharmProjects/owf_MDAO/site_conditions/wind_conditions/weibull_windrose_12sameWeibull.dat",
+        "/home/sebasanper/PycharmProjects/owf_MDAO/site_conditions/wind_conditions/weibull_windrose_12identical.dat"]
+    turbmodels = [frandsen2, danish_recommendation, frandsen, larsen_turbulence, Quarton]
+    cablemodels = [cable_optimiser, radial_cable, random_cable]
+    mergingmodels = [root_sum_square, maximum, multiplied, summed]
+    thrustmodels = [
+        "/home/sebasanper/PycharmProjects/owf_MDAO/farm_energy/wake_model_mean_new/aero_power_ct_models/windsim_ct.dat",
+        "/home/sebasanper/PycharmProjects/owf_MDAO/farm_energy/wake_model_mean_new/aero_power_ct_models/NREL_5MW_C_T_new.txt",
+        "/home/sebasanper/PycharmProjects/owf_MDAO/farm_energy/wake_model_mean_new/aero_power_ct_models/FASTstatistics_ct.dat"]
+    powermodels = [
+        "/home/sebasanper/PycharmProjects/owf_MDAO/farm_energy/wake_model_mean_new/aero_power_ct_models/FASTstatistics_power.dat",
+        "/home/sebasanper/PycharmProjects/owf_MDAO/farm_energy/wake_model_mean_new/aero_power_ct_models/windsim_power.dat",
+        "/home/sebasanper/PycharmProjects/owf_MDAO/farm_energy/wake_model_mean_new/aero_power_ct_models/powercurve.dat",
+        "/home/sebasanper/PycharmProjects/owf_MDAO/farm_energy/wake_model_mean_new/aero_power_ct_models/nrel_cp.dat"]
+    depthmodels = [Plane, Gaussian, Flat]
+
+    def study(a, b, c, d, e, f, g, h):
+        print a, b, c, d, e, f, g, h
+        workflow1 = Workflow(WeibullWindBins, windrosemodels[b], turbmodels[c], None, depthmodels[h], farm_support_cost, None, oandm, cablemodels[d], infield_efficiency, thrust_coefficient, thrustmodels[f], wakemodels[a], mergingmodels[e], power, powermodels[g], aep_average, other_costs, total_costs, LPC)
+        start = time()
+        workflow1.windrose.nbins = 15
+        workflow1.run("coords2.dat")
+        output.write("{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\n".format(a, b, c, d, e, f, g, h, workflow1.aep, workflow1.finance, time() - start))
+        return workflow1.aep, workflow1.finance
+
+    # def study(a, b, c, d, e, f, g, h):
+    #     print a, b, c, d, e, f, g, h
+    #     workflow1 = Workflow(WeibullWindBins, windrosemodels[b], turbmodels[c], None, depthmodels[h],
+    #                          farm_support_cost, None, oandm, cablemodels[d], infield_efficiency, thrust_coefficient,
+    #                          thrustmodels[f], wakemodels[a], mergingmodels[e], power, powermodels[g], aep_average,
+    #                          other_costs, total_costs, LPC)
+    #     start = time()
+    #     workflow1.windrose.nbins = 15
+    #     workflow1.run("coords2.dat")
+    #     output.write("{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\n".format(a, b, c, d, e, f, g, h, workflow1.aep,
+    #                                                                        workflow1.finance, time() - start))
+    #     return workflow1.aep, workflow1.finance
+
+    start1 = time()
+    with open("second_study_3.dat", "w", 1) as output:
+        second_study = Parallel(n_jobs=8)(delayed(study)(a, b, c, d, e, f, g, h) for a in range(1, 4) for b in range(3) for c in range(5) for d in range(3) for e in range(4) for f in range(3) for g in range(4) for h in range(3))
+
+For study_3.dat had to make CT <= 0.98 to avoid NaN in Larsen Model. (Problem in Quarton here: Iw = K1 * (Ct ** a1) * (Ia ** a2) * (x / xn) ** a3)
+For study_2.dat had to make CT < 1.00 to avoid problem in Quarton Turbulence model. (problem here: xh = r0 * (da + dl + dm) ** (- 0.5))
+

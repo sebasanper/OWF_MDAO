@@ -5,6 +5,7 @@ from memoize import Memoize
 
 D = 2.0 * r0
 rotor_area = pi * r0 ** 2.0
+# print rotor_area
 
 
 def rnb(ia):
@@ -13,6 +14,7 @@ rnb = Memoize(rnb)
 
 
 def r95(ia):
+    # print 0.5 * (rnb(ia) + min(H, rnb(ia)))
     return 0.5 * (rnb(ia) + min(H, rnb(ia)))
 r95 = Memoize(r95)
 
@@ -23,16 +25,20 @@ wake_radius = Memoize(wake_radius)
 
 
 def deff(Ct):
+    # print D * sqrt((1.0 + sqrt(1.0 - Ct)) / (2.0 * sqrt(1.0 - Ct)))
     return D * sqrt((1.0 + sqrt(1.0 - Ct)) / (2.0 * sqrt(1.0 - Ct)))
 deff = Memoize(deff)
 
 
 def x0(Ct, ia):
+    # print "x0"
+    # print (2.0 * r95(ia) / deff(Ct)) ** 3.0 - 1.0
     return 9.5 * D / ((2.0 * r95(ia) / deff(Ct)) ** 3.0 - 1.0)
 x0 = Memoize(x0)
 
 
 def c1(Ct, ia):
+    # print (x0(Ct, ia)) ** (- 5.0 / 6.0)
     return (deff(Ct) / 2.0) ** (5.0 / 2.0) * (105.0 / 2.0 / pi) ** (- 1.0 / 2.0) * (Ct * rotor_area * x0(Ct, ia)) ** (- 5.0 / 6.0)  # Prandtl mixing length
 c1 = Memoize(c1)
 
@@ -106,4 +112,6 @@ if __name__ == '__main__':
 
     # for x in range(560):
     #     print wake_deficit(8.5, 0.79, x*10.0, 0.0, 0.1)
+    # print c1(0.9886650102240304, 0.11)
+    print determine_if_in_wake_larsen(5000.0, 0.0, 4000.0, 0.0, 0.9886650102240304, 180.0, 0.11)
     pass

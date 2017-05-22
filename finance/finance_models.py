@@ -6,12 +6,12 @@ def LPC(investment, oandm, decommissioning, aep, electrical_efficiency):
     rate = 0.075
     annuity = 1.0 / rate * (1.0 - 1.0 / (1.0 + rate) ** 20.0)
     lpc_previous = (investment * 100.0) / (annuity * (aep / 1000.0)) + oandm * 100.0 / (aep / 1000.0) + decommissioning * 100.0 * (1.0 + 0.075) ** (- 20.0) / (annuity * (aep / 1000.0))
-    print "investment contribution  %"
-    print ((investment * 100.0) / (annuity * (aep / 1000.0))) / lpc_previous * 100.0
-    print "O&M contribution  %"
-    print (oandm * 100.0 / (aep / 1000.0)) / lpc_previous * 100.0
-    print "decommissioning contribution  %"
-    print (decommissioning * 100.0 * (1.0 + 0.075) ** (- 20.0) / (annuity * (aep / 1000.0))) / lpc_previous * 100.0
+    # print "investment contribution  %"
+    # print ((investment * 100.0) / (annuity * (aep / 1000.0))) / lpc_previous * 100.0
+    # print "O&M contribution  %"
+    # print (oandm * 100.0 / (aep / 1000.0)) / lpc_previous * 100.0
+    # print "decommissioning contribution  %"
+    # print (decommissioning * 100.0 * (1.0 + 0.075) ** (- 20.0) / (annuity * (aep / 1000.0))) / lpc_previous * 100.0
     return lpc_previous / electrical_efficiency
 
 

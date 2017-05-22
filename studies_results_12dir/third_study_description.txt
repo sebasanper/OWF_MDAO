@@ -1,0 +1,1 @@
+Same as second study, but with nbins = 25 for discretisation of the Weibull probability distribution.

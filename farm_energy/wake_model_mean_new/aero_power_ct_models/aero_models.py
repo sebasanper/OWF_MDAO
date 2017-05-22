@@ -92,6 +92,10 @@ thrust_nrel2 = Memoize(thrust_nrel2)
 def thrust_coefficient(wind_speed, lookup_file):
     ct_table = AeroLookup(lookup_file)
     ct = ct_table.interpolation(wind_speed)
+    if ct > 0.9:
+        ct = 0.9
+    elif ct < 0.05:
+        ct = 0.05
     return ct
 thrust_coefficient = Memoize(thrust_coefficient)
 

@@ -1,22 +1,27 @@
 from numpy import exp
 
 
-class MeanWind:
+class MeanWind(object):
 
-    def __init__(self):
-        self.windrose_file = "/home/sebasanper/PycharmProjects/owf_MDAO/site_conditions/wind_conditions/windrose2.dat"
+    def __init__(self, windrose_file):
+        from math import gamma
+        self.windrose_file = windrose_file
         self.direction = []
-        self.speed = []
+        self.weibull_scale = []
+        self.weibull_shape = []
         self.dir_probability = []
+        self.expected_wind_speeds = []
+        self.nbins = 0
 
         with open(self.windrose_file, 'r') as windrose:
 
             for line in windrose:
-
                 columns = line.split()
                 self.direction.append(float(columns[0]))
-                self.speed.append([float(columns[1])])
-                self.dir_probability.append(float(columns[2]))
+                self.weibull_scale.append(float(columns[1]))
+                self.weibull_shape.append(float(columns[2]))
+                self.dir_probability.append(float(columns[3]))
+                self.expected_wind_speeds.append([self.weibull_scale[-1] * gamma(1.0 + 1.0 / self.weibull_shape[-1])])  # Gamma function used in the expected value of a Weibull random variable.
 
 
 class WeibullWindBins(object):
@@ -45,7 +50,6 @@ class WeibullWindBins(object):
 
     def get_wind_speeds(self):
         delta = (self.cutout - self.cutin) / self.nbins
-        print delta
         windspeeds = []
         for i in range(self.nbins + 1):
 
@@ -86,5 +90,8 @@ if __name__ == '__main__':
     # print(seb.speed_probabilities(range(3, 26)))
     bas = WeibullWindBins("/home/sebasanper/PycharmProjects/owf_MDAO/site_conditions/wind_conditions/weibull_windrose.dat")
     bas.nbins = 5
-    print bas.get_wind_speeds()
+    # print bas.get_wind_speeds()
     print bas.speed_probabilities()
+
+    expected = MeanWind("/home/sebasanper/PycharmProjects/owf_MDAO/site_conditions/wind_conditions/weibull_windrose.dat")
+    print expected.speed()

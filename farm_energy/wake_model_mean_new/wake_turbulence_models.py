@@ -1,5 +1,6 @@
 from math import sqrt
 from memoize import Memoize
+from turbine_description import rotor_radius
 #  Change in Fatigue and Extreme Loading when Moving Wind Farms Offshore // Sten Frandsen and Kenneth Thomsen.
 #  Only nearest wake-shedding turbine matters in a wind farm.
 
@@ -77,9 +78,10 @@ def frandsen(ambient_turbulence, Ct, speed, spacing, large=False):
     return It
 
 
-def Quarton(ambient_turb_percentage, Ct, speed, x, tsr=9):
+def Quarton(ambient_turb_percentage, Ct, speed, x, tsr=7.6):
     # TODO
-    D = 80.0
+    D = rotor_radius * 2.0
+    x *= D
     Ia = ambient_turb_percentage
     K1 = 4.8
     a1 = 0.7
@@ -100,7 +102,9 @@ def Quarton(ambient_turb_percentage, Ct, speed, x, tsr=9):
 
     xh = r0 * (da + dl + dm) ** (- 0.5)
     xn = xh * (0.212 + 0.145 * m) ** 0.5 * (1.0 - (0.134 + 0.124 * m) ** 0.5) / (1.0 - (0.212 + 0.145 * m) ** 0.5) / (0.134 + 0.124 * m) ** 0.5
+    # print
     Iw = K1 * (Ct ** a1) * (Ia ** a2) * (x / xn) ** a3
+    # print Iw, x, xn
     return sqrt(Iw ** 2.0 + Ia ** 2.0)
 
 
@@ -123,10 +127,11 @@ def Quarton(ambient_turb_percentage, Ct, speed, x, tsr=9):
 
 if __name__ == "__main__":
     # 7d downstream
+    ct = 0.6
     with open('turb_downstream_d.dat', 'w') as out:
-        for x in range(400):
+        for x in range(100):
             d = float(x) * 0.1 + 0.1
-            out.write('{0}\t{1}\t{2}\t{3}\t{4}\t{5}\n'.format(d, danish_recommendation(0.13, 10.0, d), larsen_turbulence(0.13, 0.57, d), Quarton(0.13, 0.57, 100.0, 9.0, d * 100.0), frandsen(0.13, 0.57, d), frandsen2(0.13, 0.57, d)))
+            out.write('{0}\t{1}\t{2}\t{3}\t{4}\t{5}\n'.format(d, danish_recommendation(0.11, ct, 8.28, d), larsen_turbulence(0.11, ct, 8.28, d), Quarton(0.11, ct, 8.28, d), frandsen(0.11, ct, 8.28, d), frandsen2(0.11, ct, 8.28, d)))
 
     # print danish_recommendation(0.08, 8.5, 7.0)
     # print Larsen_turbulence(0.08, 7.0, 0.79)

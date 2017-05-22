@@ -66,14 +66,14 @@ def random_cable(layout):
 
     routes_dict = {1: routes}
 
-    print routes_dict
+    # print routes_dict
     total_distance = 0.0
     for i in range(len(routes)):
         summation = 0.0
         for j in range(len(routes[i])):
 
             distance_one = sqrt((layout[routes[i][j][0]][1] - layout[routes[i][j][1]][1]) ** 2.0 + (layout[routes[i][j][0]][2] - layout[routes[i][j][1]][2]) ** 2.0)
-            print distance_one, layout[routes[i][j][0]], layout[routes[i][j][1]]
+            # print distance_one, layout[routes[i][j][0]], layout[routes[i][j][1]]
             summation += distance_one
         total_distance += summation
     cable_length = total_distance

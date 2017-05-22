@@ -29,25 +29,25 @@ def other_costs(depth_central_platform, number_turbines, infield_length):
 
     investment_costs = project_development + procurement_auxiliary + procurement_rna + procurement_electrical + installation_auxiliary + installation_electrical + installation_rna
 
-    print "installation + procurement turbines"
-    print procurement_rna + installation_rna
-
-    print "installation + procurement electrical"
-    print installation_electrical + procurement_electrical
-
-    print "project development"
-    print project_development
-
-    print "auxiliary costs"
-    print procurement_auxiliary + installation_auxiliary
-
-    print "decommissioning costs"
-    print decommissioning
+    # print "installation + procurement turbines"
+    # print procurement_rna + installation_rna
+    #
+    # print "installation + procurement electrical"
+    # print installation_electrical + procurement_electrical
+    #
+    # print "project development"
+    # print project_development
+    #
+    # print "auxiliary costs"
+    # print procurement_auxiliary + installation_auxiliary
+    #
+    # print "decommissioning costs"
+    # print decommissioning
 
     management_investment = management_costs(investment_costs)
 
-    print "investment costs"
-    print investment_costs + management_investment
+    # print "investment costs"
+    # print investment_costs + management_investment
 
     return investment_costs + management_investment, decommissioning
 

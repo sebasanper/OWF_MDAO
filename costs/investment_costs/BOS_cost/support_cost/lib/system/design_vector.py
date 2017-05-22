@@ -7,6 +7,7 @@ Created on Wed Nov 04 13:10:18 2015
 
 # TOTAL SYSTEM **************************************************
 
+
 class DesignVector:
     def __init__(self):
 #        self.linking_variables = None
@@ -39,10 +40,10 @@ class SupportStructure:
 
 
 class Monopile:
-    diameter = 0.0 # [m]
-    wall_thickness = 0.0 # [m]
-    length = 0.0 # [m]
-    penetration_depth = 0.0 # [m] 
+    diameter = 0.0  # [m]
+    wall_thickness = 0.0  # [m]
+    length = 0.0  # [m]
+    penetration_depth = 0.0  # [m]
 
     def __init__(self):
         pass
