@@ -20,5 +20,6 @@ def design_support(water_depth, TI):
 
     return dimension_team_support.total_support_structure_cost + boat_landing_cost
 
+
 if __name__ == '__main__':
     print design_support(water_depth=12.0, TI=0.9)

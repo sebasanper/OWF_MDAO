@@ -391,4 +391,3 @@ NT = 80
 def myList(l):
     global WT_List
     WT_List = l
-

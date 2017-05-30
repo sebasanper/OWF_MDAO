@@ -78,16 +78,22 @@ def determine_if_in_wake_larsen(xt, yt, xw, yw, ct, alpha, ia):  # According to 
                 return fraction, value, distance_to_centre, distance_to_turbine
     else:
         return 0.0, False, distance_to_centre, distance_to_turbine
+
+
 determine_if_in_wake_larsen = Memoize(determine_if_in_wake_larsen)
 
 
 def wake_speed(U0, ct, x, y, ia):
     return U0 * (1.0 - ((ct * rotor_area * x ** (- 2.0)) ** (1.0 / 3.0)) / 9.0 * (y ** (3.0 / 2.0) * (3.0 * c1(ct, ia) ** 2.0 * ct * rotor_area * x) ** (- 1.0 / 2.0) - (35.0 / 2.0 / pi) ** (3.0 / 10.0) * (3.0 * c1(ct, ia) ** 2.0) ** (- 1.0 / 5.0)) ** 2.0)
+
+
 wake_speed = Memoize(wake_speed)
 
 
 def wake_deficit_larsen(U0, ct, x, y, ia):
     return 1.0 - wake_speed(U0, ct, x + x0(ct, ia), y, ia) / U0
+
+
 wake_deficit_larsen = Memoize(wake_deficit_larsen)
 
 if __name__ == '__main__':

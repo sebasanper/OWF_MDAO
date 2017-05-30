@@ -35,6 +35,8 @@ def ainslie(Ct, u0, distance_parallel, distance_perpendicular, I0):
     answer = d1[-1] * exp(- 3.56 * (Y / b(d1[-1], ct)) ** 2.0)  # * (1.0 + 7.12 * (0.07 * distance_perpendicular b(d1[-1], ct))) ** (- 0.5)
 
     return answer
+
+
 ainslie = Memoize(ainslie)
     # Code to calculate average wake deficit in all area of the rotor ###############
 

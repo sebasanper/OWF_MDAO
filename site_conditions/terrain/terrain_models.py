@@ -1,8 +1,13 @@
 from numpy import exp
+from math import sqrt
+
+
+def distance(x0, y0, x, y):
+    return sqrt((x0 - x) ** 2.0 + (y0 - y) ** 2.0)
 
 
 class Flat:
-    def __init__(self):
+    def __init__(self, minx, maxx, miny, maxy):
         pass
 
     def depth(self, x, y):
@@ -10,10 +15,10 @@ class Flat:
 
 
 class Plane:
-    def __init__(self):
-        point1 = [4000.0, 0.0, 15]
-        point2 = [0.0, 0.0, 12.0]
-        point3 = [0.0, 1.0, 12.0]
+    def __init__(self, minx, maxx, miny, maxy):
+        point1 = [maxx, maxy, 15]
+        point2 = [minx, miny, 12.0]
+        point3 = [minx, miny + 1.0, 12.0]
         self.point1 = [float(point1[i]) for i in range(3)]
         self.point2 = [float(point2[i]) for i in range(3)]
         self.point3 = [float(point3[i]) for i in range(3)]
@@ -33,22 +38,23 @@ class Plane:
 
 
 class Gaussian:
-    def __init__(self):
-        self.centre = [2000.0, 450.0]
-        self.sigma_x = 3000.0  # Sigma is (max - desired value) times the distance from centre of rectangle to the sides, divided by two. Example: Rectangle is 4000x900. Centre at 2000x450. So 450 to one side, 450 * 3 = 1350 / 2 = 675.0. 3 is 15.0 m - 12.0 m (max - min water depth).
-        self.sigma_y = 675.0
+    def __init__(self, minx, maxx, miny, maxy):
+        self.centre = [minx + (maxx - minx) / 2.0, miny + (maxy - miny) / 2.0]
+        self.sigma_x = distance(self.centre[0], self.centre[1], minx, miny) * 3.0 / 2.0  # Sigma is (max - desired value) times the distance from centre of rectangle to the sides, divided by two. Example: Rectangle is 4000x900. Centre at 2000x450. So 450 to one side, 450 * 3 = 1350 / 2 = 675.0. 3 is 15.0 m - 12.0 m (max - min water depth).
+        self.sigma_y = self.sigma_x
         self.height = 15.0
 
     def depth(self, x, y):
+        # print self.centre, self.sigma_x, self.sigma_y
         return self.height * exp(- ((x - self.centre[0]) ** 2.0 / 2.0 / self.sigma_x ** 2.0 + (y - self.centre[1]) ** 2.0 / 2.0 / self.sigma_y ** 2.0))
 
 
 class Rough:
 
-    def __init__(self):
+    def __init__(self, minx, maxx, miny, maxy):
         from random import random
-        self.coordinates_x = [float(number) for number in range(0, 4000, 500)]
-        self.coordinates_y = [float(number) for number in range(0, 900, 100)]
+        self.coordinates_x = [float(number) for number in range(int(minx), int(maxx), 504)]
+        self.coordinates_y = [float(number) for number in range(int(miny), int(maxy), 504)]
         self.depths = [12.0 + random() * 3.0 for _ in range(len(self.coordinates_x) * len(self.coordinates_y))]
         # k = 0
         # for i in self.coordinates_x:
@@ -64,31 +70,21 @@ class Rough:
 
 
 def depth(layout, model_type):
-    terrain = model_type()
+    terrain = model_type
     return [terrain.depth(layout[i][1], layout[i][2]) for i in range(len(layout))]
 
 
 if __name__ == '__main__':
-    # seabed1 = Flat()
-    # # print seabed1.depth
-    # # print
-    # seabed2 = Plane()
-    # # print seabed2.depth(0, 1)
-    # # print
-    # seabed3 = Gaussian()
-    # print seabed3.depth(2000.0, 0.8)
-    # # print
-    # seabed4 = Rough()
-    # print seabed4.depth(2.5, 3.1)
-    # print Gaussian
-    # print depth([[0, 500.0, 0.0], [1, 1000.0, 0.0]], Flat)
-    # [[0, 500.0, 0.0], [1, 1000.0, 0.0], [2, 1500.0, 0.0], [3, 2000.0, 0.0], [4, 2500.0, 0.0], [5, 3000.0, 0.0]] site_conditions.terrain.terrain_models.Flat
-    place1 = [[0, 2000.000000,	450.000000]]
-    place2 = [[0, 0.000000,	450.000000]]
-    place3 = [[0, 2000.000000,	0.000000]]
-    print depth(place1, Flat)
-    print depth(place1, Gaussian)
-    print depth(place2, Gaussian)
-    print depth(place3, Gaussian)
-    print depth(place1, Plane)
-    print depth(place1, Rough)
+    minx = 260.0
+    maxx = 4260.0
+    miny = 9251.0
+    maxy = 13251.0
+    place1 = [[0, 2100.000000, 11251.000000]]
+    place2 = [[0, 260.000000, 9251.000000]]
+    place3 = [[0, 4260.000000, 13251.000000]]
+    print depth(place1, Flat(minx, maxx, miny, maxy))
+    print depth(place1, Gaussian(minx, maxx, miny, maxy))
+    print depth(place2, Gaussian(minx, maxx, miny, maxy))
+    print depth(place3, Gaussian(minx, maxx, miny, maxy))
+    print depth(place1, Plane(minx, maxx, miny, maxy))
+    print depth(place1, Rough(minx, maxx, miny, maxy))

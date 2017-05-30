@@ -1,6 +1,6 @@
-central_platform = [[2000.0, 450.0]]
+central_platform = [[1000.0, 1000.0]]
 number_turbines_per_cable = [3]
-NT = 15
+NT = 9
 
 
 class Cost1:
@@ -32,6 +32,7 @@ def read_cablelist():
             cols = line.split()
             cables_info.append([float(cols[0]), float(cols[1]), float(cols[2])])
     return cables_info
+
 
 # Physical Environment
 ref_height_wind_speed = 90.0

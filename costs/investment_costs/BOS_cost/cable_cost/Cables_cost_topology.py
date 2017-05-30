@@ -6,8 +6,8 @@ def cable_design(WT_List):
 
     from math import hypot
     from copy import deepcopy
-    from heapq import heappush, heappop, heapify, nsmallest
-    from time import time
+    from heapq import heappush, heappop, heapify
+    # from time import time
     from farm_description import central_platform as central_platform_locations, number_turbines_per_cable, read_cablelist
 
     NT = len(WT_List)

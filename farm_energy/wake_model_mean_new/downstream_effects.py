@@ -8,15 +8,17 @@ from memoize import Memoize
 from turbine_description import rotor_radius
 
 
+def constantwake(coordinates_upstream, thrust_coefficient, coordinates_downstream, angle, wind_speed_upstream, ambient_turbulence_intensity):
+    return [0.0 for _ in range(len(coordinates_downstream))]
+
+
 def JensenEffects(coordinates_upstream, thrust_coefficient, coordinates_downstream, angle, wind_speed_upstream, ambient_turbulence_intensity):
     angle3 = angle + 180.0
     # coordinates downstream will be an array with coordinates and original index.
     partial_deficits = []
 
     for i in range(len(coordinates_downstream)):
-        determ = determine_if_in_wake(coordinates_upstream[1], coordinates_upstream[2],
-                                             coordinates_downstream[i][1], coordinates_downstream[i][2],
-                                             angle3)
+        determ = determine_if_in_wake(coordinates_upstream[1], coordinates_upstream[2], coordinates_downstream[i][1], coordinates_downstream[i][2], angle3)
         # print determ[1], "determ1"
         # print determ[0], "determ0"
 

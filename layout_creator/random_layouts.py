@@ -14,9 +14,9 @@ class AreaGiven:
         if p2 is None:
             p2 = [4000.0, 0.0]
         if p3 is None:
-            p3 = [0.0, 900.0]
+            p3 = [0.0, 4000.0]
         if p4 is None:
-            p4 = [4000.0, 900.0]
+            p4 = [4000.0, 4000.0]
         self.p1 = p1
         self.p2 = p2
         self.p3 = p3
@@ -49,12 +49,12 @@ def random_rectangle(n_turbines, area):
     layout = gen_layout(n_turbines)
     layout = repair_distance(layout)
 
-    with open("random_layout2.dat", "w") as regular_file:
+    with open("layout_creator/random_layout4.dat", "w") as regular_file:
+        print "archivo"
         for item in layout:
             regular_file.write("{0}\t{1}\n".format(item[0], item[1]))
     return layout
 
 
-if __name__ == '__main__':
-    area1 = AreaGiven()
-    print random_rectangle(15, area1)
+area1 = AreaGiven()
+print random_rectangle(20, area1)

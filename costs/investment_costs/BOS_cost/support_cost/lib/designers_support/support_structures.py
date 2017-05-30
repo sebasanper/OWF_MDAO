@@ -1,8 +1,8 @@
 # VERTICAL HEIGHTS W.R.T. MSL
 from math import pi, atan
 
-from scipy.optimize import brentq, fmin_slsqp  # , fminbound, newton
-from numpy import array
+from scipy.optimize import brentq  # fmin_slsqp  # , fminbound, newton
+# from numpy import array
 
 from .designers import Designers
 

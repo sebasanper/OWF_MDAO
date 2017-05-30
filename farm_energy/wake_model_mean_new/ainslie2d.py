@@ -49,7 +49,7 @@ def ainslie_full(ct, u0, distance_parallel, distance_perpendicular, i0):
         A.append(- k * E(j * k, old_u[i], (u0 - old_u[i]) / u0, u0, i0, ct))
         B.append(2.0 * (h ** 2.0 * old_u[i] + k * E(j * k, old_u[i], (u0 - old_u[i]) / u0, u0, i0, ct)))
         C.append(- k * E(j * k, old_u[i], (u0 - old_u[i]) / u0, u0, i0, ct))
-        R.append(k * E(j * k, old_u[i], (u0 - old_u[i]) / u0, u0, i0, ct) * (2.0 * old_u[i+1] - 2.0 * old_u[i]) + 2.0 * h ** 2.0 * old_u[i] ** 2.0)
+        R.append(k * E(j * k, old_u[i], (u0 - old_u[i]) / u0, u0, i0, ct) * (2.0 * old_u[i + 1] - 2.0 * old_u[i]) + 2.0 * h ** 2.0 * old_u[i] ** 2.0)
 
         v[0] = 0.0
         # print time() - start, "loop out"
@@ -57,17 +57,17 @@ def ainslie_full(ct, u0, distance_parallel, distance_perpendicular, i0):
             # print j, i, j * k, i * h, old_u[i], (u0 - old_u[i]) / u0
             #  Uncomment if v is not neglected. Radial velocity.
             if j == 1:
-                v[i] = (i * h) / ((i * h) + h) * (old_v[i-1] - h / k * (old_u[i] - u_initial[i]))
+                v[i] = (i * h) / ((i * h) + h) * (old_v[i - 1] - h / k * (old_u[i] - u_initial[i]))
             elif j > 1:
-                v[i] = (i * h) / ((i * h) + h) * (old_v[i-1] - h / k * (old_u[i] - old2_u[i]))
+                v[i] = (i * h) / ((i * h) + h) * (old_v[i - 1] - h / k * (old_u[i] - old2_u[i]))
 
             A.append(k * (h * E(j * k, old_u[i], (u0 - old_u[i]) / u0, u0, i0, ct) - (i * h) * h * v[i] - 2.0 * (i * h) * E(j * k, old_u[i], (u0 - old_u[i]) / u0, u0, i0, ct)))
             B.append(4.0 * (i * h) * (h ** 2.0 * old_u[i] + k * E(j * k, old_u[i], (u0 - old_u[i]) / u0, u0, i0, ct)))
             C.append(k * ((i * h) * h * v[i] - 2.0 * (i * h) * E(j * k, old_u[i], (u0 - old_u[i]) / u0, u0, i0, ct) - h * E(j * k, old_u[i], (u0 - old_u[i]) / u0, u0, i0, ct)))
             if i < ni - 1:
-                R.append(h * k * E(j * k, old_u[i], (u0 - old_u[i]) / u0, u0, i0, ct) * (old_u[i+1] - old_u[i-1]) + 2.0 * k * E(j * k, old_u[i], (u0 - old_u[i]) / u0, u0, i0, ct) * (i * h) * (old_u[i+1] - 2.0 * old_u[i] + old_u[i-1]) - (i * h) * h * k * old_v[i] * (old_u[i+1] - old_u[i-1]) + 4.0 * (i * h) * h ** 2.0 * old_u[i] ** 2.0)
+                R.append(h * k * E(j * k, old_u[i], (u0 - old_u[i]) / u0, u0, i0, ct) * (old_u[i + 1] - old_u[i - 1]) + 2.0 * k * E(j * k, old_u[i], (u0 - old_u[i]) / u0, u0, i0, ct) * (i * h) * (old_u[i + 1] - 2.0 * old_u[i] + old_u[i - 1]) - (i * h) * h * k * old_v[i] * (old_u[i + 1] - old_u[i - 1]) + 4.0 * (i * h) * h ** 2.0 * old_u[i] ** 2.0)
             elif i == ni - 1:
-                R.append(h * k * E(j * k, old_u[i], (u0 - old_u[i]) / u0, u0, i0, ct) * (u0 - old_u[i-1]) + 2.0 * k * E(j * k, old_u[i], (u0 - old_u[i]) / u0, u0, i0, ct) * (i * h) * (u0 - 2.0 * old_u[i] + old_u[i-1]) - (i * h) * h * k * old_v[i] * (u0 - old_u[i-1]) + 4.0 * (i * h) * h ** 2.0 * old_u[i] ** 2.0)
+                R.append(h * k * E(j * k, old_u[i], (u0 - old_u[i]) / u0, u0, i0, ct) * (u0 - old_u[i - 1]) + 2.0 * k * E(j * k, old_u[i], (u0 - old_u[i]) / u0, u0, i0, ct) * (i * h) * (u0 - 2.0 * old_u[i] + old_u[i - 1]) - (i * h) * h * k * old_v[i] * (u0 - old_u[i - 1]) + 4.0 * (i * h) * h ** 2.0 * old_u[i] ** 2.0)
         # print time() - start
 
         C[0] += A[0]
@@ -97,6 +97,8 @@ def ainslie_full(ct, u0, distance_parallel, distance_perpendicular, i0):
     # U = U0 - sqrt((1.0 / A) * simpson_integrate2D(G, 0.0, 0.5, 5, 0.0, 2.0 * pi, 10))
     # return 1.0 - old_u[int(round(distance_perpendicular * rotor_diameter, 0))] / u0
     return 1.0 - old_u[int(distance_perpendicular * ni / di)] / u0
+
+
 ainslie_full = Memoize(ainslie_full)
     # centreline.close()
     # velocity.close()

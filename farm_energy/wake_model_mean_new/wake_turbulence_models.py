@@ -7,6 +7,8 @@ from turbine_description import rotor_radius
 
 def frandsen2(ambient_turbulence, Ct, wind_speed, spacing):
     return sqrt(1.2 * Ct / spacing ** 2.0 + ambient_turbulence ** 2.0)
+
+
 frandsen2 = Memoize(frandsen2)
 
 
@@ -22,7 +24,7 @@ def danish_recommendation(ambient_turbulence, ct, wind_speed, spacing):
 
     # Beta_l, x is turbine spacing
 
-    def beta_l(d, cluster=False):
+    def beta_l(d, cluster=True):
         if cluster:
             if d < 2.9838:
                 return 1.0
@@ -61,7 +63,7 @@ def frandsen(ambient_turbulence, Ct, speed, spacing, large=False):
     Ia = ambient_turbulence
     s = spacing
     # 0.8 sometimes 0.3 double check
-    u = 10.0  # wind speed
+    # u = 10.0  # wind speed
     Iw = 1.0 / (1.5 + 0.8 * s / Ct ** 0.5)
     It = (Iw ** 2.0 + Ia ** 2.0) ** 0.5
 
@@ -70,7 +72,7 @@ def frandsen(ambient_turbulence, Ct, speed, spacing, large=False):
         # in the direction perpendicular to wind. For regular layouts.
 
         sd = 7.0
-        sc = 5.0
+        sc = 7.0
         Iw = 0.36 / (1.0 + 0.2 * (sd * sc / Ct) ** 0.5)
         Ia = 0.5 * (Ia + (Iw ** 2.0 + Ia ** 2.0) ** 0.5)
         It = (Iw ** 2.0 + Ia ** 2.0) ** 0.5
