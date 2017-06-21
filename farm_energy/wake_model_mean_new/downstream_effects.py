@@ -1,10 +1,12 @@
+from memoize import Memoize
 from farm_energy.wake_model_mean_new.jensen import *
 from farm_energy.wake_model_mean_new.larsen import *
 from farm_energy.wake_model_mean_new.ainslie1d import *
-from farm_energy.wake_model_mean_new.ainslie2d import *
+# from farm_energy.wake_model_mean_new.ainslie2d import ainslie_full
+from farm_energy.wake_model_mean_new.ainslie2d_cy import ainslie_full
+ainslie_full = Memoize(ainslie_full)
 from farm_energy.wake_model_mean_new.ainslie_common import crosswind_distance, determine_front
 from time import time
-from memoize import Memoize
 from turbine_description import rotor_radius
 
 

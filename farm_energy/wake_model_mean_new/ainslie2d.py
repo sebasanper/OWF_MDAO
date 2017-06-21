@@ -4,6 +4,8 @@ from farm_energy.wake_model_mean_new.ainslie_common import b, E
 from time import time
 from memoize import Memoize
 from turbine_description import rotor_radius
+b = Memoize(b)
+E = Memoize(E)
 rotor_diameter = 2.0 * rotor_radius
 
 
@@ -118,4 +120,4 @@ if __name__ == '__main__':
     # print jensen(0.79, 560.0, 0.04, 40.0)
     # print larsen(8.5, 0.79, 560.0, 0.0, 0.08)
     # print ainslie_full(0.28025, -30.7274355682, 2.30063219336, 23.625, 0.11, 0.0537295322098)
-    print ainslie_full(0.537295322098, 10.0, 14.0125, 2.0, 0.11)
+    print ainslie_full(0.537295322098, 10.0, 14.0125, 0.3, 0.11)

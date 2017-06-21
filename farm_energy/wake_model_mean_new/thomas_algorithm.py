@@ -57,7 +57,7 @@ def thomas(a, b, c, d):
 
     # Return the value
     return x
-
+thomas = Memoize2(thomas)
 if __name__ == '__main__':
     a = [1.0 for _ in range(30)]
     b = [2.0 for _ in range(31)]

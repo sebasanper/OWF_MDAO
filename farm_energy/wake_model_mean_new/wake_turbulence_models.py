@@ -47,6 +47,9 @@ def danish_recommendation(ambient_turbulence, ct, wind_speed, spacing):
     return Id
 
 
+danish_recommendation = Memoize(danish_recommendation)
+
+
 def larsen_turbulence(ambient_turbulence, Ct, speed, spacing):
     # Wind Resource Assessment and Micro-siting: Science and Engineering
     # By Matthew Huaiquan Zhangaiquan Zhang
@@ -56,6 +59,9 @@ def larsen_turbulence(ambient_turbulence, Ct, speed, spacing):
     Ia = ambient_turbulence
     Id = sqrt(Ia ** 2.0 + Iw ** 2.0)
     return Id
+
+
+larsen_turbulence = Memoize(larsen_turbulence)
 
 
 def frandsen(ambient_turbulence, Ct, speed, spacing, large=False):
@@ -78,6 +84,9 @@ def frandsen(ambient_turbulence, Ct, speed, spacing, large=False):
         It = (Iw ** 2.0 + Ia ** 2.0) ** 0.5
 
     return It
+
+
+frandsen = Memoize(frandsen)
 
 
 def Quarton(ambient_turb_percentage, Ct, speed, x, tsr=7.6):
@@ -109,6 +118,8 @@ def Quarton(ambient_turb_percentage, Ct, speed, x, tsr=7.6):
     # print Iw, x, xn
     return sqrt(Iw ** 2.0 + Ia ** 2.0)
 
+
+Quarton = Memoize(Quarton)
 
 #  ONLY to be used with the Ainslie Eddy Viscosity model. Use Eddy Viscosity term from the Ainslie model (E)
 # def Lange(eddy_viscosity, free_flow_wind_speed, hub_height, wake_radius, karman=0.41):

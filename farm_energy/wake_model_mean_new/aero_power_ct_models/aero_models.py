@@ -36,7 +36,7 @@ class AeroLookup:
         return result
 
 
-def power_coefficient(wind_speed, cutin=cutin_wind_speed, cutout=cutout_wind_speed):
+def power_coefficient(wind_speed, rated, r, cutin=cutin_wind_speed, cutout=cutout_wind_speed):
     table_cp = AeroLookup("/home/sebasanper/PycharmProjects/owf_MDAO/farm_energy/wake_model_mean_new/aero_power_ct_models/nrel_cp.dat")
     if wind_speed < cutin:
         return 0.0
@@ -47,11 +47,15 @@ def power_coefficient(wind_speed, cutin=cutin_wind_speed, cutout=cutout_wind_spe
         return rated_power
     else:
         return 0.0
+
+
 power_coefficient = Memoize(power_coefficient)
 
-
-def power(wind_speed, power_lookup_file, cutin=cutin_wind_speed, cutout=cutout_wind_speed, rated=rated_wind, r=rotor_radius):
+from memoize import countcalls
+@countcalls
+def power2(wind_speed, power_lookup_file, cutin=cutin_wind_speed, cutout=cutout_wind_speed, rated=rated_wind, r=rotor_radius):
     table_power = AeroLookup(power_lookup_file)
+    # print "iuno"
     if power_lookup_file == "/home/sebasanper/PycharmProjects/owf_MDAO/farm_energy/wake_model_mean_new/aero_power_ct_models/nrel_cp.dat":
         if wind_speed < cutin:
             return 0.0
@@ -70,7 +74,9 @@ def power(wind_speed, power_lookup_file, cutin=cutin_wind_speed, cutout=cutout_w
         return p
     else:
         return 0.0
-power = Memoize(power)
+
+
+power = Memoize(power2)
 
 
 def thrust_nrel2(wind_speed, r=rotor_radius):
@@ -86,10 +92,13 @@ def thrust_nrel2(wind_speed, r=rotor_radius):
         return 1.0
     else:
         return ct
+
+
 thrust_nrel2 = Memoize(thrust_nrel2)
 
-
-def thrust_coefficient(wind_speed, lookup_file):
+@countcalls
+def thrust_coefficient2(wind_speed, lookup_file):
+    # print "dos"
     ct_table = AeroLookup(lookup_file)
     ct = ct_table.interpolation(wind_speed)
     if ct > 0.9:
@@ -97,7 +106,9 @@ def thrust_coefficient(wind_speed, lookup_file):
     elif ct < 0.05:
         ct = 0.05
     return ct
-thrust_coefficient = Memoize(thrust_coefficient)
+
+
+thrust_coefficient = Memoize(thrust_coefficient2)
 
 
 def power_v80(u0):
@@ -109,6 +120,8 @@ def power_v80(u0):
         return 2000000.0
     else:
         return 0.0
+
+
 power_v80 = Memoize(power_v80)
 
 if __name__ == '__main__':

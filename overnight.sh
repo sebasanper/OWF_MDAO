@@ -1,0 +1,17 @@
+python run_workflow_montecarlo.py;
+cd sampling;
+python monte_carlo.py;
+cd ..;
+python run_workflow_montecarlo.py;
+cd sampling;
+python monte_carlo.py;
+cd ..;
+python run_workflow_montecarlo.py;
+cd sampling;
+python monte_carlo.py;
+cd ..;
+python run_workflow_montecarlo.py;
+cd sampling;
+python monte_carlo.py;
+cd ..;
+python run_workflow_montecarlo.py;
