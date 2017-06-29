@@ -72,10 +72,10 @@ if __name__ == '__main__':
     # a = []
     # b = [[normalvariate(1.0, 1.0), normalvariate(1.0, 1.0), normalvariate(1.0, 1.0)] for _ in range(20000)]
     b = []
-    for n in range(10000):
+    for n in range(100000):
         u = random() * 2.0 - 1.0
         theta = random() * 2.0 * pi
-        c = 1.0  # random()
+        c = random()
         b.append([c * sqrt(1.0 - u ** 2.0) * cos(theta), c * sqrt(1.0 - u ** 2.0) * sin(theta), c * u])
     # start = time()
     # pareto_find(b)
