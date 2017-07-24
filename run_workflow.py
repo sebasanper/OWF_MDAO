@@ -1,5 +1,5 @@
 from workflow import Workflow
-from joblib import Parallel, delayed
+# from joblib import Parallel, delayed
 
 from site_conditions.wind_conditions.windrose import MeanWind, WeibullWindBins
 from costs.investment_costs.BOS_cost.cable_cost.cable_cost_models import cable_optimiser, radial_cable, random_cable
@@ -51,19 +51,19 @@ def study(a, b, c, d, e, f, g, h, i, j, layout_input_file, output3):
         print a, b, c, d, e
     workflow1 = Workflow(weibullmodels[i], windrosemodels[b], turbmodels[c], None, depthmodels[h], farm_support_cost_models[j], None, oandm, cablemodels[d], infield_efficiency, thrust_coefficient, thrustmodels[f], wakemodels[a], mergingmodels[e], power, powermodels[g], aep_average, other_costs, total_costs, LPC)
 
-    nbins = randint(2, 25)
-    real_angle = choice([30.0, 60.0, 90.0, 120.0, 180.0])
-    artif_angle = 400.0
-    while artif_angle > real_angle:
-        artif_angle = choice([1.0, 2.0, 5.0, 10.0, 15.0, 30.0, 60.0, 90.0, 120.0, 180.0])
-    #nbins = 17
-    #real_angle = 30.0
-    #artif_angle = 1.0
+    # nbins = randint(2, 25)
+    # real_angle = choice([30.0, 60.0, 90.0, 120.0, 180.0])
+    # artif_angle = 400.0
+    # while artif_angle > real_angle:
+    #     artif_angle = choice([1.0, 2.0, 5.0, 10.0, 15.0, 30.0, 60.0, 90.0, 120.0, 180.0])
+    nbins = 17
+    real_angle = 30.0
+    artif_angle = 1.0
 
     workflow1.windrose.nbins = nbins
     workflow1.windrose.artificial_angle = artif_angle
     workflow1.windrose.real_angle = real_angle
-    # workflow1.print_output = True
+    workflow1.print_output = True
     workflow1.run(layout_input_file)
     power2.reset()
     thrust_coefficient2.reset()
@@ -80,7 +80,7 @@ def run_study(layout_input_file, output_file):
 
 def prueba_study(layout_input_file, output_file):
     start1 = time()
-    study(2,	0,	0	,1	,3	,1,	4	,1	,1,	1, layout_input_file, output_file)
+    study(3,	1,	1	,1	,1	,1,	1	,1	,1,	1, layout_input_file, output_file)
 
     print time() - start1
 
@@ -96,5 +96,5 @@ if __name__ == '__main__':
     # run_study(25, "layout_creator/random_layout3.dat", "random3_25bins")
     # run_study(15, "layout_creator/random_layout4.dat", "random4_15bins")
     # run_study(25, "layout_creator/random_layout4.dat", "random4_25bins")
-    run_study("coords3x3.dat", "coords3x3_full_cython_ainslie2D_random.dat")
-    #prueba_study("coords3x3.dat", "coords3x3_test.dat")
+    # run_study("coords3x3.dat", "coords3x3_full_cython_ainslie2D_random.dat")
+    prueba_study("coords3x3.dat", "coords3x3_test.dat")

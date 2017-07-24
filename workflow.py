@@ -226,76 +226,76 @@ class Workflow:
 
 
 if __name__ == '__main__':
-    # from site_conditions.wind_conditions.windrose import MeanWind, WeibullWindBins
-    # from costs.investment_costs.BOS_cost.cable_cost.cable_cost_models import cable_optimiser, radial_cable, random_cable
-    # from costs.investment_costs.BOS_cost.cable_cost.cable_efficiency import infield_efficiency
-    # from costs.OM_costs.om_models import oandm
-    # from costs.investment_costs.BOS_cost.support_cost.farm_support_cost import farm_support_cost
-    # from finance.finance_models import LPC
-    # from farm_energy.AEP.aep import aep_average
-    # from costs.other_costs import other_costs
-    # from costs.total_costs import total_costs
-    # # from farm_energy.wake_model_mean_new.aero_power_ct_models.thrust_coefficient import ct_v80
-    # from farm_energy.wake_model_mean_new.wake_turbulence_models import frandsen2, danish_recommendation, frandsen, \
-    #     larsen_turbulence, Quarton
-    # from site_conditions.terrain.terrain_models import Flat, Plane, Rough, Gaussian
-    # from farm_energy.wake_model_mean_new.downstream_effects import JensenEffects as Jensen, LarsenEffects as Larsen, Ainslie1DEffects as Ainslie1D, Ainslie2DEffects as Ainslie2D, constantwake
-    # from farm_energy.wake_model_mean_new.wake_overlap import root_sum_square, maximum, multiplied, summed
-    # from farm_energy.wake_model_mean_new.aero_power_ct_models.aero_models import power, thrust_coefficient, power2, thrust_coefficient2
-    #
-    # from time import time
-    #
-    # # @profile
-    # def exe():
-    #     start = time()
-    #     workflow1 = Workflow(MeanWind, "/home/sebasanper/PycharmProjects/owf_MDAO/site_conditions/wind_conditions/weibull_windrose.dat", frandsen2, None, Flat, farm_support_cost, None, oandm, cable_optimiser, infield_efficiency, thrust_coefficient, "/home/sebasanper/PycharmProjects/owf_MDAO/farm_energy/wake_model_mean_new/aero_power_ct_models/windsim_ct.dat", Jensen, root_sum_square, power, "/home/sebasanper/PycharmProjects/owf_MDAO/farm_energy/wake_model_mean_new/aero_power_ct_models/nrel_cp.dat", aep_average, other_costs, total_costs, LPC)
-    #     # workflow1.windrose.nbins = 15
-    #     workflow1.print_output = True
-    #     print workflow1.run("layout_creator/random_layout1.dat")
-    #     runtime = time() - start
-    #     print "////  time Jensen : " + str(runtime) + " s."
-    #
-    # # a
-    # wakemodels = [constantwake, Jensen, Larsen, Ainslie1D, Ainslie2D]
-    # # i
-    # weibullmodels = [MeanWind, WeibullWindBins]
-    # # b
-    # windrosemodels = [
-    #     "/home/sebasanper/PycharmProjects/owf_MDAO/site_conditions/wind_conditions/weibull_windrose_12unique.dat",
-    #     "/home/sebasanper/PycharmProjects/owf_MDAO/site_conditions/wind_conditions/weibull_windrose_12sameWeibull.dat",
-    #     "/home/sebasanper/PycharmProjects/owf_MDAO/site_conditions/wind_conditions/weibull_windrose_12identical.dat"]
-    # # c
-    # turbmodels = ["ConstantTurbulence", frandsen2, danish_recommendation, frandsen, larsen_turbulence, Quarton]
-    # # d
-    # cablemodels = ["ConstantCable", cable_optimiser, radial_cable, random_cable]
-    # # e
-    # mergingmodels = [root_sum_square, maximum, multiplied, summed]
-    # # f
-    # thrustmodels = ["/home/sebasanper/PycharmProjects/owf_MDAO/farm_energy/wake_model_mean_new/aero_power_ct_models/ConstantThrust.dat", "/home/sebasanper/PycharmProjects/owf_MDAO/farm_energy/wake_model_mean_new/aero_power_ct_models/windsim_ct.dat", "/home/sebasanper/PycharmProjects/owf_MDAO/farm_energy/wake_model_mean_new/aero_power_ct_models/NREL_5MW_C_T_new.txt", "/home/sebasanper/PycharmProjects/owf_MDAO/farm_energy/wake_model_mean_new/aero_power_ct_models/FASTstatistics_ct.dat"]
-    # # g
-    # powermodels = ["/home/sebasanper/PycharmProjects/owf_MDAO/farm_energy/wake_model_mean_new/aero_power_ct_models/ConstantPower.dat", "/home/sebasanper/PycharmProjects/owf_MDAO/farm_energy/wake_model_mean_new/aero_power_ct_models/FASTstatistics_power.dat", "/home/sebasanper/PycharmProjects/owf_MDAO/farm_energy/wake_model_mean_new/aero_power_ct_models/windsim_power.dat", "/home/sebasanper/PycharmProjects/owf_MDAO/farm_energy/wake_model_mean_new/aero_power_ct_models/powercurve.dat", "/home/sebasanper/PycharmProjects/owf_MDAO/farm_energy/wake_model_mean_new/aero_power_ct_models/nrel_cp.dat"]
-    # # h
-    # depthmodels = [Flat, Gaussian, Plane, Rough]
-    # # j
-    # farm_support_cost_models = ["ConstantSupport", farm_support_cost]
-    #
-    # def study(a, b, c, d, e, f, g, h, i, j, nbins, layout_input_file, output):
-    #     # print a, b, c, d, e, f, g, h, i
-    #     workflow1 = Workflow(weibullmodels[i], windrosemodels[b], turbmodels[c], None, depthmodels[h], farm_support_cost_models[j], None, oandm, cablemodels[d], infield_efficiency, thrust_coefficient, thrustmodels[f], wakemodels[a], mergingmodels[e], power, powermodels[g], aep_average, other_costs, total_costs, LPC)
-    #     start = time()
-    #     workflow1.windrose.nbins = nbins
-    #     # workflow1.print_output = True
-    #     workflow1.run(layout_input_file)
-    #     runtime = time() - start
-    #     output.write("{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\n".format(a, b, c, d, e, f, g, h, i, j, workflow1.aep, workflow1.finance, runtime, workflow1.power_calls, workflow1.thrust_calls))
-    #     return workflow1.aep, workflow1.finance, runtime
-    #
-    # def test_study(nbins, layout_input_file, output_file):
-    #     start1 = time()
-    #     with open(output_file, "a", 1) as output:
-    #         study(3, 0, 0, 0, 0, 0, 0, 0, 0, 0, nbins, layout_input_file, output)
-    #
-    #     print time() - start1
-    #
-    # test_study(15, "coords3x3.dat", "test.dat")
-    pass
+    from site_conditions.wind_conditions.windrose import MeanWind, WeibullWindBins
+    from costs.investment_costs.BOS_cost.cable_cost.cable_cost_models import cable_optimiser, radial_cable, random_cable
+    from costs.investment_costs.BOS_cost.cable_cost.cable_efficiency import infield_efficiency
+    from costs.OM_costs.om_models import oandm
+    from costs.investment_costs.BOS_cost.support_cost.farm_support_cost import farm_support_cost
+    from finance.finance_models import LPC
+    from farm_energy.AEP.aep import aep_average
+    from costs.other_costs import other_costs
+    from costs.total_costs import total_costs
+    # from farm_energy.wake_model_mean_new.aero_power_ct_models.thrust_coefficient import ct_v80
+    from farm_energy.wake_model_mean_new.wake_turbulence_models import frandsen2, danish_recommendation, frandsen, \
+        larsen_turbulence, Quarton
+    from site_conditions.terrain.terrain_models import Flat, Plane, Rough, Gaussian
+    from farm_energy.wake_model_mean_new.downstream_effects import JensenEffects as Jensen, LarsenEffects as Larsen, Ainslie1DEffects as Ainslie1D, Ainslie2DEffects as Ainslie2D, constantwake
+    from farm_energy.wake_model_mean_new.wake_overlap import root_sum_square, maximum, multiplied, summed
+    from farm_energy.wake_model_mean_new.aero_power_ct_models.aero_models import power, thrust_coefficient, power2, thrust_coefficient2
+
+    from time import time
+
+    # @profile
+    def exe():
+        start = time()
+        workflow1 = Workflow(MeanWind, "/home/sebasanper/PycharmProjects/owf_MDAO/site_conditions/wind_conditions/weibull_windrose.dat", frandsen2, None, Flat, farm_support_cost, None, oandm, cable_optimiser, infield_efficiency, thrust_coefficient, "/home/sebasanper/PycharmProjects/owf_MDAO/farm_energy/wake_model_mean_new/aero_power_ct_models/windsim_ct.dat", Jensen, root_sum_square, power, "/home/sebasanper/PycharmProjects/owf_MDAO/farm_energy/wake_model_mean_new/aero_power_ct_models/nrel_cp.dat", aep_average, other_costs, total_costs, LPC)
+        # workflow1.windrose.nbins = 15
+        workflow1.print_output = True
+        print workflow1.run("layout_creator/random_layout1.dat")
+        runtime = time() - start
+        print "////  time Jensen : " + str(runtime) + " s."
+
+    # a
+    wakemodels = [constantwake, Jensen, Larsen, Ainslie1D, Ainslie2D]
+    # i
+    weibullmodels = [MeanWind, WeibullWindBins]
+    # b
+    windrosemodels = [
+        "/home/sebasanper/PycharmProjects/owf_MDAO/site_conditions/wind_conditions/weibull_windrose_12unique.dat",
+        "/home/sebasanper/PycharmProjects/owf_MDAO/site_conditions/wind_conditions/weibull_windrose_12sameWeibull.dat",
+        "/home/sebasanper/PycharmProjects/owf_MDAO/site_conditions/wind_conditions/weibull_windrose_12identical.dat"]
+    # c
+    turbmodels = ["ConstantTurbulence", frandsen2, danish_recommendation, frandsen, larsen_turbulence, Quarton]
+    # d
+    cablemodels = ["ConstantCable", cable_optimiser, radial_cable, random_cable]
+    # e
+    mergingmodels = [root_sum_square, maximum, multiplied, summed]
+    # f
+    thrustmodels = ["/home/sebasanper/PycharmProjects/owf_MDAO/farm_energy/wake_model_mean_new/aero_power_ct_models/ConstantThrust.dat", "/home/sebasanper/PycharmProjects/owf_MDAO/farm_energy/wake_model_mean_new/aero_power_ct_models/windsim_ct.dat", "/home/sebasanper/PycharmProjects/owf_MDAO/farm_energy/wake_model_mean_new/aero_power_ct_models/NREL_5MW_C_T_new.txt", "/home/sebasanper/PycharmProjects/owf_MDAO/farm_energy/wake_model_mean_new/aero_power_ct_models/FASTstatistics_ct.dat"]
+    # g
+    powermodels = ["/home/sebasanper/PycharmProjects/owf_MDAO/farm_energy/wake_model_mean_new/aero_power_ct_models/ConstantPower.dat", "/home/sebasanper/PycharmProjects/owf_MDAO/farm_energy/wake_model_mean_new/aero_power_ct_models/FASTstatistics_power.dat", "/home/sebasanper/PycharmProjects/owf_MDAO/farm_energy/wake_model_mean_new/aero_power_ct_models/windsim_power.dat", "/home/sebasanper/PycharmProjects/owf_MDAO/farm_energy/wake_model_mean_new/aero_power_ct_models/powercurve.dat", "/home/sebasanper/PycharmProjects/owf_MDAO/farm_energy/wake_model_mean_new/aero_power_ct_models/nrel_cp.dat"]
+    # h
+    depthmodels = [Flat, Gaussian, Plane, Rough]
+    # j
+    farm_support_cost_models = ["ConstantSupport", farm_support_cost]
+
+    def study(a, b, c, d, e, f, g, h, i, j, nbins, layout_input_file, output):
+        # print a, b, c, d, e, f, g, h, i
+        workflow1 = Workflow(weibullmodels[i], windrosemodels[b], turbmodels[c], None, depthmodels[h], farm_support_cost_models[j], None, oandm, cablemodels[d], infield_efficiency, thrust_coefficient, thrustmodels[f], wakemodels[a], mergingmodels[e], power, powermodels[g], aep_average, other_costs, total_costs, LPC)
+        start = time()
+        workflow1.windrose.nbins = nbins
+        workflow1.print_output = True
+        workflow1.run(layout_input_file)
+        runtime = time() - start
+        output.write("{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\n".format(a, b, c, d, e, f, g, h, i, j, workflow1.aep, workflow1.finance, runtime, workflow1.power_calls, workflow1.thrust_calls))
+        return workflow1.aep, workflow1.finance, runtime
+
+    def test_study(nbins, layout_input_file, output_file):
+        start1 = time()
+        with open(output_file, "a", 1) as output:
+            study(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, nbins, layout_input_file, output)
+
+        print time() - start1
+
+    test_study(15, "coords3x3.dat", "test.dat")
+    # pass
