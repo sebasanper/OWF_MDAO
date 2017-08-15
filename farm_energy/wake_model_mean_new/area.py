@@ -36,7 +36,7 @@ class AreaReal:
         d = self.d
         if d <= abs(r - R):
             return 1.0
-        elif abs(r - R) < d < abs(r + R):
+        elif abs(r - R) < d and d < abs(r + R):
             return (r ** 2 * acos((d ** 2 + r ** 2 - R ** 2) / (2.0 * d * r)) + R ** 2 * acos((d ** 2 + R ** 2 - r ** 2) / (2.0 * d * R)) - 0.5 * sqrt((- d + r + R) * (d + r - R) * (d - r + R) * (d + r + R))) / (pi * r ** 2)
         else:
             return 0.0
