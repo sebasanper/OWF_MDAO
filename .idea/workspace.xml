@@ -16,9 +16,6 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../WINDOW/turbine_description.py" afterPath="$PROJECT_DIR$/../WINDOW/turbine_description.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../WINDOW/workflow.py" afterPath="$PROJECT_DIR$/../WINDOW/workflow.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/coords3x3_test.dat" afterPath="$PROJECT_DIR$/coords3x3_test.dat" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/run_workflow.py" afterPath="$PROJECT_DIR$/run_workflow.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workflow.py" afterPath="$PROJECT_DIR$/workflow.py" />
     </list>
     <ignored path="owf_MDAO.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -447,7 +444,7 @@
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../WINDOW" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="vcs.Git" />
     <property name="js.eslint.eslintPackage" value="" />
     <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file:///home/sebasanper/PycharmProjects/owf_MDAO/AEP/wake_model_mean_new/ainslie2d.py" />
     <property name="ToolWindowFavorites.ShowToolbar" value="false" />
@@ -923,7 +920,14 @@
       <option name="project" value="LOCAL" />
       <updated>1502810040347</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="15 august changed self.aep into finance model">
+      <created>1502811437992</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1502811437992</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -970,13 +974,13 @@
   <component name="ToolWindowManager">
     <frame x="1920" y="27" width="1920" height="1053" extended-state="6" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22863248" sideWeight="0.49611542" order="2" side_tool="false" content_ui="combo" x="507" y="103" width="955" height="876" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22863248" sideWeight="0.49611542" order="2" side_tool="false" content_ui="combo" x="507" y="103" width="955" height="876" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32963374" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2164262" sideWeight="0.51160544" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32959402" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32963374" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32852387" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.42791763" sideWeight="0.4883946" order="2" side_tool="false" content_ui="tabs" x="106" y="41" width="1728" height="996" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.42791763" sideWeight="0.4883946" order="2" side_tool="false" content_ui="tabs" x="106" y="41" width="1728" height="996" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.24951644" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32852387" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" show_stripe_button="false" weight="0.23237179" sideWeight="0.50388455" order="1" side_tool="true" content_ui="tabs" x="742" y="316" width="435" height="447" />
@@ -1052,7 +1056,8 @@
     <MESSAGE value="to optimise 11 aug" />
     <MESSAGE value="changes 15 august" />
     <MESSAGE value="15 august good area for Jensen" />
-    <option name="LAST_COMMIT_MESSAGE" value="15 august good area for Jensen" />
+    <MESSAGE value="15 august changed self.aep into finance model" />
+    <option name="LAST_COMMIT_MESSAGE" value="15 august changed self.aep into finance model" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
