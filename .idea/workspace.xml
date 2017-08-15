@@ -2,12 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="afd1f0a0-6d72-49b1-9c06-39dd85c777c2" name="Default" comment="multiobjective working 3 August">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PSO_probs_multiobjective_owfMDAO.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/genetic_discrete_layout.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/layout_grid.dat" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/make_grid_layout.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/site_conditions/terrain/bathymetry.dat" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/costs/investment_costs/BOS_cost/support_cost/custom/misc.py" afterPath="$PROJECT_DIR$/costs/investment_costs/BOS_cost/support_cost/custom/misc_not_read.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../WINDOW/costs/OM_costs/om_models.py" afterPath="$PROJECT_DIR$/../WINDOW/costs/OM_costs/om_models.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../WINDOW/costs/investment_costs/installation_costs/auxiliary_installation_costs.py" afterPath="$PROJECT_DIR$/../WINDOW/costs/investment_costs/installation_costs/auxiliary_installation_costs.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../WINDOW/costs/investment_costs/procurement_costs/auxiliary_costs/auxiliary_costs.py" afterPath="$PROJECT_DIR$/../WINDOW/costs/investment_costs/procurement_costs/auxiliary_costs/auxiliary_costs.py" />
@@ -20,21 +14,8 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../WINDOW/make_grid_layout.py" afterPath="$PROJECT_DIR$/../WINDOW/make_grid_layout.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../WINDOW/run_workflow_light.py" afterPath="$PROJECT_DIR$/../WINDOW/run_workflow_light.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../WINDOW/turbine_description.py" afterPath="$PROJECT_DIR$/../WINDOW/turbine_description.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/owf_MDAO.iml" afterPath="$PROJECT_DIR$/.idea/owf_MDAO.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/accuracy_time.py" afterPath="$PROJECT_DIR$/accuracy_time.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/coords3x3.dat" afterPath="$PROJECT_DIR$/coords3x3.dat" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/coords3x3_test.dat" afterPath="$PROJECT_DIR$/coords3x3_test.dat" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/costs/investment_costs/BOS_cost/cable_cost/Hybrid.py" afterPath="$PROJECT_DIR$/costs/investment_costs/BOS_cost/cable_cost/Hybrid.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/costs/investment_costs/BOS_cost/support_cost/lib/analysts_humanities/cost_support_structure.py" afterPath="$PROJECT_DIR$/costs/investment_costs/BOS_cost/support_cost/lib/analysts_humanities/cost_support_structure.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/farm_description_5MW.py" afterPath="$PROJECT_DIR$/farm_description_5MW.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/finance/finance_models.py" afterPath="$PROJECT_DIR$/finance/finance_models.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/run_workflow.py" afterPath="$PROJECT_DIR$/run_workflow.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/site_conditions/terrain/terrain_models.py" afterPath="$PROJECT_DIR$/site_conditions/terrain/terrain_models.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/turbine_description_5MW.py" afterPath="$PROJECT_DIR$/turbine_description_5MW.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workflow.py" afterPath="$PROJECT_DIR$/workflow.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/costs/investment_costs/BOS_cost/support_cost/custom/misc_not_read.py" afterPath="$PROJECT_DIR$/costs/investment_costs/BOS_cost/support_cost/custom/misc_not_read.py" />
     </list>
     <ignored path="owf_MDAO.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -851,7 +832,14 @@
       <option name="project" value="LOCAL" />
       <updated>1502456995865</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="changes 15 august">
+      <created>1502809807870</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1502809807870</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -978,7 +966,8 @@
     <MESSAGE value="multiobjective working 3 August" />
     <MESSAGE value="multiobjective fixed, with position + velocity update. 3 August" />
     <MESSAGE value="to optimise 11 aug" />
-    <option name="LAST_COMMIT_MESSAGE" value="to optimise 11 aug" />
+    <MESSAGE value="changes 15 august" />
+    <option name="LAST_COMMIT_MESSAGE" value="changes 15 august" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
