@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../WINDOW/.idea/WINDOW.iml" filepath="$PROJECT_DIR$/../WINDOW/.idea/WINDOW.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/owf_MDAO.iml" filepath="$PROJECT_DIR$/.idea/owf_MDAO.iml" />
     </modules>
   </component>

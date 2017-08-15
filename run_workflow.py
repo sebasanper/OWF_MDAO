@@ -79,7 +79,7 @@ def run_study(layout_input_file, output_file):
 
 def prueba_study(layout_input_file, output_file):
     start1 = time()
-    study(2,	1,	1	,1	,0	,3,	1	,3	,1,	1, layout_input_file, output_file)
+    study(2,	1,	1	,0	,0	,3,	1	,3	,1,	1, layout_input_file, output_file)
 
     print time() - start1
 
