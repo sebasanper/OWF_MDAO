@@ -5,7 +5,7 @@ Created on Mon Nov 09 14:58:16 2015
 @author: Αλβέρτος
 """
 
-from ...custom.misc import cost1
+from farm_description import Cost1 as cost1
 
 
 class CostAnalysts:   

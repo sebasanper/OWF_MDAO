@@ -52,21 +52,22 @@ class Gaussian:
 class Rough:
 
     def __init__(self, minx, maxx, miny, maxy):
-        from random import random
-        self.coordinates_x = [float(number) for number in range(int(minx), int(maxx), 504)]
-        self.coordinates_y = [float(number) for number in range(int(miny), int(maxy), 504)]
-        self.depths = [12.0 + random() * 3.0 for _ in range(len(self.coordinates_x) * len(self.coordinates_y))]
-        # k = 0
-        # for i in self.coordinates_x:
-        #     for j in self.coordinates_y:
-        #         print i, j, self.depths[k]
-        #         k += 1
-
-    def depth(self, x, y):
+        self.coordinates_x = []
+        self.coordinates_y = []
+        self.depths = []
+        # with open("/home/sebasanper/PycharmProjects/owf_MDAO/site_conditions/terrain/bathymetry.dat", "r") as bathymetry_file:
+        with open("/home/sebasanper/Downloads/bathymetry.dat", "r") as bathymetry_file:
+            for line in bathymetry_file:
+                cols = line.split()
+                self.coordinates_x.append(float(cols[0]))
+                self.coordinates_y.append(float(cols[1]))
+                self.depths.append(float(cols[2]))
         from scipy.interpolate import interp2d
         degree = 'linear'  # 'cubic' 'quintic'
-        function = interp2d(self.coordinates_x, self.coordinates_y, self.depths, kind=degree)
-        return function(x, y)[0]
+        self.interpfunction = interp2d(self.coordinates_x, self.coordinates_y, self.depths, kind=degree)
+
+    def depth(self, x, y):
+        return self.interpfunction(x, y)[0]
 
 
 def depth(layout, model_type):

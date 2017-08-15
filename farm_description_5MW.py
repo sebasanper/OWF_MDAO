@@ -1,4 +1,5 @@
-central_platform = [[1000.0, 1000.0]]
+# central_platform = [[1000.0, 1000.0]]
+central_platform = [[585000.0, 5809000.0]]
 number_turbines_per_cable = [3]
 NT = 9
 
@@ -53,6 +54,7 @@ friction_angle = 35.0  # [degrees] Depth averaged friction angle from 'friction 
 submerged_unit_weight = 10000.0  # [N/m^3] From 'friction angle-report', lighter layer ignored, because it is at great depth.
 
 V_rated_voltage = [22000, 33000, 45000, 66000, 132000, 220000]  # Rated voltage in V # User's option
+rv = 1  # User can pick each time one rated voltage. 0 represents the first place in a Python list
 
 power_factor = 1.0  # cos angle
 inflationrate = 1.18  # average inflation rate
@@ -68,7 +70,6 @@ Cp_init = [6.15, 4.1, 3.0, 2.05, 1.66, 1.16]  # must be multiplied by 10**6
 # cross_section = [95.0, 120.0, 150.0, 185.0, 240.0, 300.0, 400.0, 500.0, 630.0, 800.0, 1000.0]  # mm**2
 # current_rating = [300, 340, 375, 420, 480, 530, 590, 655, 715, 775, 825]  # Ampere
 # Cost = [206.0, 221.0, 236.0, 256.0, 287.0, 316.0, 356.0, 406.0, 459.0, 521.0, 579.0]  # Euros/meter
-rv = 1  # User can pick each time one rated voltage. 0 represents the first place in a Python list
 
 # -------------------------------------------------- Cable Topology - INPUT -----------------------------------------------------------------------
 Crossing_penalty = 0
@@ -77,13 +78,13 @@ Area = []
 Transmission = []
 
 # --------------------------------------------------- LPC/Costs - INPUT -----------------------------------------------------------------------------------------
-i = 0.1  # interest rate [-]
+i = 0.075  # interest rate [-]
 v = 0.025  # inflation rate [-]
 operational_lifetime = 20  # [years] - FIXED VALUE NOTE: The fixed price in PPA is valid for a number of full load hours that is reached in appr. 10 years. After that, market prices apply.
 value_year = 2016
 actual_year = 2016  # Year for which costs are expressed
 management_percentage = 3.0  # [%]
-distance_to_grid = 55000.0  # [m] Grid connection report: Submarine cable length 21 km - Onshore cable length 34 km - Total 50 km
+distance_to_grid = 49500.0  # [m] Grid connection report: Submarine cable length 21 km - Onshore cable length 34 km - Total 50 km
 distance_to_harbour = 20000.0  # [m] Spare part optimisation report says the 20 km sail to Horns Rev
 onshore_transport_distance = 100000.0  # [m]
 frequency = 50  # [Hz]

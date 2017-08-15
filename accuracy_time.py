@@ -2,7 +2,7 @@ from utilities.pareto.non_dominance import pareto_find
 
 accuracy = []
 time = []
-with open("coords3x3_10000_5_31_4_41_45.dat", "r") as reading:
+with open("obj_functions.dat", "r") as reading:
     for line in reading:
         cols = line.split()
         a = int(cols[0])

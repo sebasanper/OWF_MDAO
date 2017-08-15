@@ -10,7 +10,6 @@ from finance.finance_models import LPC
 from farm_energy.AEP.aep import aep_average
 from costs.other_costs import other_costs
 from costs.total_costs import total_costs
-# from farm_energy.wake_model_mean_new.aero_power_ct_models.thrust_coefficient import ct_v80
 from farm_energy.wake_model_mean_new.wake_turbulence_models import frandsen2, danish_recommendation, frandsen, \
     larsen_turbulence, Quarton
 from site_conditions.terrain.terrain_models import Flat, Plane, Rough, Gaussian
@@ -80,7 +79,7 @@ def run_study(layout_input_file, output_file):
 
 def prueba_study(layout_input_file, output_file):
     start1 = time()
-    study(3,	1,	1	,1	,1	,1,	1	,1	,1,	1, layout_input_file, output_file)
+    study(2,	1,	1	,1	,0	,3,	1	,3	,1,	1, layout_input_file, output_file)
 
     print time() - start1
 

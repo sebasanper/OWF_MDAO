@@ -4,7 +4,7 @@ voltage = 33000.0
 rated_power = 5000000.0
 rated_current = rated_power / (sqrt(3) * voltage)  # A = Power / sqrt(3) / Voltage. 3 phase.
 cutin_wind_speed = 3.0
-cutout_wind_speed = 25.0
+cutout_wind_speed = 25
 
 hub_height = 90.0
 solidity_rotor = 0.0516  # [-] 'Generic' value, based on Peter Jamieson's book - Figure 2.5 - P.53
@@ -21,4 +21,4 @@ rotor_radius = 63.0  # [m]
 wind_speed_at_max_thrust = 11.4  # [m/s]
 generator_voltage = 690.0  # [V] There are 480 and 690 voltage versions of the V80. The higher voltage is assumed, considering the need of high voltage in the connections to the public grid.
 purchase_price = 5850000.0  # [Euro]
-warranty_percentage = 15.0  # [%]
+warranty_percentage = 15  # [%]

@@ -188,7 +188,7 @@ class Workflow:
         self.total_costs = self.support_costs + self.cable_topology_costs + self.investment
         if self.print_output is True: print str(self.total_costs) + " EUR\n"
 
-        if self.print_output is True: print " --- LPC ---"
+        if self.print_output is True: print " --- LCOE ---"
         self.finance = self.finance_model(self.investment + self.cable_topology_costs + self.support_costs, self.om_costs, self.decommissioning_cost, self.farm_annual_energy, 0.95)
         if self.print_output is True: print str(self.finance) + " cents/kWh\n"
 
